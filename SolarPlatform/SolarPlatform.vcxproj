@@ -53,6 +53,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -71,15 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>../bin/win64/$(Configuration)/</OutDir>
+    <IntDir>$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>../bin/win64/$(Configuration)/</OutDir>
+    <IntDir>$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>../bin/win64/$(Configuration)/</OutDir>
+    <IntDir>$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>../bin/win64/$(Configuration)/</OutDir>
+    <IntDir>$(Platform)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -88,11 +97,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -101,11 +115,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -116,13 +135,18 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -133,17 +157,66 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CudaCompile>
+      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+    </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\common_var.cpp" />
+    <ClCompile Include="Common\image_saver.cpp" />
+    <ClCompile Include="Common\random_generator.cpp" />
+    <ClCompile Include="DataStructure\grid.cpp" />
+    <ClCompile Include="DataStructure\heliostat.cpp" />
+    <ClCompile Include="DataStructure\receiver.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="RayTracing\RectHelio\recthelio_tracing.cpp" />
+    <ClCompile Include="SceneProcess\PreProcess\scene_instance_process.cpp" />
+    <ClCompile Include="SceneProcess\scene_file_proc.cpp" />
+    <ClCompile Include="SceneProcess\solar_scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="Common\random_generator.cu" />
+    <CudaCompile Include="RayTracing\ray_tracing.cu" />
+    <CudaCompile Include="RayTracing\RectGrid\rectgrid_raytracing.cu" />
+    <CudaCompile Include="RayTracing\steps_for_raytracing.cu" />
+    <CudaCompile Include="SceneProcess\PreProcess\scene_instance_process.cu" />
+    <CudaCompile Include="Test\Configure\cuda_config_test.cu" />
+    <CudaCompile Include="Test\Raytracing\raytracing_test.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\common_var.h" />
+    <ClInclude Include="Common\global_constant.h" />
+    <ClInclude Include="Common\global_function.cuh" />
+    <ClInclude Include="Common\image_saver.h" />
+    <ClInclude Include="Common\random_generator.h" />
+    <ClInclude Include="Common\utils.h" />
+    <ClInclude Include="Common\vector_arithmetic.cuh" />
+    <ClInclude Include="DataStructure\grid.h" />
+    <ClInclude Include="DataStructure\heliostat.cuh" />
+    <ClInclude Include="DataStructure\receiver.cuh" />
+    <ClInclude Include="DataStructure\sunray.h" />
+    <ClInclude Include="RayTracing\ray_tracing.h" />
+    <ClInclude Include="RayTracing\RectGrid\rectgrid_raytracing.cuh" />
+    <ClInclude Include="RayTracing\RectHelio\recthelio_tracing.h" />
+    <ClInclude Include="RayTracing\steps_for_raytracing.h" />
+    <ClInclude Include="SceneProcess\PreProcess\scene_instance_process.h" />
+    <ClInclude Include="SceneProcess\scene_destroy.h" />
+    <ClInclude Include="SceneProcess\scene_file_proc.h" />
+    <ClInclude Include="SceneProcess\solar_scene.h" />
+    <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
+    <ClInclude Include="Test\Raytracing\raytracing_test.cuh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
   </ImportGroup>
 </Project>
