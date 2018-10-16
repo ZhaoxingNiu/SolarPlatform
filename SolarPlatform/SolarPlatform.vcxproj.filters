@@ -32,6 +32,15 @@
     <ClCompile Include="SceneProcess\PreProcess\scene_instance_process.cpp">
       <Filter>SceneProcess\PreProcess</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp">
+      <Filter>Convolution\Cufft</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp">
+      <Filter>Convolution\Cufft</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp">
+      <Filter>Convolution\Cufft</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -64,6 +73,12 @@
     <Filter Include="Test\Raytracing">
       <UniqueIdentifier>{2d3360b3-8ec2-46c4-aff2-58e1262ae43e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution">
+      <UniqueIdentifier>{3306e384-63a0-4a7e-862a-e6d836b95df3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolution\Cufft">
+      <UniqueIdentifier>{e74fc9db-b62d-4980-a1a6-46cec9a40b41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">
@@ -86,6 +101,9 @@
     </CudaCompile>
     <CudaCompile Include="Test\Raytracing\raytracing_test.cu">
       <Filter>Test\Raytracing</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Convolution\Cufft\convolutionFFT2D.cu">
+      <Filter>Convolution\Cufft</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +169,18 @@
     </ClInclude>
     <ClInclude Include="Test\Raytracing\raytracing_test.cuh">
       <Filter>Test\Raytracing</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Cufft\convolutionFFT2D.cuh">
+      <Filter>Convolution\Cufft</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h">
+      <Filter>Convolution\Cufft</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h">
+      <Filter>Convolution\Cufft</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h">
+      <Filter>Convolution\Cufft</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
