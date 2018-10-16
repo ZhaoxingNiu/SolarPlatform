@@ -41,6 +41,12 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp">
       <Filter>Convolution\Cufft</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp">
+      <Filter>Convolution\Rasterization</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\Struct\projectionPlane.cpp">
+      <Filter>Convolution\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -79,6 +85,12 @@
     <Filter Include="Convolution\Cufft">
       <UniqueIdentifier>{e74fc9db-b62d-4980-a1a6-46cec9a40b41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution\Rasterization">
+      <UniqueIdentifier>{d26cd97f-e6fa-4056-a8d7-91df81e3e290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolution\Struct">
+      <UniqueIdentifier>{fd34cc22-113d-4906-a437-484066aaaa96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">
@@ -104,6 +116,9 @@
     </CudaCompile>
     <CudaCompile Include="Convolution\Cufft\convolutionFFT2D.cu">
       <Filter>Convolution\Cufft</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Convolution\Rasterization\triangle_rasterization.cu">
+      <Filter>Convolution\Rasterization</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +196,21 @@
     </ClInclude>
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h">
       <Filter>Convolution\Cufft</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Rasterization\rasterization_common.h">
+      <Filter>Convolution\Rasterization</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh">
+      <Filter>Convolution\Rasterization</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Rasterization\rasterization_test.h">
+      <Filter>Convolution\Rasterization</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Struct\obliqueParallel.h">
+      <Filter>Convolution\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Struct\projectionPlane.h">
+      <Filter>Convolution\Struct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

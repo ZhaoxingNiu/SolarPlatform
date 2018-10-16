@@ -181,6 +181,8 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
+    <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
+    <ClCompile Include="Convolution\Struct\projectionPlane.cpp" />
     <ClCompile Include="DataStructure\grid.cpp" />
     <ClCompile Include="DataStructure\heliostat.cpp" />
     <ClCompile Include="DataStructure\receiver.cpp" />
@@ -193,6 +195,7 @@
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu" />
     <CudaCompile Include="Convolution\Cufft\convolutionFFT2D.cu" />
+    <CudaCompile Include="Convolution\Rasterization\triangle_rasterization.cu" />
     <CudaCompile Include="RayTracing\ray_tracing.cu" />
     <CudaCompile Include="RayTracing\RectGrid\rectgrid_raytracing.cu" />
     <CudaCompile Include="RayTracing\steps_for_raytracing.cu" />
@@ -212,6 +215,11 @@
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h" />
+    <ClInclude Include="Convolution\Rasterization\rasterization_common.h" />
+    <ClInclude Include="Convolution\Rasterization\rasterization_test.h" />
+    <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh" />
+    <ClInclude Include="Convolution\Struct\obliqueParallel.h" />
+    <ClInclude Include="Convolution\Struct\projectionPlane.h" />
     <ClInclude Include="DataStructure\grid.h" />
     <ClInclude Include="DataStructure\heliostat.cuh" />
     <ClInclude Include="DataStructure\receiver.cuh" />
