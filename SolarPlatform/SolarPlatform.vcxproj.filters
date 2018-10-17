@@ -47,6 +47,12 @@
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="Test\Configure\common_test.cpp">
+      <Filter>Test\Configure</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Raytracing\raytracing_test.cpp">
+      <Filter>Test\Raytracing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -211,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="Convolution\Struct\projectionPlane.h">
       <Filter>Convolution\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Configure\common_test.h">
+      <Filter>Test\Configure</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

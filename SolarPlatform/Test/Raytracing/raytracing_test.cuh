@@ -7,9 +7,10 @@
 
 #include <iostream>
 
-void raytracing_test(SolarScene &solar_scene);
+void raytracing_interface(SolarScene &solar_scene);
 
-void raytracing_standard_test(SolarScene &solar_scene,int hIndex = 0, int gridIndex = 0, string outpath = "result/test.txt");
+void raytracing_standard_interface(SolarScene &solar_scene,int hIndex = 0, int gridIndex = 0, string outpath = "result/test.txt");
 
+bool test_raytracing();
 
 #endif // !RAYTRACING_TEST_CUH

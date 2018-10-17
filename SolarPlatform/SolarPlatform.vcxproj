@@ -191,6 +191,8 @@
     <ClCompile Include="SceneProcess\PreProcess\scene_instance_process.cpp" />
     <ClCompile Include="SceneProcess\scene_file_proc.cpp" />
     <ClCompile Include="SceneProcess\solar_scene.cpp" />
+    <ClCompile Include="Test\Configure\common_test.cpp" />
+    <ClCompile Include="Test\Raytracing\raytracing_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu" />
@@ -232,6 +234,7 @@
     <ClInclude Include="SceneProcess\scene_destroy.h" />
     <ClInclude Include="SceneProcess\scene_file_proc.h" />
     <ClInclude Include="SceneProcess\solar_scene.h" />
+    <ClInclude Include="Test\Configure\common_test.h" />
     <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
     <ClInclude Include="Test\Raytracing\raytracing_test.cuh" />
   </ItemGroup>

@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-void raytracing_test(SolarScene &solar_scene)
+void raytracing_interface(SolarScene &solar_scene)
 {
 
 	// helios
@@ -94,14 +94,14 @@ void raytracing_test(SolarScene &solar_scene)
 }
 
 
-void raytracing_standard_test(SolarScene &solar_scene,int hIndex,int gridIndex,string outpath) {
+void raytracing_standard_interface(SolarScene &solar_scene,int hIndex,int gridIndex,string outpath) {
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene.heliostats[hIndex]);
 
 	solar_scene.receivers[0]->Cclean_image_content();
 	recthelio_ray_tracing(*solar_scene.sunray_,
 		*solar_scene.receivers[0],
 		*recthelio,
-		*solar_scene.grid0s[0],
+		*solar_scene.grid0s[gridIndex],
 		solar_scene.heliostats);
 
 	float *h_image = nullptr;
@@ -116,7 +116,7 @@ void raytracing_standard_test(SolarScene &solar_scene,int hIndex,int gridIndex,s
 	{
 		h_image[i] = h_image[i] * Id * Ssub * rou / Nc / Srec;
 	}
-	// Save image	  "face2face_shadow-1.txt"
+	// Save image
 	ImageSaver::savetxt(outpath.c_str(), solar_scene.receivers[0]->resolution_.x, solar_scene.receivers[0]->resolution_.y, h_image);
 	delete[] h_image;
 	h_image = nullptr;

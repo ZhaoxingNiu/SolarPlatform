@@ -1,5 +1,6 @@
-#ifndef oblique_parallel
-#define oblique_parallel
+#ifndef OBLIQUE_PARALLEL
+#define OBLIQUE_PARALLEL
+
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -9,4 +10,4 @@
 // ref. he 2018 
 
 
-#endif // !oblique_parallel
+#endif // !OBLIQUE_PARALLEL
