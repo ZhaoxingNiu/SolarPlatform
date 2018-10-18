@@ -19,7 +19,7 @@ void oblique_proj_matrix(
 	);
 
 
-__global__ void projection_plane(
+__global__ void projection_plane_kernel(
 	float *d_receiver,        // the receiver pixel
 	float *d_image,           // the image pixel
 	float3 rece_pos,          // the receiver center
@@ -32,7 +32,7 @@ __global__ void projection_plane(
 	float3 image_v_axis,      // v_axis, correspond with y
 	int2 image_size,          // the iamge plane grid number 
 	float image_pixel_len,    // the receiver pixel length
-	float *M,                 // the transform matrix, from the metrix
+	float *d_M,                 // the transform matrix, from the metrix
 	float3 offset             // the trandform matrix offset
 );
 

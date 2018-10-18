@@ -214,6 +214,18 @@ namespace global_func
 	}
 
 	// transform the metrix
+	__host__ __device__ inline float3 matrix_mul_float3(
+		float3 origin,
+		float* M) {
+		float res[3] = { 0 };
+		for (int i = 0; i < 3; ++i){
+			res[i] += M[i * 3 + 0] * origin.x ;
+			res[i] += M[i * 3 + 1] * origin.y;
+			res[i] += M[i * 3 + 2] * origin.z;
+		}
+		return make_float3(res[0], res[1], res[2]);
+
+	}
 
 
 }
