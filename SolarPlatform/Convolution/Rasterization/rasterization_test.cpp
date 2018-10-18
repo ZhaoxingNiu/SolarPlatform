@@ -19,7 +19,7 @@ bool test_rasterization(void) {
 	float *d_Data;
 	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
-	plane.setDeviceData(d_Data);
+	plane.set_deviceData(d_Data);
 
 
 	// set data 
@@ -45,7 +45,7 @@ bool test_rasterization(void) {
 	// projection
 	plane.projection(vec1);
 	// shadow & block
-	plane.shadowBlock(vevec2);
+	plane.shadow_block(vevec2);
 
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);

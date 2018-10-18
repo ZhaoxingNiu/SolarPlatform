@@ -53,6 +53,9 @@
     <ClCompile Include="Test\Raytracing\raytracing_test.cpp">
       <Filter>Test\Raytracing</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Struct\oblique_parallel.cpp">
+      <Filter>Convolution\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -97,6 +100,9 @@
     <Filter Include="Convolution\Struct">
       <UniqueIdentifier>{fd34cc22-113d-4906-a437-484066aaaa96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution\3DDDA">
+      <UniqueIdentifier>{6b24ce68-80e7-4ab5-b0a5-e212e9868691}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">
@@ -125,6 +131,9 @@
     </CudaCompile>
     <CudaCompile Include="Convolution\Rasterization\triangle_rasterization.cu">
       <Filter>Convolution\Rasterization</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Convolution\Struct\oblique_parallel.cu">
+      <Filter>Convolution\Struct</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,14 +221,14 @@
     <ClInclude Include="Convolution\Rasterization\rasterization_test.h">
       <Filter>Convolution\Rasterization</Filter>
     </ClInclude>
-    <ClInclude Include="Convolution\Struct\obliqueParallel.h">
-      <Filter>Convolution\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="Convolution\Struct\projectionPlane.h">
       <Filter>Convolution\Struct</Filter>
     </ClInclude>
     <ClInclude Include="Test\Configure\common_test.h">
       <Filter>Test\Configure</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Struct\oblique_parallel.cuh">
+      <Filter>Convolution\Struct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

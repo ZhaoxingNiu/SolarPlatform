@@ -32,7 +32,7 @@ namespace global_func
 		u = cross(make_float3(0.0f, 1.0f, 0.0f), n);
 		u = normalize(u);
 		v = cross(u, n);
-		u = normalize(u);
+		v = normalize(v);
 
 		float3 d_world = make_float3(d_local.x*u.x + d_local.y*n.x + d_local.z*v.x,
 			d_local.x*u.y + d_local.y*n.y + d_local.z*v.y,
@@ -181,4 +181,39 @@ namespace global_func
 		int address = index.x*matrix_size.y + index.y;
 		return address;
 	}
+
+	// for a plane, tranfer the index to the word vertex
+	__host__ __device__ inline float3 index_2_pos(
+		int2 index,
+		int2 size,
+		float pixel_len,
+		float3 center,
+		float3 u_axis,
+		float3 v_axis) {
+
+		float3 relative_pos = u_axis*(index.x - size.x / 2) + v_axis*(index.y - size.y / 2);
+		return center + relative_pos;
+	}
+
+	// for a plane, transfer the pos to the index
+	__host__ __device__ inline int2 pos_2_index(
+		float3 pos,
+		int2 size,
+		float pixel_len,
+		float3 center,
+		float3 u_axis,
+		float3 v_axis
+	) {
+		float3 relative_pos = pos - center;
+		float u_len = dot(relative_pos, u_axis);
+		float v_len = dot(relative_pos, v_axis);
+		int2 index;
+		index.x = u_len / pixel_len + size.x / 2;
+		index.y = v_len / pixel_len + size.y / 2;
+		return index;
+	}
+
+	// transform the metrix
+
+
 }

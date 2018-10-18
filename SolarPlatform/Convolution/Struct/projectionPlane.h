@@ -1,4 +1,6 @@
-#pragma once
+#ifndef PROJECTION_PLANE_H
+#define PROJECTION_PLANE_H
+
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
@@ -13,15 +15,18 @@ public:
 		float row_offset_,
 		float col_offset_);
 
-	void getSize(int &rows_, int &cols);
-	void setDeviceData(float *d_Data_);
-	float* getDeviceData();
+	// define the image plane relative position
+	void set_pos(float3 pos_, float3 normal_);
+
+	void get_size(int &rows_, int &cols);
+	void set_deviceData(float *d_Data_);
+	float* get_deviceData();
 
 	// calculate the projection area
 	void projection(const std::vector<float3> &points);
 
 	// calcluate the shadow and blockss
-	void shadowBlock(const std::vector<std::vector<float3>> &points);
+	void shadow_block(const std::vector<std::vector<float3>> &points);
 	
 private:
 	float *d_Data;
@@ -30,4 +35,11 @@ private:
 	float pixel_length;
 	float row_offset;
 	float col_offset;
+	// image plane geometric information
+	float3 pos;
+	float3 normal;
+	float3 v_axis;   // Parallel to the ground
+	float3 u_axis;   // perpendicular to the v_axis
 };
+
+#endif // !PROJECTION_PLANE_H
