@@ -182,6 +182,13 @@ namespace global_func
 		return address;
 	}
 
+	//Round a / b to nearest higher integer value
+	inline int iDivUp(int a, int b)
+	{
+		return (a % b != 0) ? (a / b + 1) : (a / b);
+	}
+
+
 	// for a plane, tranfer the index to the word vertex
 	__host__ __device__ inline float3 index_2_pos(
 		int2 index,

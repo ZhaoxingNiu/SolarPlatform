@@ -18,6 +18,22 @@ void oblique_proj_matrix(
 	float3 &offset      // the offset
 	);
 
+extern "C" void projection_plane(
+	float *d_receiver,        // the receiver pixel
+	float *d_image,           // the image pixel
+	float3 rece_pos,          // the receiver center
+	float3 rece_u_axis,       // the receiver u axis, correspond with x
+	float3 rece_v_axis,       // the receiver v axis, correpnd with the y
+	int2 rece_size,           // the grid num
+	float rece_pixel_len,     // the receiver picel length
+	float3 image_pos,         // the image plane center, same as rece_pos
+	float3 image_u_axis,      // u_axis, correspond with x
+	float3 image_v_axis,      // v_axis, correspond with y
+	int2 image_size,          // the iamge plane grid number 
+	float image_pixel_len,    // the receiver pixel length
+	float *d_M,                 // the transform matrix, from the metrix
+	float3 offset             // the trandform matrix offset
+);
 
 __global__ void projection_plane_kernel(
 	float *d_receiver,        // the receiver pixel

@@ -1,4 +1,5 @@
 #include "oblique_parallel.cuh"
+#include "../../Common/global_function.cuh"
 
 void oblique_proj_matrix(
 	float3 r_dir, 
@@ -24,3 +25,5 @@ void oblique_proj_matrix(
 	M[8] = 1 - n.z*r.z / a;
 	offset = b / a * r;
 }
+
+
