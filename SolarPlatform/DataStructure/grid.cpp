@@ -20,6 +20,16 @@ void RectGrid::CClear()
 		cudaFree(d_grid_helio_index_);
 		d_grid_helio_index_ = nullptr;
 	}
+
+	if (h_grid_helio_index_) {
+		delete[] h_grid_helio_index_;
+		h_grid_helio_index_ = nullptr;
+	}
+
+	if (h_grid_helio_match_) {
+		delete[] h_grid_helio_match_;
+		h_grid_helio_match_ = nullptr;
+	}
 }
 
 int boxIntersect(const int &mirrowId, const float3 &min_pos, const float3 &max_pos, const RectGrid &grid,
@@ -61,23 +71,18 @@ void RectGrid::CGridHelioMatch(const vector<Heliostat *> &h_helios) // set *d_gr
 		num_grid_helio_match_ += boxIntersect(i, minPos, maxPos, *this, grid_mirrow_match_vector);
 	}
 
-	int *h_grid_helio_index = new int[grid_num_.x * grid_num_.y * grid_num_.z + 1];
-	h_grid_helio_index[0] = 0;
-	int *h_grid_helio_match = new int[num_grid_helio_match_];
+	h_grid_helio_index_ = new int[grid_num_.x * grid_num_.y * grid_num_.z + 1];
+	h_grid_helio_index_[0] = 0;
+	h_grid_helio_match_ = new int[num_grid_helio_match_];
 
 	int index = 0;
 	for (int i = 0; i < grid_num_.x * grid_num_.y * grid_num_.z; ++i)
 	{
-		h_grid_helio_index[i + 1] = h_grid_helio_index[i] + grid_mirrow_match_vector[i].size();
+		h_grid_helio_index_[i + 1] = h_grid_helio_index_[i] + grid_mirrow_match_vector[i].size();
 		for (int j = 0; j < grid_mirrow_match_vector[i].size(); ++j, ++index)
-			h_grid_helio_match[index] = grid_mirrow_match_vector[i][j];
+			h_grid_helio_match_[index] = grid_mirrow_match_vector[i][j];
 	}
 
-	global_func::cpu2gpu(d_grid_helio_match_, h_grid_helio_match, num_grid_helio_match_);
-	global_func::cpu2gpu(d_grid_helio_index_, h_grid_helio_index, grid_num_.x * grid_num_.y * grid_num_.z + 1);
-
-	delete[] h_grid_helio_index;
-	delete[] h_grid_helio_match;
-	h_grid_helio_index = nullptr;
-	h_grid_helio_match = nullptr;
+	global_func::cpu2gpu(d_grid_helio_match_, h_grid_helio_match_, num_grid_helio_match_);
+	global_func::cpu2gpu(d_grid_helio_index_, h_grid_helio_index_, grid_num_.x * grid_num_.y * grid_num_.z + 1);
 }

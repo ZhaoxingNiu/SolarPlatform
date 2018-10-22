@@ -230,5 +230,8 @@
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh">
       <Filter>Convolution\Struct</Filter>
     </ClInclude>
+    <ClInclude Include="Convolution\3DDDA\dda.h">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

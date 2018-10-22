@@ -5,10 +5,8 @@ void oblique_proj_matrix(
 	float3 r_dir, 
 	float3 ori_center, 
 	float3 ori_normal, 
-	std::vector<float> &M,
+	float *M,
 	float3 &offset) {
-	M.clear();
-	M.resize(9);
 	float3 n = ori_normal;
 	float3 r = r_dir;
 	float3 o = ori_center;
@@ -25,5 +23,3 @@ void oblique_proj_matrix(
 	M[8] = 1 - n.z*r.z / a;
 	offset = b / a * r;
 }
-
-

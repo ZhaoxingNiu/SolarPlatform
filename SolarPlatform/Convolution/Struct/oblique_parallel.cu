@@ -2,14 +2,12 @@
 #include "../../Common/global_function.cuh"
 #include "../Cufft/convolutionFFT2D_common.h"
 
-
-
 __global__ void projection_plane_kernel(
-	float *d_receiver,        // the receiver pixel
-	float *d_image,           // the image pixel
-	float3 rece_pos,          // the receiver center
-	float3 rece_u_axis,       // the receiver u axis, Correspond with x
-	float3 rece_v_axis,       // the receiver v axis, corre
+	float *d_receiver,   
+	float *d_image,          
+	float3 rece_pos,        
+	float3 rece_u_axis,       
+	float3 rece_v_axis,      
 	int2 rece_size,
 	float rece_pixel_len,
 	float3 image_pos,

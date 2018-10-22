@@ -215,6 +215,7 @@
     <ClInclude Include="Common\random_generator.h" />
     <ClInclude Include="Common\utils.h" />
     <ClInclude Include="Common\vector_arithmetic.cuh" />
+    <ClInclude Include="Convolution\3DDDA\dda.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D.cuh" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />

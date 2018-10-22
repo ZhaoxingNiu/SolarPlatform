@@ -46,6 +46,8 @@ public:
 	int3 grid_num_;						// x * y * z 's sub-grid
 	int *d_grid_helio_match_;			// size = num_grid_helio_match_
 	int *d_grid_helio_index_;			// size = size.x * size.y * size.z +1
+	int *h_grid_helio_match_;			// size = num_grid_helio_match_
+	int *h_grid_helio_index_;			// size = size.x * size.y * size.z +1
 	size_t num_grid_helio_match_;
 };
 
