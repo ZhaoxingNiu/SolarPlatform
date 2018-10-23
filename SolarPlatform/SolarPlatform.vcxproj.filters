@@ -56,6 +56,15 @@
     <ClCompile Include="Convolution\Struct\oblique_parallel.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\3DDDA\dda_shadow_block.cpp">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\3DDDA\dda_interface.cpp">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\3DDDA\dda_steps.cpp">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -230,7 +239,13 @@
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh">
       <Filter>Convolution\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Convolution\3DDDA\dda.h">
+    <ClInclude Include="Convolution\3DDDA\dda_shadow_block.h">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\3DDDA\dda_interface.h">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\3DDDA\dda_steps.h">
       <Filter>Convolution\3DDDA</Filter>
     </ClInclude>
   </ItemGroup>

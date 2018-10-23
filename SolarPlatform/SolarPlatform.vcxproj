@@ -116,6 +116,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4819;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,6 +161,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4819;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,6 +180,9 @@
     <ClCompile Include="Common\common_var.cpp" />
     <ClCompile Include="Common\image_saver.cpp" />
     <ClCompile Include="Common\random_generator.cpp" />
+    <ClCompile Include="Convolution\3DDDA\dda_interface.cpp" />
+    <ClCompile Include="Convolution\3DDDA\dda_shadow_block.cpp" />
+    <ClCompile Include="Convolution\3DDDA\dda_steps.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
@@ -215,7 +220,9 @@
     <ClInclude Include="Common\random_generator.h" />
     <ClInclude Include="Common\utils.h" />
     <ClInclude Include="Common\vector_arithmetic.cuh" />
-    <ClInclude Include="Convolution\3DDDA\dda.h" />
+    <ClInclude Include="Convolution\3DDDA\dda_interface.h" />
+    <ClInclude Include="Convolution\3DDDA\dda_shadow_block.h" />
+    <ClInclude Include="Convolution\3DDDA\dda_steps.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D.cuh" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />

@@ -14,7 +14,7 @@ void oblique_proj_matrix(
 	float3 r_dir,       // the ray direction
 	float3 ori_center,  // the image plane center
 	float3 ori_normal,  // the iamge plane normal
-	float *M, // the transfunction
+	float *M,           // the transfunction
 	float3 &offset      // the offset
 	);
 
