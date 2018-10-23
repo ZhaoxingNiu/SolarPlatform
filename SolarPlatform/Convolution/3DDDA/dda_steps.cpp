@@ -2,7 +2,7 @@
 
 // get the vertex
 bool set_helios_vertexes_cpu(
-	std::vector<Heliostat *> heliostats,
+	const std::vector<Heliostat *> heliostats,
 	const int start_pos,
 	const int end_pos,
 	float3 *h_helio_vertexs){
