@@ -1,5 +1,5 @@
-#ifndef DDA_INTERFACE
-#define DDA_INTERFACE
+#ifndef DDA_INTERFACE_H
+#define DDA_INTERFACE_H
 
 #include "../../SceneProcess/PreProcess/scene_instance_process.h"
 #include "../Struct/projectionPlane.h"
@@ -13,5 +13,5 @@ void dda_interface(
 
 
 
-#endif // !DDA_INTERFACE
+#endif // !DDA_INTERFACE_H
 

@@ -183,6 +183,7 @@
     <ClCompile Include="Convolution\3DDDA\dda_interface.cpp" />
     <ClCompile Include="Convolution\3DDDA\dda_shadow_block.cpp" />
     <ClCompile Include="Convolution\3DDDA\dda_steps.cpp" />
+    <ClCompile Include="Convolution\3DDDA\dda_test.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Convolution\3DDDA\dda_interface.h" />
     <ClInclude Include="Convolution\3DDDA\dda_shadow_block.h" />
     <ClInclude Include="Convolution\3DDDA\dda_steps.h" />
+    <ClInclude Include="Convolution\3DDDA\dda_test.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D.cuh" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />

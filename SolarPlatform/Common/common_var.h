@@ -16,6 +16,7 @@ namespace solarenergy {
 
 	extern float helio_pixel_length;
 	extern float receiver_pixel_length;
+	extern float image_plane_pixel_length;
 	extern float reflected_rate;
 	extern float disturb_std;
 

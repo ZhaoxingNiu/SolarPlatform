@@ -1,17 +1,26 @@
 #include "./projectionPlane.h"
+
+#include "../../Common/utils.h"
 #include "../../Common/global_constant.h"
-#include "../Rasterization/rasterization_common.h"
 #include "../../Common/vector_arithmetic.cuh"
+#include "../../Common/global_function.cuh"
+#include "../Rasterization/rasterization_common.h"
+
 #include <iostream>
 
 ProjectionPlane::ProjectionPlane(
 	int rows_,
 	int cols_,
-	float pixel_length_,
-	float row_offset_,
-	float col_offset_):
+	float pixel_length_):
 	d_Data(nullptr), rows(rows_), cols(cols_),
-	pixel_length(pixel_length_), row_offset(row_offset_), col_offset(col_offset_) {
+	pixel_length(pixel_length_) {
+	
+	row_offset = -(rows - 1) * pixel_length / 2;
+	col_offset = -(cols - 1) * pixel_length / 2;
+
+	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
+	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
+
 }
 
 void ProjectionPlane::set_pos(float3 pos_, float3 normal_) {
@@ -42,6 +51,29 @@ void ProjectionPlane::set_deviceData(float *d_Data_) {
 
 float* ProjectionPlane::get_deviceData() {
 	return d_Data;
+}
+
+// get the intersection point
+bool ProjectionPlane::ray_intersect(const float3 ori, const float3 dir, float3 &p) const{
+	float t = (dot(normal,pos) - dot(normal,ori)) / dot(normal,dir);
+	if (t < 0) {
+		return false;
+	}
+	p = ori + t * dir;
+	return true;
+}
+
+// get the intersection point
+bool ProjectionPlane::ray_intersect_pos2(const float3 ori, const float3 dir, float3 &p) const {
+	float t = (dot(normal, pos) - dot(normal, ori)) / dot(normal, dir);
+	if (t < 0) {
+		return false;
+	}
+	float3 relative_pos = ori + t * dir - pos;
+	p.x = dot(relative_pos, v_axis);
+	p.y = dot(relative_pos, u_axis);
+	p.z = 0;
+	return true;
 }
 
 // 阴影和遮挡暂时只考虑矩形的定日镜，其他形状不考虑

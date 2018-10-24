@@ -11,16 +11,14 @@ bool test_rasterization(void) {
 	int rows = 1000;
 	int cols = 1000;
 	float pixel_length = 0.01;
-	float row_offset = -(rows - 1) * pixel_length / 2;
-	float col_offset = -(cols - 1) * pixel_length / 2;
-	ProjectionPlane plane(rows, cols, pixel_length, row_offset, col_offset);
+
+	ProjectionPlane plane(rows, cols, pixel_length);
 
 	// alloc data 
 	float *d_Data;
 	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
 	plane.set_deviceData(d_Data);
-
 
 	// set data 
 	std::vector<float3> vec1;

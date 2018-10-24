@@ -1,5 +1,5 @@
-#ifndef DDA_H
-#define DDA_H
+#ifndef DDA_SHADOW_BLOCK_H
+#define DDA_SHADOW_BLOCK_H
 
 #include <cuda.h>
 #include <cuda_runtime.h>
@@ -19,4 +19,4 @@ void calc_intersection_3DDDA(
 	const int const *h_grid_heliostat_index,    // grid index
 	std::set<int>& relative_helio_label);       // the heliostat index the shadow
 
-#endif // !DDA_H
+#endif // !DDA_SHADOW_BLOCK_H

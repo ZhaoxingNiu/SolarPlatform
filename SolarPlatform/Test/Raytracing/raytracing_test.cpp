@@ -8,9 +8,9 @@ bool test_raytracing()
 	// helio_pixel_length
 	solarenergy::num_sunshape_lights_per_group = 1024;
 	solarenergy::csr = 0.1f;
-	solarenergy::disturb_std = 0.001;
-	solarenergy::helio_pixel_length = 0.01;
-	solarenergy::receiver_pixel_length = 0.05;
+	solarenergy::disturb_std = 0.001f;
+	solarenergy::helio_pixel_length = 0.01f;
+	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::scene_filepath = "../SceneData/onepoint/one_point_odd.scn";
 
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;

@@ -19,6 +19,8 @@ public:
 	virtual void Cset_pixel_length(const float &pixel_length) = 0;
 	virtual void CRotate(const float3 &focus_center, const float3 &sunray_dir) = 0;
 	virtual void Cget_vertex(float3 &v0, float3 &v1, float3 &v3) = 0;
+	virtual void Cget_all_vertex(float3 &v0, float3 &v1, float3 &v2, float3 &v3) = 0;
+	virtual bool Cray_intersect(const float3 ori, const float3 dir, float3 &p) const = 0;
 };
 
 class RectangleHelio :public Heliostat
@@ -38,6 +40,22 @@ public:
 		v0 = vertex_[0];
 		v1 = vertex_[1];
 		v3 = vertex_[3];
+	}
+
+	virtual void  Cget_all_vertex(float3 &v0, float3 &v1, float3 &v2, float3 &v3) {
+		v0 = vertex_[0];
+		v1 = vertex_[1];
+		v2 = vertex_[2];
+		v3 = vertex_[3];
+	}
+
+	virtual bool Cray_intersect(const float3 ori, const float3 dir, float3 &p) const {
+		float t = (dot(normal_, pos_) - dot(normal_, ori)) / dot(normal_, dir);
+		p = ori + t * dir;
+		if (t < 0) {
+			return false;
+		}
+		return true;
 	}
 
 	float3 vertex_[4];
@@ -62,13 +80,21 @@ public:
 	{
 		invisual_recthelio_.Cget_vertex(v0, v1, v3);
 	}
+	virtual void  Cget_all_vertex(float3 &v0, float3 &v1, float3 &v2, float3 &v3)
+	{
+		invisual_recthelio_.Cget_all_vertex(v0, v1, v2, v3);
+	}
 
 	//__device__ __host__ virtual bool GIntersect(const float3 &orig, const float3 &dir)	// whether the light with orig and dir can intersect with this heliostat
 	//{
 	//	return invisual_recthelio_.GIntersect(orig, dir);
 	//}
 
-	virtual void CRotate(const float3 &focus_center, const float3 &sunray_dir) {}	// empty now
+	virtual void CRotate(const float3 &focus_center, const float3 &sunray_dir) {}
+
+	virtual bool Cray_intersect(const float3 ori, const float3 dir, float3 &p) const{
+		invisual_recthelio_.Cray_intersect(ori, dir, p);
+	}
 
 	float2 a_b;					// y = x^2/a^2 + z^2/b^2
 

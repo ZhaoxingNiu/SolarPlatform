@@ -1,5 +1,5 @@
-#ifndef DDA_STEPS
-#define DDA_STEPS
+#ifndef DDA_STEPS_H
+#define DDA_STEPS_H
 
 #include "../../DataStructure/heliostat.cuh"
 #include <vector>
@@ -11,5 +11,5 @@ bool set_helios_vertexes_cpu(
 	float3 *h_helio_vertexs);
 
 
-#endif // !DDA_STEPS
+#endif // !DDA_STEPS_H
 

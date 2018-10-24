@@ -44,9 +44,6 @@
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp">
       <Filter>Convolution\Rasterization</Filter>
     </ClCompile>
-    <ClCompile Include="Convolution\Struct\projectionPlane.cpp">
-      <Filter>Convolution\Struct</Filter>
-    </ClCompile>
     <ClCompile Include="Test\Configure\common_test.cpp">
       <Filter>Test\Configure</Filter>
     </ClCompile>
@@ -64,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Convolution\3DDDA\dda_steps.cpp">
       <Filter>Convolution\3DDDA</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\3DDDA\dda_test.cpp">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\Struct\projectionPlane.cpp">
+      <Filter>Convolution\Struct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +249,9 @@
       <Filter>Convolution\3DDDA</Filter>
     </ClInclude>
     <ClInclude Include="Convolution\3DDDA\dda_steps.h">
+      <Filter>Convolution\3DDDA</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\3DDDA\dda_test.h">
       <Filter>Convolution\3DDDA</Filter>
     </ClInclude>
   </ItemGroup>
