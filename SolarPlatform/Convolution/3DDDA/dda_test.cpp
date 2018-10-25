@@ -84,4 +84,3 @@ bool test_dda_rasterization() {
 
 	return true;
 }
-
