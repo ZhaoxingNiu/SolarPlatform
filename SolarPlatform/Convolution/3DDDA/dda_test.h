@@ -3,7 +3,7 @@
 #include "./dda_interface.h"
 #include "../../SceneProcess/PreProcess/scene_instance_process.h"
 
-void test_dda_rasterization();
+bool test_dda_rasterization();
 
 
 

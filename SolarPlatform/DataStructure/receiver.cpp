@@ -36,6 +36,7 @@ void RectangleReceiver::Cinit_vertex()
 	Cset_localnormal();	// set local normal
 	Cset_localvertex();	// set local vertex according to face type
 	Cset_vertex();		// set world vertex according to normal
+	Cset_axis();        // set the u and v axis
 }
 
 void RectangleReceiver::Cset_resolution(const int &geometry_info)
@@ -115,4 +116,11 @@ void RectangleReceiver::Cset_vertex()
 	rect_vertex_[1] = global_func::transform(rect_vertex_[1], pos_);
 	rect_vertex_[2] = global_func::transform(rect_vertex_[2], pos_);
 	rect_vertex_[3] = global_func::transform(rect_vertex_[3], pos_);
+}
+
+
+void RectangleReceiver::Cset_axis()
+{
+	u_axis_ = normalize(rect_vertex_[1] - rect_vertex_[0]);
+	v_axis_ = normalize(rect_vertex_[3] - rect_vertex_[0]);
 }

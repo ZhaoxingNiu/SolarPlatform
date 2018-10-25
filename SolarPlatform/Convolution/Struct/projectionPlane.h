@@ -5,6 +5,7 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <vector>
+#include <string>
 
 class ProjectionPlane {
 public:
@@ -17,7 +18,6 @@ public:
 	void set_pos(float3 pos_, float3 normal_);
 
 	void get_size(int &rows_, int &cols);
-	void set_deviceData(float *d_Data_);
 	float* get_deviceData();
 
 	// ray intersect
@@ -32,8 +32,12 @@ public:
 	// calcluate the shadow and blockss
 	void shadow_block(const std::vector<std::vector<float3>> &points);
 	
+	void save_data_text(const std::string out_path);
 
-private:
+	// clean the data
+	~ProjectionPlane();
+
+
 	float *d_Data;
 	int rows;
 	int cols;

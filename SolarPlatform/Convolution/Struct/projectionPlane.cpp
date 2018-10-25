@@ -7,6 +7,8 @@
 #include "../Rasterization/rasterization_common.h"
 
 #include <iostream>
+#include <fstream>
+#include <string>
 
 ProjectionPlane::ProjectionPlane(
 	int rows_,
@@ -45,9 +47,6 @@ void ProjectionPlane::get_size(int &rows_,int &cols_) {
 	cols_ = cols;
 }
 
-void ProjectionPlane::set_deviceData(float *d_Data_) {
-	d_Data = d_Data_;
-}
 
 float* ProjectionPlane::get_deviceData() {
 	return d_Data;
@@ -90,6 +89,39 @@ void ProjectionPlane::shadow_block(const std::vector<std::vector<float3>> &point
 	for (int i = 0; i < shadow_num; ++i) {
 		triangle_rasterization(d_Data, rows, cols, pixel_length, row_offset, col_offset,
 			points[i][0], points[i][1], points[i][2], points[i][3], 0.0f);
+	}
+}
+
+
+void ProjectionPlane::save_data_text(const std::string out_path) {
+
+	std::ofstream out(out_path.c_str());
+	// show data 
+	float *h_Data = (float *)malloc(rows * cols * sizeof(float));
+	checkCudaErrors(cudaMemcpy(h_Data, d_Data, rows * cols * sizeof(float),
+		cudaMemcpyDeviceToHost));
+	for (int i = 0; i < rows; i += 1) {
+		for (int j = 0; j < cols; j += 1) {
+			if (j) {
+				out << "," << h_Data[i * cols + j];
+			}
+			else {
+				out << h_Data[i * cols + j];
+			}
+		}
+		out << std::endl;
+	}
+
+	// free the data
+	checkCudaErrors(cudaFree(d_Data));
+	free(h_Data);
+}
+
+ProjectionPlane::~ProjectionPlane() {
+	if (d_Data)
+	{
+		checkCudaErrors(cudaFree(d_Data));
+		d_Data = nullptr;
 	}
 }
 

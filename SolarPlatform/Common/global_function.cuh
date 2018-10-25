@@ -198,7 +198,7 @@ namespace global_func
 		float3 u_axis,
 		float3 v_axis) {
 
-		float3 relative_pos = u_axis*(index.x - size.x / 2) + v_axis*(index.y - size.y / 2);
+		float3 relative_pos = v_axis*(index.x - size.x / 2 +0.5)* pixel_len + u_axis*(index.y - size.y / 2 + 0.5)*pixel_len;
 		return center + relative_pos;
 	}
 
@@ -215,8 +215,8 @@ namespace global_func
 		float u_len = dot(relative_pos, u_axis);
 		float v_len = dot(relative_pos, v_axis);
 		int2 index;
-		index.x = u_len / pixel_len + size.x / 2;
-		index.y = v_len / pixel_len + size.y / 2;
+		index.x = v_len / pixel_len + size.x / 2 - 0.5;
+		index.y = u_len / pixel_len + size.y / 2 - 0.5;
 		return index;
 	}
 

@@ -8,24 +8,18 @@
 #include <stdio.h>
 
 bool test_rasterization(void) {
-	int rows = 1000;
-	int cols = 1000;
-	float pixel_length = 0.01;
+	int rows = 100;
+	int cols = 100;
+	float pixel_length = 0.1;
 
 	ProjectionPlane plane(rows, cols, pixel_length);
 
-	// alloc data 
-	float *d_Data;
-	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
-	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
-	plane.set_deviceData(d_Data);
-
 	// set data 
 	std::vector<float3> vec1;
-	vec1.push_back(make_float3(-2.0f, -2.0f, 0.0f));
-	vec1.push_back(make_float3(2.0f, -2.0f, 0.0f));
-	vec1.push_back(make_float3(2.0f, 2.0f, 0.0f));
-	vec1.push_back(make_float3(-2.0f, 2.0f, 0.0f));
+	vec1.push_back(make_float3(-5.0f, -5.0f, 0.0f));
+	vec1.push_back(make_float3(5.0f, -5.0f, 0.0f));
+	vec1.push_back(make_float3(5.0f, 5.0f, 0.0f));
+	vec1.push_back(make_float3(-5.0f, 5.0f, 0.0f));
 
 	std::vector<std::vector<float3>> vevec2;
 	std::vector<float3> vec2;
@@ -51,19 +45,10 @@ bool test_rasterization(void) {
 
 
 	// show data 
+#ifdef _DEBUG
+	std::string rasterization_path = "../SimulResult/imageplane/rasterization_path.txt";
+	plane.save_data_text(rasterization_path);
+#endif
 
-	float *h_Data = (float *)malloc(rows * cols * sizeof(float));
-	checkCudaErrors(cudaMemcpy(h_Data, d_Data, rows * cols * sizeof(float),
-		cudaMemcpyDeviceToHost));
-	for (int i = 0; i < rows; i+=100) {
-		for (int j = 0; j < cols; j+=100) {
-			printf("%.2f ", h_Data[i*cols + j]);
-		}
-		printf("\n");
-	}
-
-	// free the data
-	checkCudaErrors(cudaFree(d_Data));
-	free(h_Data);
 	return true;
 }

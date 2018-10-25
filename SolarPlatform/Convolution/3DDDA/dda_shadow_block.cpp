@@ -36,9 +36,9 @@ int intersect_helio(
 		float u, v, t;
 		bool intersect = global_func::rayParallelogramIntersect(
 			orig, dir, 
-			h_heliotat_vertex[heliostat_index], 
-			h_heliotat_vertex[heliostat_index],
-			h_heliotat_vertex[heliostat_index],
+			h_heliotat_vertex[heliostat_index+0], 
+			h_heliotat_vertex[heliostat_index+1],
+			h_heliotat_vertex[heliostat_index+2],
 			t, u, v
 		);
 		if (intersect) {
@@ -131,20 +131,20 @@ void calc_intersection_3DDDA(
 				}
 			}
 			grid_address = global_func::unroll_index(grid_index, rectgrid.grid_num_);
-		}
 
-		// add the grid 
-		int block_num = intersect_helio(
-			d_orig, 
-			d_dir, 
-			grid_address, 
-			h_heliotat_vertex,
-			h_grid_heliostat_match,
-			h_grid_heliostat_index,
-			relative_helio_label);
+			// add the grid 
+			int block_num = intersect_helio(
+				d_orig,
+				d_dir,
+				grid_address,
+				h_heliotat_vertex,
+				h_grid_heliostat_match,
+				h_grid_heliostat_index,
+				relative_helio_label);
 
 #ifdef DEBUG
-		std::cout << "the block number is: "<< block_num << std::endl;
+			std::cout << "the block number is: " << block_num << std::endl;
 #endif
+		}
 	}
 }

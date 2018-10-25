@@ -5,7 +5,7 @@ bool set_helios_vertexes_cpu(
 	const std::vector<Heliostat *> heliostats,
 	const int start_pos,
 	const int end_pos,
-	float3 *h_helio_vertexs){
+	float3 *&h_helio_vertexs){
 
 	int size = end_pos - start_pos;
 	h_helio_vertexs = new float3[size * 3];

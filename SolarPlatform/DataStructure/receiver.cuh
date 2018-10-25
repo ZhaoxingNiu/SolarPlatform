@@ -2,7 +2,10 @@
 #define RECEIVER_CUH
 
 #include "../Common/global_function.cuh"
+#include "../Common/common_var.h"
 #include "../Common/utils.h"
+#include "../Common/image_saver.h"
+#include <fstream>
 
 // Receivers
 class Receiver
@@ -20,6 +23,7 @@ public:
 
 	__device__ __host__ Receiver() :d_image_(nullptr) {}
 
+
 	__device__ __host__ Receiver(const Receiver &rect)
 	{
 		type_=rect.type_;
@@ -31,6 +35,25 @@ public:
 		pixel_length_ = rect.pixel_length_;
 		d_image_ = rect.d_image_;
 		resolution_ = rect.resolution_;
+	}
+
+	__device__ __host__ void save_result(std::string path){
+
+		float *h_image = nullptr;
+		global_func::gpu2cpu(h_image, d_image_, resolution_.x*resolution_.y);
+		float dni = solarenergy::dni;
+		float sub_helio_area = solarenergy::helio_pixel_length * solarenergy::helio_pixel_length;
+		float rou = solarenergy::reflected_rate;
+		float nc = solarenergy::num_sunshape_lights_per_group;
+		float sub_rece_ares = solarenergy::receiver_pixel_length * solarenergy::receiver_pixel_length;
+		for (int p = 0; p < resolution_.x * resolution_.y; ++p)
+		{
+			//h_image[p] = h_image[p] * dni * sub_helio_area * rou / nc / sub_rece_ares;
+		}
+		ImageSaver::savetxt_conv(path, resolution_.x, resolution_.y, h_image);
+
+		delete[] h_image;
+		h_image = nullptr;
 	}
 
 	__device__ __host__ ~Receiver()
@@ -85,12 +108,15 @@ public:
 	virtual void CInit(const int &geometry_info);
 
 	float3 rect_vertex_[4];
+	float3 u_axis_;
+	float3 v_axis_;
 
 private:
 	void Cinit_vertex();
 	void Cset_localnormal();									// set local normal
 	void Cset_localvertex();									// set local vertex position
 	void Cset_vertex();											// set world vertex
+	void Cset_axis();                                           // set axis
 	virtual void Cset_resolution(const int &geometry_info);
 	virtual void Cset_focuscenter();							// call this function after Cset_vertex();
 

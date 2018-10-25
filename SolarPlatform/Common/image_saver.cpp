@@ -16,7 +16,28 @@ void ImageSaver::savetxt(const string filename, int w, int h, float *h_data)
 			else {
 				out << h_data[address];
 			}
-			
+		}
+		out << endl;
+	}
+	out.close();
+}
+
+void ImageSaver::savetxt_conv(const string filename, int x, int y, float *h_data)
+{
+	ofstream out(filename.c_str());
+
+	int address = 0;
+	for (int r = 0; r < x; ++r)
+	{
+		for (int c = 0; c < y; ++c)
+		{
+			address = r * y + c;
+			if (c) {
+				out << "," << h_data[address];
+			}
+			else {
+				out << h_data[address];
+			}
 		}
 		out << endl;
 	}
