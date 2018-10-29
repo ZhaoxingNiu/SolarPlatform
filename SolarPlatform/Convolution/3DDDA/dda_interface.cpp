@@ -13,6 +13,9 @@ void dda_interface(
 	Grid &grid,								//	the grid heliostat belongs to
 	const vector<Heliostat *> heliostats)	//	all heliostats
 {
+	StopWatchInterface *hTimer = NULL;
+	sdkCreateTimer(&hTimer);
+
 	// step 1. get tht ptr vertex
 	std::vector<float3> vertex;
 	for (int i = 0; i < 4; ++i) {
@@ -40,7 +43,9 @@ void dda_interface(
 		return;
 	}
 	RectGrid *rectgrid = dynamic_cast<RectGrid *> (&grid);
-
+	
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// step 3.2 get the shadow heliostats
 	calc_intersection_3DDDA(
 		vertex,
@@ -110,10 +115,22 @@ void dda_interface(
 		std::vector<float3> vec_shadow_block = { v0_i, v1_i, v2_i, v3_i };
 		vecvec_shadow_block.push_back(vec_shadow_block);
 	}
-	
+
+	sdkStopTimer(&hTimer);
+	double gpuTime = sdkGetTimerValue(&hTimer);
+	printf("3D DDA cost time: (%f ms)\n", gpuTime);
+
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// step 5. rasterization the image plane
 	plane.projection(vec_project);
 	plane.shadow_block(vecvec_shadow_block);
+	
+	sdkStopTimer(&hTimer);
+
+	gpuTime = sdkGetTimerValue(&hTimer);
+	printf("rasterization cost time: (%f ms)\n", gpuTime);
+
 
 	delete[] h_helio_vertexs;
 	h_helio_vertexs = nullptr;

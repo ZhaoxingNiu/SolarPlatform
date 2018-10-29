@@ -22,7 +22,7 @@ int main() {
 	//if (!test_rasterization()) { nFailures++;  }
 	if (!test_dda_rasterization()) { nFailures++; }
 
-	std::cout << "nFailures number: " << nFailures << std::endl;
+ 	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");
 	return 0;
 }

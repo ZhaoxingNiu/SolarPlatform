@@ -188,6 +188,7 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
+    <ClCompile Include="Convolution\Struct\convKernel.cpp" />
     <ClCompile Include="Convolution\Struct\oblique_parallel.cpp" />
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp" />
     <ClCompile Include="DataStructure\grid.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="Convolution\Rasterization\rasterization_common.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_test.h" />
     <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh" />
+    <ClInclude Include="Convolution\Struct\convKernel.h" />
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh" />
     <ClInclude Include="Convolution\Struct\projectionPlane.h" />
     <ClInclude Include="DataStructure\grid.h" />

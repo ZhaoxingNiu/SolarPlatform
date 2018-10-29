@@ -1,10 +1,17 @@
 #include "./dda_test.h"
 #include "../Struct/oblique_parallel.cuh"
 
+// Helper functions for CUDA
+#include <helper_functions.h>
+#include <helper_cuda.h>
+
 bool test_dda_rasterization() {
 	// h_index, chose the heliostat 
 	int h_index = 1;
 	int rece_index = 0;
+
+	StopWatchInterface *hTimer = NULL;
+	sdkCreateTimer(&hTimer);
 
 	// set the pixel 
 	solarenergy::num_sunshape_lights_per_group = 1024;
@@ -66,6 +73,9 @@ bool test_dda_rasterization() {
 		offset
 	);
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
+
 	projection_plane_rect(
 		(solar_scene->receivers[0])->d_image_,
 		plane.get_deviceData(),
@@ -73,6 +83,12 @@ bool test_dda_rasterization() {
 		&plane,
 		M,
 		offset);
+
+	sdkStopTimer(&hTimer);
+
+	double gpuTime = sdkGetTimerValue(&hTimer);
+	printf("projection cost time: (%f ms)\n", gpuTime);
+
 
 #ifdef _DEBUG
 	std::string receiver_path = "../SimulResult/imageplane/receiver_debug.txt";

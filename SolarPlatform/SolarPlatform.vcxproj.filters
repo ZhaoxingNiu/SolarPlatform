@@ -68,6 +68,9 @@
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Struct\convKernel.cpp">
+      <Filter>Convolution\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="Convolution\3DDDA\dda_test.h">
       <Filter>Convolution\3DDDA</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Struct\convKernel.h">
+      <Filter>Convolution\Struct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
