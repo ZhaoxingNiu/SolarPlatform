@@ -113,7 +113,6 @@ void ProjectionPlane::save_data_text(const std::string out_path) {
 	}
 
 	// free the data
-	checkCudaErrors(cudaFree(d_Data));
 	free(h_Data);
 }
 

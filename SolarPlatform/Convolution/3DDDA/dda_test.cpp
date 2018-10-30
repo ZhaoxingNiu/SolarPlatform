@@ -1,5 +1,7 @@
 #include "./dda_test.h"
 #include "../Struct/oblique_parallel.cuh"
+#include "../Struct/convKernel.h"
+#include "../Cufft/convolutionFFT2D_interface.h"
 
 // Helper functions for CUDA
 #include <helper_functions.h>
@@ -62,9 +64,6 @@ bool test_dda_rasterization() {
 	plane.save_data_text(image_path);
 #endif
 	
-
-	
-	
 	// Step 4: projection the image plane to the heliostat
 	// Step 4.1: get the projection matrix
 	float *M = new float[9];
@@ -79,6 +78,27 @@ bool test_dda_rasterization() {
 
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+
+	// load the kernel
+	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_0_distance_500.txt";
+	LoadedConvKernel kernel(201, 201, kernel_path);
+	kernel.genKernel();
+
+	/*
+	fastConvolutionDevice(
+		plane.get_deviceData(),
+		kernel.d_data,
+		plane.rows,
+		plane.cols,
+		kernel.dataH,
+		kernel.dataW
+	);
+	*/
+
+#ifdef _DEBUG
+	std::string image_path2 = "../SimulResult/imageplane/image_debug2.txt";
+	plane.save_data_text(image_path2);
+#endif
 
 	projection_plane_rect(
 		(solar_scene->receivers[0])->d_image_,
@@ -99,8 +119,6 @@ bool test_dda_rasterization() {
 	solar_scene->receivers[0]->save_result(receiver_path);
 #endif
 
-
 	delete[] M;
-
 	return true;
 }

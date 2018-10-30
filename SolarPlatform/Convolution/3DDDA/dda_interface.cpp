@@ -68,6 +68,7 @@ void dda_interface(
 		block_helio_label
 	);
 
+
 	// step 4 process the vertex
 	// step 4.1 calculate the contour on the image plane
 	std::vector<float3> vec_project;
