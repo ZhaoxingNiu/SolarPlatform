@@ -188,6 +188,7 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
+    <ClCompile Include="Convolution\Script\gen_kernel.cpp" />
     <ClCompile Include="Convolution\Struct\convKernel.cpp" />
     <ClCompile Include="Convolution\Struct\oblique_parallel.cpp" />
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp" />
@@ -200,6 +201,7 @@
     <ClCompile Include="SceneProcess\scene_file_proc.cpp" />
     <ClCompile Include="SceneProcess\solar_scene.cpp" />
     <ClCompile Include="Test\Configure\common_test.cpp" />
+    <ClCompile Include="Test\GenKernel\gen_kernel_test.cpp" />
     <ClCompile Include="Test\Raytracing\raytracing_test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +235,7 @@
     <ClInclude Include="Convolution\Rasterization\rasterization_common.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_test.h" />
     <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh" />
+    <ClInclude Include="Convolution\Script\gen_kernel.h" />
     <ClInclude Include="Convolution\Struct\convKernel.h" />
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh" />
     <ClInclude Include="Convolution\Struct\projectionPlane.h" />
@@ -250,6 +253,7 @@
     <ClInclude Include="SceneProcess\solar_scene.h" />
     <ClInclude Include="Test\Configure\common_test.h" />
     <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
+    <ClInclude Include="Test\GenKernel\gen_kernel_test.h" />
     <ClInclude Include="Test\Raytracing\raytracing_test.cuh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

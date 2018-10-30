@@ -4,6 +4,11 @@
 #include <iostream>
 #include <string>
 
+#include <cuda.h>
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+
+
 /*
 * ConvKenel do not contain the ptr,just modify the kernel Value
 * LoadedConvKernel is the load the kernel from the
@@ -14,7 +19,7 @@ public:
 	ConvKernel(int h, int w);
 	ConvKernel(int h, int w, std::string path);
 	virtual void genKernel() = 0;
-	virtual void saveKernel(std::string str) = 0;
+	void saveKernel(std::string path);
 	virtual ~ConvKernel();
 
 	void setSize(int h, int w);
@@ -34,19 +39,16 @@ public:
 class LoadedConvKernel :public ConvKernel {
 public:
 	LoadedConvKernel(int h, int w, std::string path);
-	virtual void genKernel(float* h_Kernel);
+	virtual void genKernel();
+	virtual ~LoadedConvKernel();
 };
 
 
-class FitConvKernel :public ConvKernel {
-public:
-	virtual void genKernel() {};
-
-};
 
 class GaussianConvKernel : public ConvKernel {
 public:
-	virtual void genKernel() {};
+	virtual void genKernel();
+	virtual ~GaussianConvKernel();
 
 };
 

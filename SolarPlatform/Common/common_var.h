@@ -21,7 +21,10 @@ namespace solarenergy {
 	extern float disturb_std;
 
 	//default scene file
-	extern string  scene_filepath;
+	extern string scene_filepath;
+
+	// the python script path
+	extern string script_filepath;
 };
 
 #endif

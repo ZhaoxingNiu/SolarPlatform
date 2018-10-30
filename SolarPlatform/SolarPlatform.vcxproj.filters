@@ -71,6 +71,12 @@
     <ClCompile Include="Convolution\Struct\convKernel.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Script\gen_kernel.cpp">
+      <Filter>Convolution\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\GenKernel\gen_kernel_test.cpp">
+      <Filter>Test\GenKernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -117,6 +123,12 @@
     </Filter>
     <Filter Include="Convolution\3DDDA">
       <UniqueIdentifier>{6b24ce68-80e7-4ab5-b0a5-e212e9868691}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolution\Script">
+      <UniqueIdentifier>{224f9f71-90b2-4ea7-87fb-dbfd735c3983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\GenKernel">
+      <UniqueIdentifier>{a3ab6c9b-f0f3-41bb-bcb1-7fa840454058}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +271,12 @@
     </ClInclude>
     <ClInclude Include="Convolution\Struct\convKernel.h">
       <Filter>Convolution\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Script\gen_kernel.h">
+      <Filter>Convolution\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\GenKernel\gen_kernel_test.h">
+      <Filter>Test\GenKernel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

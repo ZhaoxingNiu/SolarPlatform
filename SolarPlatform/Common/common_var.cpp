@@ -16,4 +16,5 @@ float solarenergy::reflected_rate = 0.88f;
 float solarenergy::disturb_std = 0.002f;
 
 //default scene file
-string  solarenergy::scene_filepath = "../SceneData/example.scn";
+string solarenergy::scene_filepath = "../SceneData/example.scn";
+string solarenergy::script_filepath = "../Script/solarEnergy";
