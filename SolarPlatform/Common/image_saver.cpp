@@ -33,7 +33,7 @@ void ImageSaver::savetxt_conv(const string filename, int x, int y, float *h_data
 		{
 			address = r * y + c;
 			if (c) {
-				out << "," << h_data[address];
+				out << " " << h_data[address];
 			}
 			else {
 				out << h_data[address];

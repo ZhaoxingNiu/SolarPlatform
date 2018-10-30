@@ -71,11 +71,18 @@ void LoadedConvKernel::genKernel() {
 	infile.open(modelPath);   //将文件流对象与文件连接起来 
 	assert(infile.is_open());   //若失败,则输出错误消息,并终止程序运行 
 
+	if (h_data) {
+		delete[] h_data;
+		h_data = nullptr;
+	}
+	
+	h_data = new float[dataH*dataW];
 	std::string s;
 	std::stringstream ss;
 	int r = 0;
 	while (getline(infile, s))
 	{
+		ss.clear();
 		ss << s;
 		int c = 0;
 		float num;
@@ -85,11 +92,10 @@ void LoadedConvKernel::genKernel() {
 		}
 		++r;
 	}
+	
 	infile.close();             //关闭文件输入流 
-
 	//sync the d_data
 	global_func::cpu2gpu(d_data, h_data, dataH * dataW);
-
 }
 
 LoadedConvKernel::~LoadedConvKernel() {

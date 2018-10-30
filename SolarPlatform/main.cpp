@@ -19,11 +19,11 @@ int main() {
 
 	// if (!test_raytracing()) { nFailures++; }
 	// if (!common_test::test_file_path()) { nFailures++; }
-	// if (!testFastConvolution()){  nFailures++; }
+	if (!testFastConvolution()){  nFailures++; }
 	//if (!test_rasterization()) { nFailures++;  }
 	//if (!test_dda_rasterization()) { nFailures++; }
-	if (!test_gen_kernel()) { nFailures++; }
-
+	//if (!test_gen_kernel()) { nFailures++; }
+	//if (!test_load_kernel()) { nFailures++;}
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");
 	return 0;

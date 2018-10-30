@@ -73,4 +73,4 @@ if __name__ == '__main__':
     
     save_path = globalVar.DATA_PATH + "/gen_flux/onepoint_angle_{}_distance_{}.txt".format(real_angel, real_distance)
     print(save_path)
-    np.savetxt(save_path,fit_flux,fmt='%.4f')
+    np.savetxt(save_path,fit_flux,fmt='%.6f')

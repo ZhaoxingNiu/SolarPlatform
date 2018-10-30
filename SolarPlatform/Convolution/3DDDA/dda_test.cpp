@@ -61,6 +61,10 @@ bool test_dda_rasterization() {
 	std::string image_path = "../SimulResult/imageplane/image_debug.txt";
 	plane.save_data_text(image_path);
 #endif
+	
+
+	
+	
 	// Step 4: projection the image plane to the heliostat
 	// Step 4.1: get the projection matrix
 	float *M = new float[9];

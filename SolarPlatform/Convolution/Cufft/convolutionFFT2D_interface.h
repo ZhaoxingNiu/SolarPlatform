@@ -4,6 +4,25 @@
 ////////////////////////////////
 // convolution interface
 ////////////////////////////////
+bool fastConvolutionDevice(
+	float *d_Data,
+	float *d_Kernel,
+	const int dataH,
+	const int dataW,
+	const int kernelH,
+	const int kernelW
+);
+
+//////////////////////////////
+//  calcluate convolution on the GPU
+/////////////////////////////
+bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel, 
+	const int dataH, const int dataW, const int kernelH, const int kernelW);
+
+
+////////////////////////////////
+// convolution interface
+////////////////////////////////
 bool fastConvolution(
 	float *h_Data,    
 	float *h_Kernel, 
