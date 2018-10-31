@@ -7,6 +7,8 @@
 #include <helper_functions.h>
 #include <helper_cuda.h>
 
+#include <cmath>
+
 bool test_dda_rasterization() {
 	// h_index, chose the heliostat 
 	int h_index = 1;
@@ -16,14 +18,17 @@ bool test_dda_rasterization() {
 	sdkCreateTimer(&hTimer);
 
 	// set the pixel 
-	solarenergy::num_sunshape_lights_per_group = 1024;
+	solarenergy::num_sunshape_lights_per_group = 10240;
 	solarenergy::csr = 0.1f;
 	solarenergy::disturb_std = 0.001f;
 	solarenergy::helio_pixel_length = 0.01f;
 	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::image_plane_pixel_length = 0.05f;
-	solarenergy::scene_filepath = "../SceneData/imageplane/face2face_shadow.scn";
-	solarenergy::sun_dir = make_float3(0.0f ,0.0f, 1.0f);
+	solarenergy::scene_filepath = "../SceneData/imageplane/face_imageplane.scn";
+
+	float angel = 135.0f;
+	int round_angel = round(angel);
+	solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
 
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
 	// Step 1: Load files
@@ -76,15 +81,12 @@ bool test_dda_rasterization() {
 		offset
 	);
 
-	sdkResetTimer(&hTimer);
-	sdkStartTimer(&hTimer);
-
 	// load the kernel
-	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_0_distance_500.txt";
+	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_"+
+		std::to_string(round_angel) +"_distance_500.txt";
 	LoadedConvKernel kernel(201, 201, kernel_path);
 	kernel.genKernel();
 
-	/*
 	fastConvolutionDevice(
 		plane.get_deviceData(),
 		kernel.d_data,
@@ -93,13 +95,14 @@ bool test_dda_rasterization() {
 		kernel.dataH,
 		kernel.dataW
 	);
-	*/
+	
 
 #ifdef _DEBUG
 	std::string image_path2 = "../SimulResult/imageplane/image_debug2.txt";
 	plane.save_data_text(image_path2);
 #endif
-
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	projection_plane_rect(
 		(solar_scene->receivers[0])->d_image_,
 		plane.get_deviceData(),

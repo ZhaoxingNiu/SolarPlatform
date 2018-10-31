@@ -4,7 +4,7 @@
 #include "../../Convolution/Script/gen_kernel.h"
 #include "../../Convolution/Struct/convKernel.h"
 
-bool test_gen_kernel();
+bool test_gen_kernel(float ori_dis, float true_dis, float angel);
 
 bool test_load_kernel();
 

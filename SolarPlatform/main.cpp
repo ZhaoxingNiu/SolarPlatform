@@ -9,6 +9,7 @@
 #include "./Convolution/Rasterization/rasterization_test.h"
 #include "./Convolution/3DDDA/dda_test.h"
 
+
 int main() {
 	/*
 	std::cout << "test cuda configure" << std::endl;
@@ -18,10 +19,11 @@ int main() {
     int nFailures = 0;
 
 	// if (!common_test::test_file_path()) { nFailures++; }
+	// if (!common_test::test_file_exist()) { nFailures++; }
 	// if (!test_raytracing()) { nFailures++; }
 	// if (!testFastConvolution()){  nFailures++; }
 	// if (!test_rasterization()) { nFailures++;  }
-	// if (!test_gen_kernel()) { nFailures++; }
+	// if (!test_gen_kernel(500.0f, 500.0f, 60.0f)) { nFailures++; }
 	// if (!test_load_kernel()) { nFailures++;}
 	if (!test_dda_rasterization()) { nFailures++; }
 

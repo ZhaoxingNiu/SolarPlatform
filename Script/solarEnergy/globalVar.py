@@ -6,7 +6,7 @@ Created on Wed May  9 21:22:20 2018
 """
 
 # 指定数据的位置以及输出的位置
-DATA_PATH = "E:/program/solarEnergyGit/SolarPlatform/SimulResult/data"
+DATA_PATH = "E:/program/solarEnergyGit/SolarPlatform/SimulResult/data/"
 # 统计能量分布时 R 的bin的大小
 STEP_R = 0.05
 # GRID_LEN  对应的是接收面的格子边长

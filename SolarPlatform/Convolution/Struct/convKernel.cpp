@@ -8,6 +8,7 @@
 #include "../../Common/image_saver.h"
 #include "../../Common/utils.h"
 #include "../../Common/global_function.cuh"
+#include "../../Common/common_var.h"
 
 ConvKernel::ConvKernel(int h, int w):
 	dataH(h), dataW(w) {
@@ -75,7 +76,7 @@ void LoadedConvKernel::genKernel() {
 		delete[] h_data;
 		h_data = nullptr;
 	}
-	
+	float area = solarenergy::image_plane_pixel_length * solarenergy::image_plane_pixel_length;
 	h_data = new float[dataH*dataW];
 	std::string s;
 	std::stringstream ss;
@@ -87,7 +88,7 @@ void LoadedConvKernel::genKernel() {
 		int c = 0;
 		float num;
 		while (ss >> num) {
-			h_data[r * dataW + c] = num;
+			h_data[r * dataW + c] = num * area;
 			++c;
 		}
 		++r;

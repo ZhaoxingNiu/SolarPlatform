@@ -10,6 +10,8 @@ import myUtils
 import globalVar
 import CDF
 import PDF
+
+import math
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
@@ -21,7 +23,9 @@ def parse_args():
     usage='%(prog)s [options]',
     description="using the data to generate the kernel")
     
-    parser.add_argument('distance',type = float, nargs='?', help='the real distance')
+    parser.add_argument('true_dis',type = float, nargs='?', help='the real distance')
+    
+    parser.add_argument('--ori_dis',type = float, default = 500.0, nargs='?', help='the origin distance')
     parser.add_argument('--angel',type = float, default = 0.0, nargs='?', help='the real angel')
     
     parser.add_argument('--step_r',type = float, default = 0.05, nargs='?', help='statistical interval')
@@ -44,10 +48,12 @@ if __name__ == '__main__':
     globalVar.re_init_para(args)
     
     # 计算需要拟合函数
-    real_distance = int(args.distance)
-    real_angel = int(args.angel)
-    process_distance = int(real_distance)
-    process_angel = int(real_angel)
+    real_distance = round(args.true_dis)
+    real_angel = round(args.angel)
+    
+    
+    process_distance = round(real_distance/100)*100
+    process_angel = round(real_angel)
     
     # load the onepoint flux map
     print('load the Data  angle{}  and distance {}...'.format(process_angel,process_distance))
@@ -55,6 +61,9 @@ if __name__ == '__main__':
     print(onepoint_path)
     onepoint_flux = np.genfromtxt(onepoint_path,delimiter=',')
     onepoint_flux = myUtils.smoothData(onepoint_flux)
+    # becasue the incident angel,the onepoint_flux should mod
+    onepoint_flux = onepoint_flux/math.cos(process_angel/2*math.pi/180)
+    
     
     # 统计拟合得到CDF
     print('count the flux data...')
@@ -68,8 +77,11 @@ if __name__ == '__main__':
     print("calculate the RMSE")
     PDF.envaluatePDF(onepoint_flux,fit_flux)
     
-    #plt.imshow(fit_flux, interpolation='bilinear',origin='lower', \
+    # show the kernel
+    # plt.imshow(fit_flux, interpolation='bilinear',origin='lower', \
     #               cmap =  cm.jet, vmin=0,vmax=300)
+    
+    
     
     save_path = globalVar.DATA_PATH + "/gen_flux/onepoint_angle_{}_distance_{}.txt".format(real_angel, real_distance)
     print(save_path)

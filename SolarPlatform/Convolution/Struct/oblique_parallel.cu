@@ -2,6 +2,10 @@
 #include "../../Common/global_function.cuh"
 #include "../Cufft/convolutionFFT2D_common.h"
 
+// Helper functions for CUDA
+#include <helper_functions.h>
+#include <helper_cuda.h>
+
 __global__ void projection_plane_kernel(
 	float *d_receiver,   
 	float *d_image,          
@@ -60,6 +64,9 @@ extern "C" void projection_plane_rect(
 	float *M,               // the transform matrix, from the metrix
 	float3 offset             // the trandform matrix offset
 ) {
+	StopWatchInterface *hTimer = NULL;
+	sdkCreateTimer(&hTimer);
+
 	// get the related prams
 	float3 rece_pos = rece->focus_center_;
 	float3 rece_u_axis = rece->u_axis_;
@@ -79,6 +86,8 @@ extern "C" void projection_plane_rect(
 	float *d_M = nullptr;
 	global_func::cpu2gpu(d_M, M, 9);
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// for each pixel, calc the mapping function 
 	projection_plane_kernel <<< grid, threads >>> (
 		d_receiver,
@@ -96,6 +105,9 @@ extern "C" void projection_plane_rect(
 		d_M,
 		offset
 		);
+	sdkStopTimer(&hTimer);
+	double gpuTime = sdkGetTimerValue(&hTimer);
+	printf("projection kernel cost time: (%f ms)\n", gpuTime);
 
 	checkCudaErrors(cudaFree(d_M));
 }
