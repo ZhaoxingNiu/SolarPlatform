@@ -47,9 +47,9 @@ if __name__ == '__main__':
     # 首先计算使用什么角度的 sun shape 以及 具体距离  太阳光是使用的全局坐标计算的角度w
     sun_ray = Vector(0.0,-0.5, 0.866025404)
     # 计算300m定日镜
-    process_angle = 30    # 0  30  45  60
-    heliostat_id = 14     #  4  14  24   34
-    heliostat_pos = Vector(250,3.0,433)   #   Vector(0,3.0,500)   Vector(250,3.0,433)   Vector(353.5,3.0,353.5)    Vector(433,3.0,250)
+    process_angle = 60    # 0  30  45  60
+    heliostat_id = 34    #  4  14  24   34
+    heliostat_pos = Vector(433,3.0,250)   #   Vector(0,3.0,500)   Vector(250,3.0,433)   Vector(353.5,3.0,353.5)    Vector(433,3.0,250)
     heliostat_area = 5.0008
     heliostat_size = Vector(2.66,0.1,1.88)
     receiver_center = Vector(0,100,0)
@@ -89,14 +89,24 @@ if __name__ == '__main__':
     ground_truth = np.fliplr(ground_truth)
     imageplane.envaluateFlux(ground_truth,np_receiver)
     
+    print("******evaluate the c++ code********")
+    res_path = globalVar.DATA_PATH + "testcpu/receiver/receiver_debug_{}.txt".format(heliostat_id)
+    res = np.genfromtxt(res_path)
+    #res_path = globalVar.DATA_PATH + "testcpu/receiver/image_debug2.txt"
+    #res = np.genfromtxt(res_path,delimiter=",")
+    res = np.fliplr(res)
+    res = np.rot90(res,1,(1,0))
+    imageplane.envaluateFlux(ground_truth,res)
+    
+    
     ax1 = plt.subplot(131)
     ax1.imshow(ground_truth, interpolation='bilinear',origin='lower', \
                cmap = cm.jet, vmin=0,vmax=300)
     ax2 = plt.subplot(132)
     ax2.imshow(np_receiver, interpolation='bilinear',origin='lower', \
                cmap = cm.jet, vmin=0,vmax=300)
-    #ax3 = plt.subplot(133)
-    #ax3.imshow(res, interpolation='bilinear',origin='lower', \
-    #           cmap = cm.jet, vmin=0,vmax=300)
+    ax3 = plt.subplot(133)
+    ax3.imshow(res, interpolation='bilinear',origin='lower', \
+               cmap = cm.jet, vmin=0,vmax=300)
     
     

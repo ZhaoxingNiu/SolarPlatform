@@ -220,6 +220,53 @@ namespace global_func
 		return index;
 	}
 
+	// for a plane, transfer the pos to the index
+	__host__ __device__ inline bool pos_2_index_bilinear(
+		float3 pos,
+		int2 size,
+		float pixel_len,
+		float3 center,
+		float3 u_axis,
+		float3 v_axis,
+		int2 &lt,
+		int2 &rt,
+		int2 &rb,
+		int2 &lb,
+		float &lt_rate,
+		float &rt_rate,
+		float &rb_rate,
+		float &lb_rate
+	) {
+		float3 relative_pos = pos - center;
+		float u_len = dot(relative_pos, u_axis);
+		float v_len = dot(relative_pos, v_axis);
+		float2 index;
+		index.x = v_len / pixel_len + size.x / 2 - 0.5;
+		index.y = u_len / pixel_len + size.y / 2 - 0.5;
+		if (index.x < 0 || index.x > size.x || index.y < 0 || index.y > size.y) {
+			return false;
+		}
+		int l = index.x;
+		int r = l + 1;
+		int b = index.y;
+		int t = b + 1;
+		lt.x = l; 
+		lt.y = t;
+		rt.x = r;
+		rt.y = t;
+		rb.x = r;
+		rb.y = b;
+		lb.x = l;
+		lb.y = b;
+		float dx = index.x - l;
+		float dy = index.y - b;
+		lt_rate = (1-dx)*(dy);
+		rt_rate = dx*dy;
+		rb_rate = (dx)*(1-dy);
+		lb_rate = (1 - dx)*(1 - dy);
+		return true;
+	}
+
 	// transform the metrix
 	__host__ __device__ inline float3 matrix_mul_float3(
 		float3 origin,

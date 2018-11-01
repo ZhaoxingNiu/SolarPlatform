@@ -363,3 +363,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/Script/ShowAndAnalysis/image_debug2.txt

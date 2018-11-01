@@ -20,7 +20,8 @@ __global__ void projection_plane_kernel(
 	int2 image_size,
 	float image_pixel_len,
 	float *d_M,
-	float3 offset
+	float3 offset,
+	float shrink
 ) {
 	int2 r_index;
 	r_index.x = blockDim.x * blockIdx.x + threadIdx.x;
@@ -38,20 +39,25 @@ __global__ void projection_plane_kernel(
 		// get the image plane position 
 		float3 i_pos = global_func::matrix_mul_float3(r_pos, d_M) + offset;
 		// get the image index 
-		int2 i_index = global_func::pos_2_index(
+		int2 lt, rt, rb, lb;
+		float lt_rate, rt_rate, rb_rate, lb_rate;
+		if(global_func::pos_2_index_bilinear(
 			i_pos,
 			image_size,
 			image_pixel_len,
 			image_pos,
 			image_u_axis,
-			image_v_axis
-		);
-
-		// map the index 
-		if (i_index.x >= 0 && i_index.x < image_size.x
-			&& i_index.y >= 0 && i_index.y < image_size.y) {
+			image_v_axis,
+			lt,rt,rb,lb,
+			lt_rate, rt_rate, rb_rate, lb_rate
+		)) {
 			d_receiver[r_index.x * rece_size.y + r_index.y]
-				= d_image[i_index.x * image_size.y + i_index.y];
+				= d_image[lt.x * image_size.y + lt.y] * lt_rate
+				+ d_image[rt.x * image_size.y + rt.y] * rt_rate
+				+ d_image[rb.x * image_size.y + rb.y] * rb_rate
+				+ d_image[lb.x * image_size.y + lb.y] * lb_rate;
+
+			d_receiver[r_index.x * rece_size.y + r_index.y] *= shrink;
 		}
 	}
 }
@@ -80,6 +86,8 @@ extern "C" void projection_plane_rect(
 	int2 image_size = { plane->rows, plane->cols };
 	float image_pixel_len = plane->pixel_length;
 
+	float shrink = dot(normalize(rece->normal_), normalize(plane->normal));
+
 	dim3 threads(32, 32);
 	dim3 grid(global_func::iDivUp(rece_size.x, threads.x), global_func::iDivUp(rece_size.y, threads.y));
 	
@@ -103,7 +111,8 @@ extern "C" void projection_plane_rect(
 		image_size,
 		image_pixel_len,
 		d_M,
-		offset
+		offset,
+		shrink
 		);
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);

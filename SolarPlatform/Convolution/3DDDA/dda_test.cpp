@@ -10,11 +10,9 @@
 #include <cmath>
 
 
-
-
 bool test_dda_rasterization() {
 	// h_index, chose the heliostat 
-	int helio_index = 34;
+	int helio_index = 14;
 	int rece_index = 0;
 
 	StopWatchInterface *hTimer = NULL;
@@ -132,8 +130,6 @@ bool test_dda_rasterization() {
 	std::string receiver_path = "../SimulResult/imageplane/receiver_debug_"+ std::to_string(helio_index) +".txt";
 	solar_scene->receivers[rece_index]->save_result(receiver_path);
 	delete[] M;
-
-
 
 	return true;
 }

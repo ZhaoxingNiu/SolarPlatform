@@ -43,7 +43,8 @@ __global__ void projection_plane_kernel(
 	int2 image_size,          // the iamge plane grid number 
 	float image_pixel_len,    // the receiver pixel length
 	float *d_M,               // the transform matrix, from the metrix
-	float3 offset             // the trandform matrix offset
+	float3 offset,             // the trandform matrix offset
+	float shrink              // the energy shrink
 );
 
 
