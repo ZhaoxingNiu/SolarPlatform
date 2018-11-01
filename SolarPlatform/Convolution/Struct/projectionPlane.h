@@ -20,6 +20,9 @@ public:
 	void get_size(int &rows_, int &cols);
 	float* get_deviceData();
 
+	//clean the projection area
+	void clean_image_content();
+
 	// ray intersect
 	bool ray_intersect(const float3 ori, const float3 dir, float3 &p) const;
 

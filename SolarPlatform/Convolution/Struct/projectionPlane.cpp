@@ -22,7 +22,6 @@ ProjectionPlane::ProjectionPlane(
 
 	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
-
 }
 
 void ProjectionPlane::set_pos(float3 pos_, float3 normal_) {
@@ -50,6 +49,11 @@ void ProjectionPlane::get_size(int &rows_,int &cols_) {
 
 float* ProjectionPlane::get_deviceData() {
 	return d_Data;
+}
+
+void ProjectionPlane::clean_image_content() {
+	// clean the data 
+	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
 }
 
 // get the intersection point

@@ -9,9 +9,12 @@
 
 #include <cmath>
 
+
+
+
 bool test_dda_rasterization() {
 	// h_index, chose the heliostat 
-	int h_index = 1;
+	int helio_index = 34;
 	int rece_index = 0;
 
 	StopWatchInterface *hTimer = NULL;
@@ -24,11 +27,17 @@ bool test_dda_rasterization() {
 	solarenergy::helio_pixel_length = 0.01f;
 	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::image_plane_pixel_length = 0.05f;
-	solarenergy::scene_filepath = "../SceneData/imageplane/face_imageplane.scn";
 
-	float angel = 135.0f;
+	// test shadow
+	//solarenergy::scene_filepath = "../SceneData/imageplane/face_shadow.scn";
+	//solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
+
+	// test receiver
+	solarenergy::scene_filepath = "../SceneData/onepoint/helioField_small.scn";
+	solarenergy::sun_dir = make_float3(0.0f, -0.5f, 0.866025404f);
+
+	float angel = 0.0f;
 	int round_angel = round(angel);
-	solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
 
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
 	// Step 1: Load files
@@ -45,10 +54,12 @@ bool test_dda_rasterization() {
 	ProjectionPlane plane(
 		plane_size.x, plane_size.y,
 		solarenergy::image_plane_pixel_length);
-	 
+	
 	// receiver 0 
-	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[0]);
+	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
+	
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
+	solar_scene->receivers[rece_index]->Cclean_image_content();
 	// get normal
 	float3 in_dir = solar_scene->sunray_->sun_dir_;
 	float3 out_dir = reflect(in_dir, recthelio->normal_);   // reflect light
@@ -82,6 +93,7 @@ bool test_dda_rasterization() {
 	);
 
 	// load the kernel
+
 	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_"+
 		std::to_string(round_angel) +"_distance_500.txt";
 	LoadedConvKernel kernel(201, 201, kernel_path);
@@ -104,7 +116,7 @@ bool test_dda_rasterization() {
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
 	projection_plane_rect(
-		(solar_scene->receivers[0])->d_image_,
+		(solar_scene->receivers[rece_index])->d_image_,
 		plane.get_deviceData(),
 		rectrece,
 		&plane,
@@ -117,11 +129,11 @@ bool test_dda_rasterization() {
 	printf("projection cost time: (%f ms)\n", gpuTime);
 
 
-#ifdef _DEBUG
-	std::string receiver_path = "../SimulResult/imageplane/receiver_debug.txt";
-	solar_scene->receivers[0]->save_result(receiver_path);
-#endif
-
+	std::string receiver_path = "../SimulResult/imageplane/receiver_debug_"+ std::to_string(helio_index) +".txt";
+	solar_scene->receivers[rece_index]->save_result(receiver_path);
 	delete[] M;
+
+
+
 	return true;
 }

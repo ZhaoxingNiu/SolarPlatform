@@ -20,7 +20,7 @@ int main() {
 
 	// if (!common_test::test_file_path()) { nFailures++; }
 	// if (!common_test::test_file_exist()) { nFailures++; }
-	// if (!test_raytracing()) { nFailures++; }
+	//if (!test_raytracing()) { nFailures++; }
 	// if (!testFastConvolution()){  nFailures++; }
 	// if (!test_rasterization()) { nFailures++;  }
 	// if (!test_gen_kernel(500.0f, 500.0f, 60.0f)) { nFailures++; }

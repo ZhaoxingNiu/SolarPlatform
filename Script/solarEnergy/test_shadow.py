@@ -17,6 +17,7 @@ import numpy as np
 #import pickle
 
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import myUtils
 import globalVar
 import CDF
@@ -43,14 +44,14 @@ if __name__ == '__main__':
     if shadow_test == 1:
         sun_ray = Vector(0.0,0.0,1.0)
         heliostat_id = 1
-        heliostat_area = 5.0008
+        heliostat_area = 28.000
         heliostat_pos = Vector(0,0,500)
-        heliostat_size = Vector(2.66,0.1,1.88)
+        heliostat_size = Vector(6.0,0.1,4.0)
         receiver_center = Vector(0,0,0)
         receiver_x_axis = Vector(1,0,0)
         receiver_norm = Vector(0,0,1)
-        block_heliostat_pos = Vector(1,1,498)
-        block_heliostat_size = Vector(2.66,0.1,1.88)
+        block_heliostat_pos = Vector(3,2,497)
+        block_heliostat_size = Vector(6,0.1,4)
     
     
     
@@ -62,7 +63,7 @@ if __name__ == '__main__':
     real_angle = int(real_angle)
     # load the onepoint flux map
     print('load the Data  angle{}   and distance {}...'.format(real_angle,process_distance))
-    onepoint_path = globalVar.DATA_PATH + "new/onepoint/{}/onepoint_angle_{}_distance_{}.txt".format(process_distance,real_angle,process_distance)
+    onepoint_path = globalVar.DATA_PATH + "onepoint/{}/onepoint_angle_{}_distance_{}.txt".format(process_distance,real_angle,process_distance)
     onepoint_flux = np.genfromtxt(onepoint_path,delimiter=',')
     onepoint_flux = myUtils.smoothData(onepoint_flux)
     
@@ -78,15 +79,38 @@ if __name__ == '__main__':
     fit_flux = PDF.getPDFFluxTransform(fit_fun,process_distance,real_dis,width=globalVar.RECE_WIDTH, height = globalVar.RECE_HEIGHT)
     
     # mod one_point flux energy
-    fit_flux = fit_flux*heliostat_area/image_area
+    # fit_flux = fit_flux*heliostat_area/image_area
     
     # 修改为使用 Image block的部分做卷积
     np_image = imageplane.calcOnImagePlaneBlock(fit_flux,image_coor,image_area,block_image_coor)
-    np_receiver = imageplane.transformRecevier(np_image,image_coor,receiver_coor,receiver_area,energy_attenuation,True,1,1)*0.97
+    np_receiver = imageplane.transformRecevier(np_image,image_coor,receiver_coor,receiver_area,energy_attenuation,True,1,1)
     
     
-    print("load the ground truth")
-    conv_path = globalVar.DATA_PATH + "new/shadow/shadow_test/heliostat_num{}_sunray_z.txt".format(heliostat_id)
+    print("*(*******load the ground truth******************")
+    conv_path = globalVar.DATA_PATH + "raytracing/shadow_test.txt".format(heliostat_id)
     ground_truth =  np.genfromtxt(conv_path,delimiter=',')
     ground_truth = np.fliplr(ground_truth)
     imageplane.envaluateFlux(ground_truth,np_receiver)
+    
+    
+    print("******evaluate the c++ code********")
+    res_path = globalVar.DATA_PATH + "testcpu/shadow/receiver_debug.txt".format(process_angle)
+    res = np.genfromtxt(res_path)
+    res = np.fliplr(res)
+    res = np.rot90(res,1,(1,0))
+    imageplane.envaluateFlux(ground_truth,res)
+    
+    
+    #print("******evaluate the c++ code and python ********")
+    #imageplane.envaluateFlux(np_receiver,res)
+    
+    ax1 = plt.subplot(131)
+    ax1.imshow(ground_truth, interpolation='bilinear',origin='lower', \
+               cmap = cm.jet, vmin=0,vmax=300)
+    ax2 = plt.subplot(132)
+    ax2.imshow(np_receiver, interpolation='bilinear',origin='lower', \
+               cmap = cm.jet, vmin=0,vmax=300)
+    ax3 = plt.subplot(133)
+    ax3.imshow(res, interpolation='bilinear',origin='lower', \
+               cmap = cm.jet, vmin=0,vmax=300)
+    
