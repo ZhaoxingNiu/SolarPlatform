@@ -1,5 +1,7 @@
 #include "./dda_test.h"
 #include "../Struct/oblique_parallel.cuh"
+#include "../Script/gen_kernel.h"
+
 #include "../Struct/convKernel.h"
 #include "../Cufft/convolutionFFT2D_interface.h"
 
@@ -12,14 +14,14 @@
 
 bool test_dda_rasterization() {
 	// h_index, chose the heliostat 
-	int helio_index = 14;
+	int helio_index = 3;
 	int rece_index = 0;
+	float angel = 30.0f;
 
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 
 	// set the pixel 
-	solarenergy::num_sunshape_lights_per_group = 10240;
 	solarenergy::csr = 0.1f;
 	solarenergy::disturb_std = 0.001f;
 	solarenergy::helio_pixel_length = 0.01f;
@@ -27,15 +29,17 @@ bool test_dda_rasterization() {
 	solarenergy::image_plane_pixel_length = 0.05f;
 
 	// test shadow
-	//solarenergy::scene_filepath = "../SceneData/imageplane/face_shadow.scn";
-	//solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
+	// solarenergy::scene_filepath = "../SceneData/imageplane/face_shadow.scn";
+	// solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
 
 	// test receiver
-	solarenergy::scene_filepath = "../SceneData/onepoint/helioField_small.scn";
-	solarenergy::sun_dir = make_float3(0.0f, -0.5f, 0.866025404f);
+	//solarenergy::scene_filepath = "../SceneData/onepoint/helioField_small.scn";
+	//solarenergy::sun_dir = make_float3(0.0f, -0.5f, 0.866025404f);
 
-	float angel = 0.0f;
-	int round_angel = round(angel);
+	// test clone
+	solarenergy::scene_filepath = "../SceneData/onepoint/helios_1_4_distance_500.scn";
+	solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
+
 
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
 	// Step 1: Load files
@@ -62,6 +66,7 @@ bool test_dda_rasterization() {
 	float3 in_dir = solar_scene->sunray_->sun_dir_;
 	float3 out_dir = reflect(in_dir, recthelio->normal_);   // reflect light
 	out_dir = normalize(out_dir);
+
 	plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
 
 	// Step 3: rasterization
@@ -90,10 +95,18 @@ bool test_dda_rasterization() {
 		offset
 	);
 
-	// load the kernel
+	// Step 4.2: load the kernel
+	// calc the true angel and distance
+	float true_dis = length(recthelio->pos_ 
+		- solar_scene->receivers[rece_index]->focus_center_);
+	float true_angel = acosf(dot(-in_dir, out_dir)) * 180 / MATH_PI;
+	int round_distance = round(true_dis);
+	int round_angel = round(true_angel);
+	gen_kernel(true_dis, 500.0f, true_angel);
 
 	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_"+
-		std::to_string(round_angel) +"_distance_500.txt";
+		std::to_string(round_angel) +"_distance_" + std::to_string(round_distance) + ".txt";
+
 	LoadedConvKernel kernel(201, 201, kernel_path);
 	kernel.genKernel();
 
@@ -106,7 +119,6 @@ bool test_dda_rasterization() {
 		kernel.dataW
 	);
 	
-
 #ifdef _DEBUG
 	std::string image_path2 = "../SimulResult/imageplane/image_debug2.txt";
 	plane.save_data_text(image_path2);
@@ -126,8 +138,8 @@ bool test_dda_rasterization() {
 	double gpuTime = sdkGetTimerValue(&hTimer);
 	printf("projection cost time: (%f ms)\n", gpuTime);
 
-
-	std::string receiver_path = "../SimulResult/imageplane/receiver_debug_"+ std::to_string(helio_index) +".txt";
+	//std::string receiver_path = "../SimulResult/imageplane/receiver_debug_"+ std::to_string(helio_index) +".txt";
+	std::string receiver_path = "../SimulResult/data/testcpu/sub/conv2_sub_" + std::to_string(helio_index) + ".txt";
 	solar_scene->receivers[rece_index]->save_result(receiver_path);
 	delete[] M;
 
