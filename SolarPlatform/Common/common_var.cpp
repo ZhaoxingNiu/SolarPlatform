@@ -15,6 +15,9 @@ float solarenergy::image_plane_pixel_length = 0.05f;
 float solarenergy::reflected_rate = 0.88f;
 float solarenergy::disturb_std = 0.001f;
 
+//conv related
+int2 solarenergy::image_plane_size = {200, 200};
+
 //default scene file
 string solarenergy::scene_filepath = "../SceneData/example.scn";
 string solarenergy::script_filepath = "../Script/solarEnergy";

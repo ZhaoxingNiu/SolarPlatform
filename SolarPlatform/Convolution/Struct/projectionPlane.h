@@ -52,6 +52,10 @@ public:
 	float3 normal;
 	float3 v_axis;   // Parallel to the ground
 	float3 u_axis;   // perpendicular to the v_axis
+	
+	// projection information
+	float *M;
+	float3 offset;
 };
 
 #endif // !PROJECTION_PLANE_H

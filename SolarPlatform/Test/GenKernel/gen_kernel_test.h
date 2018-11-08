@@ -6,6 +6,8 @@
 
 bool test_gen_kernel(float ori_dis, float true_dis, float angel);
 
+bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel);
+
 bool test_load_kernel();
 
 #endif // !GEN_KERNEL_TEST_H

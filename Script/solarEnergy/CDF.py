@@ -10,6 +10,8 @@ import numpy as np
 import globalVar
 import myUtils
 
+from scipy.optimize import curve_fit
+
 import matplotlib.pyplot as plt
 import time
 
@@ -125,3 +127,22 @@ def getCDF(step_r,energy_accu,energy_static_per,fit_type =1,title='fig_cdf'):
         fit_rmse = myUtils.rmse(fit_fun(step_r),energy_accu)
         print('the CDF RMSE fit_RMSE: {} '.format(fit_rmse))
     return fit_fun
+
+
+# =============================================================================
+# 这两个函数使用的高斯函数来对于核函数进行拟合
+# 返回值是高斯核的参数, 拟合的不是累计分布，是能量值
+# =============================================================================
+
+def gaussian(x, a, sigma):
+    return a/(math.sqrt(math.pi*2)*sigma)*np.exp(-(x)*(x)/2/sigma/sigma)
+
+def getCDF_Gaussian(step_r,energy_accu,energy_static_per):
+    # 对于 距离进行抽样 得到对应的数据
+    sample_step = int(1/globalVar.STEP_R/3)  #大约半米左右取一个点
+    sample_index = [ x for x in range(0,energy_accu.size,sample_step) ]
+    sample_r = [step_r[x] for x in sample_index]
+    sample_accu = [ energy_accu[x] for x in sample_index]
+    sample_energy_static = [ energy_static_per[x] for x in sample_index]
+    popt,pcov = curve_fit(gaussian,sample_r,sample_energy_static)
+    return popt

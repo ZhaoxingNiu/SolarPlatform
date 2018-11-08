@@ -46,3 +46,41 @@ void gen_kernel(
 	std::cout << command << std::endl;
 	system(command.c_str());
 }
+
+
+
+void gen_kernel_gaussian(
+	float true_dis,
+	float ori_dis,
+	float angel,
+	bool flush,
+	float step_r,
+	float grid_len,
+	float distance_threshold,
+	float rece_width,
+	float rece_height,
+	float rece_max_r) {
+
+	// if the kernel is generate, 
+	int round_angel = round(angel);
+	int round_distance = round(true_dis);
+	if (flush) {
+		std::string kernel_path = "../SimulResult/data/gen_flux_gau/onepoint_angle_";
+		kernel_path += std::to_string(round_angel) + "_distance_"
+			+ std::to_string(round_distance) + ".txt";
+		std::ifstream fin(kernel_path);
+		if (fin) {
+			std::cout << kernel_path << " file  exist " << std::endl;
+			return;
+		}
+	}
+	// change the dir 
+	std::string src_path = "../../../SimulResult/data/onepoint/" + std::to_string(round_distance)
+		+ "/onepoint_angle_" + std::to_string(round_angel) +"_distance_"+ std::to_string(round_distance)+".txt ";
+	std::string res_path = "../../../SimulResult/data/gen_flux_gau/onepoint_angle_" + std::to_string(round_angel) 
+		+ "_distance_" + std::to_string(round_distance) + ".txt";
+	std::string command = "cd ../Script/matlab/gen_gau_kernel & gen_gau_kernel.exe " + src_path + res_path;
+
+	std::cout << command << std::endl;
+	system(command.c_str());
+}

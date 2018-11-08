@@ -28,7 +28,7 @@ plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
         
 if __name__ == '__main__':
-    process_angle = 60
+    process_angle =135
     process_distance = 500
     # 首先计算使用什么角度的 sun shape 以及 具体距离  太阳光是使用的全局坐标计算的角度
     sun_ray = Vector(math.sin(process_angle*math.pi/180),0.0,math.cos(process_angle*math.pi/180))
@@ -74,10 +74,10 @@ if __name__ == '__main__':
     imageplane.envaluateFlux(ground_truth,np_receiver)
   
     print("******evaluate the c++ code********")
-    res_path = globalVar.DATA_PATH + "testcpu/gaussian/receiver_gaussian_0.txt"
+    res_path = globalVar.DATA_PATH + "testcpu/gaussian/receiver_gaussian_angel_{}.txt".format(process_angle)
     res = np.genfromtxt(res_path)
     res = np.fliplr(res)
-    res = np.rot90(res,1,(1,0))
+    res = np.rot90(res,1,(1,0))/math.cos(67.5*math.pi/180)
     imageplane.envaluateFlux(ground_truth,res)
     
     

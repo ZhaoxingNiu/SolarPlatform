@@ -19,6 +19,9 @@ namespace solarenergy {
 	extern float image_plane_pixel_length;
 	extern float reflected_rate;
 	extern float disturb_std;
+	 
+	//conv related
+	extern int2 image_plane_size;
 
 	//default scene file
 	extern string scene_filepath;

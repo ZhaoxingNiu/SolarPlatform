@@ -12,6 +12,17 @@ bool test_gen_kernel(float ori_dis, float true_dis, float angel) {
 	return ret;
 }
 
+bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel) {
+	bool ret = false;
+	gen_kernel_gaussian(
+		ori_dis,
+		true_dis,
+		angel
+	);
+	ret = true;
+	return ret;
+}
+
 bool test_load_kernel() {
 	// load the kernel
 	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_0_distance_500.txt";

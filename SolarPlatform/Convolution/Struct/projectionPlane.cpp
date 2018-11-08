@@ -15,13 +15,15 @@ ProjectionPlane::ProjectionPlane(
 	int cols_,
 	float pixel_length_):
 	d_Data(nullptr), rows(rows_), cols(cols_),
-	pixel_length(pixel_length_) {
+	pixel_length(pixel_length_), M(nullptr){
 	
 	row_offset = -(rows - 1) * pixel_length / 2;
 	col_offset = -(cols - 1) * pixel_length / 2;
 
 	checkCudaErrors(cudaMalloc((void **)&d_Data, rows * cols * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_Data, 0.0, rows * cols * sizeof(float)));
+
+	M = new float[9];
 }
 
 void ProjectionPlane::set_pos(float3 pos_, float3 normal_) {
@@ -125,6 +127,11 @@ ProjectionPlane::~ProjectionPlane() {
 	{
 		checkCudaErrors(cudaFree(d_Data));
 		d_Data = nullptr;
+	}
+	if (M) 
+	{
+		delete[] M;
+		M = nullptr;
 	}
 }
 

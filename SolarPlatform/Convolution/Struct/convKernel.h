@@ -8,8 +8,10 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 
+enum kernelType {T_CONV, T_LOADED_CONV, T_GAUSSIAN_CONV};
 
 /*
+*
 * ConvKenel do not contain the ptr,just modify the kernel Value
 * LoadedConvKernel is the load the kernel from the
 *
@@ -42,7 +44,6 @@ public:
 	virtual void genKernel();
 	virtual ~LoadedConvKernel();
 };
-
 
 
 class GaussianConvKernel : public ConvKernel {
