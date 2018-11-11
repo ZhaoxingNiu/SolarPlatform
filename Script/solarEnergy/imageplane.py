@@ -76,7 +76,7 @@ def transformRecevier(np_image,image_coor,receiver_coor,receiver_area,energy_att
         np_receiver = cv2.warpAffine(np_receiver,M_shift,(cols,rows),cv2.INTER_LINEAR)
     time_end = time.time()
     print("transform cost {:.6f} s ".format(time_end-time_start))
-    return np_receiver*area_rate
+    return np_receiver #*area_rate
 
 
 def envaluateFlux(gt,res,title="卷积结果"):

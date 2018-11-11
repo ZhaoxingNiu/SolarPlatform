@@ -11,18 +11,16 @@ bool test_dda_rasterization() {
 	int helio_index = 0;
 	int grid_index = 0;
 
-	float angel = 135.0f;
+	float angel = 60.0f;
 	solarenergy::csr = 0.1f;
 	solarenergy::disturb_std = 0.001f;
 	solarenergy::helio_pixel_length = 0.01f;
 	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::image_plane_pixel_length = 0.05f;
 
-
 	// test receiver
 	solarenergy::scene_filepath = "../SceneData/imageplane/face_imageplane.scn";
 	solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
-
 
 	// test shadow
 	// solarenergy::scene_filepath = "../SceneData/imageplane/face_shadow.scn";
@@ -44,9 +42,10 @@ bool test_dda_rasterization() {
 	solar_scene->receivers[rece_index]->Cclean_image_content();
 
 	//  ÇĞ»» kernel Ñ¡Ïî
-	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_GAUSSIAN_CONV);
+	//conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_GAUSSIAN_CONV);
+	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_LOADED_CONV);
 
-	std::string receiver_path = "../SimulResult/imageplane/receiver_gaussian_angel_135.txt";
+	std::string receiver_path = "../SimulResult/imageplane/receiver_angel_60.txt";
 	//std::string receiver_path = "../SimulResult/data/testcpu/sub/conv2_sub_" + std::to_string(helio_index) + ".txt";
 	solar_scene->receivers[rece_index]->save_result(receiver_path);
 

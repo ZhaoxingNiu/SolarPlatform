@@ -1,7 +1,9 @@
 #include "./rasterization_common.h"
 #include "./triangle_rasterization.cuh"
 #include "../../Common/global_function.cuh"
+#include "./reduce_sum.cuh"
 
+//#define SUPER_RESOLUTION_SAMPLE
 
 extern "C" void triangle_rasterization(
 	float* const d_Data,
@@ -19,7 +21,28 @@ extern "C" void triangle_rasterization(
 	dim3 threads(32, 32);
 	dim3 grid(global_func::iDivUp(rows, threads.x), global_func::iDivUp(cols, threads.y));
 
-	// divide the rect into two triangle 1(p0,p1,p2) and triangle 2(p2,p3,p0)
-	point_in_triangle <<<grid, threads >>> (d_Data, p0, p1, p2, rows, cols, pixel_length, row_offset, col_offset, val);
-	point_in_triangle <<<grid, threads >>> (d_Data, p2, p3, p0, rows, cols, pixel_length, row_offset, col_offset, val);
+#ifdef SUPER_RESOLUTION_SAMPLE
+	if (abs(val - 1.0) < Epsilon) {
+		// divide the rect into two triangle 1(p0,p1,p2) and triangle 2(p2,p3,p0)
+		point_in_triangle_super <<<grid, threads >>> (d_Data, p0, p1, p2, rows, cols, pixel_length, row_offset, col_offset, val);
+		point_in_triangle_super <<<grid, threads >>> (d_Data, p2, p3, p0, rows, cols, pixel_length, row_offset, col_offset, val);
+	}
+	else {
+		// divide the rect into two triangle 1(p0,p1,p2) and triangle 2(p2,p3,p0)
+		point_in_triangle <<<grid, threads >>> (d_Data, p0, p1, p2, rows, cols, pixel_length, row_offset, col_offset, val);
+		point_in_triangle <<<grid, threads >>> (d_Data, p2, p3, p0, rows, cols, pixel_length, row_offset, col_offset, val);
+	}
+#else
+	point_in_triangle<<<grid, threads>>>(d_Data, p0, p1, p2, rows, cols, pixel_length, row_offset, col_offset, val);
+	point_in_triangle<<<grid, threads>>>(d_Data, p2, p3, p0, rows, cols, pixel_length, row_offset, col_offset, val);
+	if (abs(val - 1.0) < Epsilon) {
+		// divide the rect into two triangle 1(p0,p1,p2) and triangle 2(p2,p3,p0)
+		float discreat_area = get_discrete_area(d_Data, rows * cols, pixel_length);
+		float true_area = global_func::cal_rect_area(p0,p1,p2,p3);
+		float rate = true_area / discreat_area;
+		point_mul_val<<<grid, threads>>>(d_Data, rows, cols, rate);
+	}
+
+#endif // SUPER_RESOLUTION_SAMPLE
+	
 }

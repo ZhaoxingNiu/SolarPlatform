@@ -162,6 +162,9 @@
     <CudaCompile Include="Convolution\Struct\oblique_parallel.cu">
       <Filter>Convolution\Struct</Filter>
     </CudaCompile>
+    <CudaCompile Include="Convolution\Rasterization\reduce_sum.cu">
+      <Filter>Convolution\Rasterization</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\common_var.h">
@@ -277,6 +280,15 @@
     </ClInclude>
     <ClInclude Include="Test\GenKernel\gen_kernel_test.h">
       <Filter>Test\GenKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Configure\reduce_test.cu">
+      <Filter>Test\Configure</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Configure\reduce_test.cuh">
+      <Filter>Test\Configure</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Rasterization\reduce_sum.cuh">
+      <Filter>Convolution\Rasterization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

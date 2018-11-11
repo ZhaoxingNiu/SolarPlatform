@@ -7,8 +7,8 @@
 
 
 __host__ __device__ inline float3 pixel_pos(
-	int row, 
-	int col, 
+	float row, 
+	float col, 
 	float pixel_length, 
 	float row_offset, 
 	float col_offset) {

@@ -281,5 +281,19 @@ namespace global_func
 
 	}
 
+	// for the given point, return the area
+	__host__ __device__ inline float cal_rect_area(
+		const float3 &p0,
+		const float3 &p1,
+		const float3 &p2,
+		const float3 &p3) {
 
-}
+		float3 v1 = p1 - p0;
+		float3 v2 = p3 - p0;
+		float cos_theta = dot(v1,v2)/length(v1)/length(v2);
+		float sin_theta = sqrtf(1-cos_theta*cos_theta);
+		float area = length(v1)*length(v2)*sin_theta;
+		return area;
+	}
+
+}// global_func

@@ -207,6 +207,7 @@
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu" />
     <CudaCompile Include="Convolution\Cufft\convolutionFFT2D.cu" />
+    <CudaCompile Include="Convolution\Rasterization\reduce_sum.cu" />
     <CudaCompile Include="Convolution\Rasterization\triangle_rasterization.cu" />
     <CudaCompile Include="Convolution\Struct\oblique_parallel.cu" />
     <CudaCompile Include="RayTracing\ray_tracing.cu" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_common.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_test.h" />
+    <ClInclude Include="Convolution\Rasterization\reduce_sum.cuh" />
     <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh" />
     <ClInclude Include="Convolution\Script\gen_kernel.h" />
     <ClInclude Include="Convolution\Struct\convKernel.h" />
@@ -253,6 +255,10 @@
     <ClInclude Include="SceneProcess\solar_scene.h" />
     <ClInclude Include="Test\Configure\common_test.h" />
     <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
+    <CudaCompile Include="Test\Configure\reduce_test.cu">
+      <FileType>CppHeader</FileType>
+    </CudaCompile>
+    <ClInclude Include="Test\Configure\reduce_test.cuh" />
     <ClInclude Include="Test\GenKernel\gen_kernel_test.h" />
     <ClInclude Include="Test\Raytracing\raytracing_test.cuh" />
   </ItemGroup>

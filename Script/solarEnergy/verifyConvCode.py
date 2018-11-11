@@ -28,7 +28,7 @@ plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
         
 if __name__ == '__main__':
-    process_angle =135
+    process_angle =60
     process_distance = 500
     # 首先计算使用什么角度的 sun shape 以及 具体距离  太阳光是使用的全局坐标计算的角度
     sun_ray = Vector(math.sin(process_angle*math.pi/180),0.0,math.cos(process_angle*math.pi/180))
@@ -63,8 +63,11 @@ if __name__ == '__main__':
     heliostat_size = globalVar.HELIOSTAT_AREA
     fit_flux = fit_flux*heliostat_size/image_area
     
-    np_image = imageplane.calcOnImagePlane(fit_flux,image_coor,image_area)
+    # load the gen kernel
+    test_kernel = globalVar.DATA_PATH + "gen_flux/onepoint_angle_60_distance_500.txt"
+    fit_flux =  np.genfromtxt(test_kernel)
     
+    np_image = imageplane.calcOnImagePlane(fit_flux,image_coor,image_area)
     np_receiver = imageplane.transformRecevier(np_image,image_coor,receiver_coor,receiver_area,energy_attenuation)
     
     print("load the ground truth")
@@ -74,10 +77,10 @@ if __name__ == '__main__':
     imageplane.envaluateFlux(ground_truth,np_receiver)
   
     print("******evaluate the c++ code********")
-    res_path = globalVar.DATA_PATH + "testcpu/gaussian/receiver_gaussian_angel_{}.txt".format(process_angle)
+    res_path = globalVar.DATA_PATH + "testcpu/angel{}/receiver_angel_{}.txt".format(process_angle,process_angle)
     res = np.genfromtxt(res_path)
     res = np.fliplr(res)
-    res = np.rot90(res,1,(1,0))/math.cos(67.5*math.pi/180)
+    res = np.rot90(res,1,(1,0))
     imageplane.envaluateFlux(ground_truth,res)
     
     
