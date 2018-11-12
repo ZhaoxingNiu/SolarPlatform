@@ -22,6 +22,7 @@ namespace solarenergy {
 	 
 	//conv related
 	extern int2 image_plane_size;
+	extern float image_plane_offset;
 
 	//default scene file
 	extern string scene_filepath;

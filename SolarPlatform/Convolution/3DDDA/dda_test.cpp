@@ -42,8 +42,9 @@ bool test_dda_rasterization() {
 	solar_scene->receivers[rece_index]->Cclean_image_content();
 
 	//  ÇÐ»» kernel Ñ¡Ïî
-	//conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_GAUSSIAN_CONV);
-	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_LOADED_CONV);
+	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_GAUSSIAN_CONV);
+	//conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_GAUSSIAN_CONV_MATLAB);
+	//conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, kernelType::T_LOADED_CONV);
 
 	std::string receiver_path = "../SimulResult/imageplane/receiver_angel_60.txt";
 	//std::string receiver_path = "../SimulResult/data/testcpu/sub/conv2_sub_" + std::to_string(helio_index) + ".txt";

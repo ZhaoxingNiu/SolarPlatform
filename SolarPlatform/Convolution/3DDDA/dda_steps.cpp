@@ -29,7 +29,8 @@ bool conv_method_kernel(
 	int rece_index,
 	int helio_index,
 	int grid_index,
-	kernelType k_type
+	kernelType k_type,
+	float sigma_2
 ) {
 	// ********************************************************************
 	StopWatchInterface *hTimer = NULL;
@@ -100,10 +101,19 @@ bool conv_method_kernel(
 		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, fit_kernel_path));
 		break;
 	}
-	case T_GAUSSIAN_CONV: {
+	case T_GAUSSIAN_CONV_MATLAB: {
 		std::string gaussian_kernel_path = "../SimulResult/data/gen_flux_gau/onepoint_angle_" +
 			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
 		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, gaussian_kernel_path));
+		break;
+	}
+	case T_GAUSSIAN_CONV: {
+		float A;
+		gen_gau_kernel_param(true_dis, A);
+		std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
+			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
+		kernel = std::make_shared<GaussianConvKernel>(GaussianConvKernel(201, 201, A, sigma_2,
+			solarenergy::image_plane_pixel_length, solarenergy::image_plane_offset));
 		break;
 	}
 	default:

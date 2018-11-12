@@ -296,4 +296,12 @@ namespace global_func
 		return area;
 	}
 
+	inline __device__ float air_attenuation(const float &d)
+	{
+		if (d <= 1000.0f)
+			return 0.99331f - 0.0001176f*d + 1.97f*(1e-8f) * d*d;
+		else
+			return expf(-0.0001106f*d);
+	}
+
 }// global_func

@@ -77,7 +77,8 @@ if __name__ == '__main__':
     imageplane.envaluateFlux(ground_truth,np_receiver)
   
     print("******evaluate the c++ code********")
-    res_path = globalVar.DATA_PATH + "testcpu/angel{}/receiver_angel_{}.txt".format(process_angle,process_angle)
+    #res_path = globalVar.DATA_PATH + "testcpu/angel{}/receiver_angel_{}.txt".format(process_angle,process_angle)
+    res_path = globalVar.DATA_PATH + "../imageplane/receiver_angel_{}.txt".format(process_angle)
     res = np.genfromtxt(res_path)
     res = np.fliplr(res)
     res = np.rot90(res,1,(1,0))

@@ -29,7 +29,8 @@ bool conv_method_kernel(
 	int rece_index,
 	int helio_index,
 	int grid_index,
-	kernelType k_type = kernelType::T_LOADED_CONV
+	kernelType k_type = kernelType::T_LOADED_CONV,
+	float sigma_2 = 1.2f
 );
 
 #endif // !DDA_STEPS_H

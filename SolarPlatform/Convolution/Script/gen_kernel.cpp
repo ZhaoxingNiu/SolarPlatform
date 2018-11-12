@@ -84,3 +84,12 @@ void gen_kernel_gaussian(
 	std::cout << command << std::endl;
 	system(command.c_str());
 }
+
+
+void gen_gau_kernel_param(
+	float true_distance,
+	float &A
+) {
+	float air_atten = global_func::air_attenuation(true_distance);
+	A = air_atten*solarenergy::dni*solarenergy::reflected_rate;
+}

@@ -1,6 +1,5 @@
 #include "./common_var.h"
 
-
 //sun ray related default value
 float3 solarenergy::sun_dir = make_float3(0.0f, -0.5f, 0.866025404f);
 
@@ -17,6 +16,7 @@ float solarenergy::disturb_std = 0.001f;
 
 //conv related
 int2 solarenergy::image_plane_size = {200, 200};
+float solarenergy::image_plane_offset = -5.0;
 
 //default scene file
 string solarenergy::scene_filepath = "../SceneData/example.scn";

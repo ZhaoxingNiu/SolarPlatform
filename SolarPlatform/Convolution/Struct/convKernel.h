@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 
-enum kernelType {T_CONV, T_LOADED_CONV, T_GAUSSIAN_CONV};
+enum kernelType {T_CONV, T_LOADED_CONV, T_GAUSSIAN_CONV, T_GAUSSIAN_CONV_MATLAB};
 
 /*
 *
@@ -48,8 +48,15 @@ public:
 
 class GaussianConvKernel : public ConvKernel {
 public:
+	GaussianConvKernel(int h, int w, float A_, float sigma_2_, float pixel_length_ =  0.05f, float offset_ = -5.0f);
+	void setKernelParam(float A_, float sigma_2_);
 	virtual void genKernel();
 	virtual ~GaussianConvKernel();
+
+	float pixel_length;
+	float offset;
+	float A;
+	float sigma_2;
 
 };
 
