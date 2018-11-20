@@ -1,3 +1,4 @@
+#include "../../Common/global_constant.h"
 #include "dda_steps.h"
 #include <memory>
 // share_ptr : memory 
@@ -8,7 +9,6 @@ bool set_helios_vertexes_cpu(
 	const int start_pos,
 	const int end_pos,
 	float3 *&h_helio_vertexs){
-
 	int size = end_pos - start_pos;
 	h_helio_vertexs = new float3[size * 3];
 
@@ -29,6 +29,7 @@ bool conv_method_kernel(
 	int rece_index,
 	int helio_index,
 	int grid_index,
+	float3 normal,
 	kernelType k_type,
 	float sigma_2
 ) {
@@ -50,7 +51,13 @@ bool conv_method_kernel(
 	float3 out_dir = reflect(in_dir, recthelio->normal_);   // reflect light
 	out_dir = normalize(out_dir);
 
-	plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
+	// if seted normal, otherwise the normal is generated
+	if (length(normal) == 0.0f) {
+		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
+	}
+	else {
+		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_,normal);
+	}
 
 	// Step 2: rasterization
 	dda_interface(
@@ -66,8 +73,8 @@ bool conv_method_kernel(
 	plane.save_data_text(image_path);
 #endif
 
-	// Step 4: projection the image plane to the heliostat
-	// Step 4.1: get the projection matrix
+	// Step 3: init the kernel
+	// Step 3.1: get the projection matrix
 
 	oblique_proj_matrix(
 		out_dir,
@@ -77,7 +84,7 @@ bool conv_method_kernel(
 		plane.offset
 	);
 
-	// Step 4.2: load the kernel
+	// Step 3.2: load the kernel
 	// calc the true angel and distance
 	float true_dis = length(recthelio->pos_
 		- solar_scene->receivers[rece_index]->focus_center_);
@@ -121,6 +128,8 @@ bool conv_method_kernel(
 	}
 
 	kernel->genKernel();
+
+	// Step 4: convolution calculation
 	fastConvolutionDevice(
 		plane.get_deviceData(),
 		kernel->d_data,
@@ -134,8 +143,10 @@ bool conv_method_kernel(
 	std::string image_path2 = "../SimulResult/imageplane/image_debug2.txt";
 	plane.save_data_text(image_path2);
 #endif
-	sdkResetTimer(&hTimer);
+ 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+
+	// Step 5: projection
 	projection_plane_rect(
 		(solar_scene->receivers[rece_index])->d_image_,
 		plane.get_deviceData(),

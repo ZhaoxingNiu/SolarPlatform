@@ -28,7 +28,7 @@ plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
         
 if __name__ == '__main__':
-    process_angle =60
+    process_angle = 60
     process_distance = 500
     # 首先计算使用什么角度的 sun shape 以及 具体距离  太阳光是使用的全局坐标计算的角度
     sun_ray = Vector(math.sin(process_angle*math.pi/180),0.0,math.cos(process_angle*math.pi/180))
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     np_image = imageplane.calcOnImagePlane(fit_flux,image_coor,image_area)
     np_receiver = imageplane.transformRecevier(np_image,image_coor,receiver_coor,receiver_area,energy_attenuation)
     
-    print("load the ground truth")
+    print("******load the ground truth********")
     conv_path = globalVar.DATA_PATH + "onepoint_conv/helio_3_1_angle_{}_distance_{}.txt".format(process_angle,process_distance)
     ground_truth =  np.genfromtxt(conv_path,delimiter=',')
     #ground_truth = myUtils.smoothData(ground_truth)
@@ -85,8 +85,8 @@ if __name__ == '__main__':
     imageplane.envaluateFlux(ground_truth,res)
     
     
-    print("******evaluate the c++ code and python ********")
-    imageplane.envaluateFlux(np_receiver,res)
+    #print("******evaluate the c++ code and python ********")
+    #imageplane.envaluateFlux(np_receiver,res)
     
     ax1 = plt.subplot(131)
     ax1.imshow(ground_truth, interpolation='bilinear',origin='lower', \

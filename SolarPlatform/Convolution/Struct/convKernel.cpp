@@ -60,10 +60,8 @@ ConvKernel::~ConvKernel() {
 ///////////////
 //  load the data array
 ///////////////
-
 LoadedConvKernel::LoadedConvKernel(int h, int w, std::string path):
 	ConvKernel(h, w, path) {
-
 }
 
 void LoadedConvKernel::genKernel() {

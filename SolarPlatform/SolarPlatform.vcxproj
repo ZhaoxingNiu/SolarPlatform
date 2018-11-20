@@ -192,6 +192,7 @@
     <ClCompile Include="Convolution\Struct\convKernel.cpp" />
     <ClCompile Include="Convolution\Struct\oblique_parallel.cpp" />
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp" />
+    <ClCompile Include="Convolution\Unizar\unizar_model.cpp" />
     <ClCompile Include="DataStructure\grid.cpp" />
     <ClCompile Include="DataStructure\heliostat.cpp" />
     <ClCompile Include="DataStructure\receiver.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Convolution\Struct\convKernel.h" />
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh" />
     <ClInclude Include="Convolution\Struct\projectionPlane.h" />
+    <ClInclude Include="Convolution\Unizar\unizar_model.h" />
     <ClInclude Include="DataStructure\grid.h" />
     <ClInclude Include="DataStructure\heliostat.cuh" />
     <ClInclude Include="DataStructure\receiver.cuh" />

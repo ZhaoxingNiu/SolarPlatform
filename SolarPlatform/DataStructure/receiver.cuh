@@ -37,6 +37,7 @@ public:
 		resolution_ = rect.resolution_;
 	}
 
+	// raytracing's method
 	__device__ __host__ void save_result(std::string path){
 
 		float *h_image = nullptr;
@@ -48,12 +49,36 @@ public:
 		float sub_rece_ares = solarenergy::receiver_pixel_length * solarenergy::receiver_pixel_length;
 		for (int p = 0; p < resolution_.x * resolution_.y; ++p)
 		{
-			//h_image[p] = h_image[p] * dni * sub_helio_area * rou / nc / sub_rece_ares;
+			h_image[p] = h_image[p] * dni * sub_helio_area * rou / nc / sub_rece_ares;
 		}
 		ImageSaver::savetxt_conv(path, resolution_.x, resolution_.y, h_image);
 
 		delete[] h_image;
 		h_image = nullptr;
+	}
+
+	// convolution's method
+	__device__ __host__ void save_result_conv(std::string path) {
+
+		float *h_image = nullptr;
+		global_func::gpu2cpu(h_image, d_image_, resolution_.x*resolution_.y);
+		ImageSaver::savetxt_conv(path, resolution_.x, resolution_.y, h_image);
+
+		delete[] h_image;
+		h_image = nullptr;
+	}
+
+	__device__ __host__ float peek_value() {
+		float *h_image = nullptr;
+		global_func::gpu2cpu(h_image, d_image_, resolution_.x*resolution_.y);
+		float peek_val = -1.0;
+		for (int p = 0; p < resolution_.x * resolution_.y; ++p)
+		{
+			if (h_image[p] > peek_val) {
+				peek_val = h_image[p];
+			}
+		}
+		return peek_val;
 	}
 
 	__device__ __host__ ~Receiver()

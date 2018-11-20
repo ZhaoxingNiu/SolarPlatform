@@ -77,6 +77,9 @@
     <ClCompile Include="Test\GenKernel\gen_kernel_test.cpp">
       <Filter>Test\GenKernel</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Unizar\unizar_model.cpp">
+      <Filter>Convolution\Unizar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -129,6 +132,9 @@
     </Filter>
     <Filter Include="Test\GenKernel">
       <UniqueIdentifier>{a3ab6c9b-f0f3-41bb-bcb1-7fa840454058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolution\Unizar">
+      <UniqueIdentifier>{8a972af2-fea4-4cd8-acb4-97e6a8dc9134}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="Convolution\Rasterization\reduce_sum.cuh">
       <Filter>Convolution\Rasterization</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Unizar\unizar_model.h">
+      <Filter>Convolution\Unizar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
