@@ -31,6 +31,9 @@ IS_PLOT_CDF = False
 # 是否展示evaluate的图像
 IS_PLOT_EVALUATE = False
 
+# 图片的字体大小
+FONTSIZE = 20
+
 
 def re_init_para(args):
     STEP_R = args.step_r

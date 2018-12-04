@@ -73,7 +73,6 @@ if __name__ == '__main__':
     print("******load the ground truth********")
     conv_path = globalVar.DATA_PATH + "onepoint_conv/helio_3_1_angle_{}_distance_{}.txt".format(process_angle,process_distance)
     ground_truth =  np.genfromtxt(conv_path,delimiter=',')
-    #ground_truth = myUtils.smoothData(ground_truth)
     imageplane.envaluateFlux(ground_truth,np_receiver)
   
     print("******evaluate the c++ code********")

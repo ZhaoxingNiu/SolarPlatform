@@ -87,14 +87,14 @@ if __name__ == '__main__':
     
     
     print("*(*******load the ground truth******************")
-    conv_path = globalVar.DATA_PATH + "raytracing/shadow_test.txt".format(heliostat_id)
+    conv_path = globalVar.DATA_PATH + "raytracing/shadow_test.txt"
     ground_truth =  np.genfromtxt(conv_path,delimiter=',')
     ground_truth = np.fliplr(ground_truth)
     imageplane.envaluateFlux(ground_truth,np_receiver)
     
     
     print("******evaluate the c++ code********")
-    res_path = globalVar.DATA_PATH + "testcpu/shadow/receiver_debug.txt".format(process_angle)
+    res_path = globalVar.DATA_PATH + "testcpu/shadow/receiver_debug.txt"
     res = np.genfromtxt(res_path)
     res = np.fliplr(res)
     res = np.rot90(res,1,(1,0))

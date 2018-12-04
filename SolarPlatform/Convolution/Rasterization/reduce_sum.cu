@@ -4,8 +4,8 @@ const int threadsPerBlockReduceSum = 1024;
 // 可以进行优化的
 __global__ void ReductionSum(float *d_a, float *d_partial_sum)
 {
-//申请共享内存，存在于每个block中
-__shared__ float partialSum[threadsPerBlockReduceSum];
+	//申请共享内存，存在于每个block中
+	__shared__ float partialSum[threadsPerBlockReduceSum];
 
 	//确定索引
 	int i = threadIdx.x + blockIdx.x * blockDim.x;
