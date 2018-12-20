@@ -42,7 +42,7 @@ def get_countout_map(ground_truth,res):
     
     
     # 使用均值滤波对结果进行处理
-    kernel = np.ones((5,5),np.float32)/25
+    kernel = np.ones((3,3),np.float32)/9
     ground_truth = cv.filter2D(ground_truth,-1,kernel)/2
     res = cv.filter2D(res,-1,kernel)/2
     
@@ -71,6 +71,9 @@ def get_countout_map(ground_truth,res):
     plot1.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     #plt.legend(handles=[contour1,contour2],labels=['Groundtruth','Conv model'],loc='best')
     fig.show()
+    
+    # calculate the wRMSD
+    
 
 
 

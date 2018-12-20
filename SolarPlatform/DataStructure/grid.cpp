@@ -64,7 +64,7 @@ void RectGrid::CGridHelioMatch(const vector<Heliostat *> &h_helios) // set *d_gr
 	{
 		diagonal_length = length(h_helios[i]->size_);
 
-		radius = sqrt(diagonal_length) / 2;
+		radius = diagonal_length / 2;
 		minPos = h_helios[i]->pos_ - radius;
 		maxPos = h_helios[i]->pos_ + radius;
 
