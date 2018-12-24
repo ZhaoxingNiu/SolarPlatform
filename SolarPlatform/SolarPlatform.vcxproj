@@ -187,6 +187,7 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
+    <ClCompile Include="Convolution\HFLCAL\hflcal_model.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
     <ClCompile Include="Convolution\Script\gen_kernel.cpp" />
     <ClCompile Include="Convolution\Struct\convKernel.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h" />
+    <ClInclude Include="Convolution\HFLCAL\hflcal_model.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_common.h" />
     <ClInclude Include="Convolution\Rasterization\rasterization_test.h" />
     <ClInclude Include="Convolution\Rasterization\reduce_sum.cuh" />

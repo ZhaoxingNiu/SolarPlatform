@@ -16,13 +16,11 @@
 #include <vector>
 #include <cmath>
 
-
 bool set_helios_vertexes_cpu(
 	const std::vector<Heliostat *> heliostats,
 	const int start_pos,
 	const int end_pos,
 	float3 *&h_helio_vertexs);
-
 
 /*
 * Step 1. initialize the image plane
@@ -40,6 +38,23 @@ bool conv_method_kernel(
 	kernelType k_type = kernelType::T_LOADED_CONV,
 	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
 );
+
+/*
+* for the hfcal model
+* the convolution calcualtion unnecessary
+*/
+bool conv_method_kernel_HFLCAL(
+	SolarScene *solar_scene,
+	int rece_index,
+	int helio_index,
+	int grid_index,
+	float3 normal = make_float3(0.0f, 0.0f, 0.0f),  // defautl do not set the normal, the image plane's normal
+	kernelType k_type = kernelType::T_HFLCAL,
+	float sigma_2 = 1.2f,  // effective only k_type = kernelType::T_GAUSSIAN_CONV
+	float total_energy = 880.0f
+);
+
+
 
 #endif // !DDA_STEPS_H
 

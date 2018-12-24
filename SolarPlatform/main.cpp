@@ -11,14 +11,14 @@
 #include "./Convolution/Rasterization/rasterization_test.h"
 #include "./Convolution/3DDDA/dda_test.h"
 #include "./Convolution/Unizar/unizar_model.h"
-
+#include "./Convolution/HFLCAL/hflcal_model.h"
 
 int main() {
-	/*
+	
 	// test cuda's configure
-	std::cout << "test cuda configure" << std::endl;
-	test_cuda_conf();
-	*/
+	//std::cout << "test cuda configure" << std::endl;
+	//test_cuda_conf();
+	
 
     int nFailures = 0;
 
@@ -31,9 +31,10 @@ int main() {
 	// if (!test_load_kernel()) { nFailures++;}
 	// if (!test_reduce()) { nFailures++; }
 
-	//if (!test_raytracing()) { nFailures++; }
-    if (!test_dda_rasterization()) { nFailures++; }
+	if (!test_raytracing()) { nFailures++; }
+    //if (!test_dda_rasterization()) { nFailures++; }
 	//if (!test_unizar_model()) { nFailures++; }
+	//if (!test_hflcal_model()) { nFailures++; }
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

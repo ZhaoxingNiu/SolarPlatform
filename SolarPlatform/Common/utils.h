@@ -10,7 +10,8 @@
 #include <cmath>
 #include <algorithm>
 
-#define checkCudaErrors(val) check_cuda_err( (val), #val, __FILE__, __LINE__)
+#include <helper_cuda.h>
+//#define checkCudaErrors(val) check_cuda_err( (val), #val, __FILE__, __LINE__)
 
 template<typename T>
 void check_cuda_err(T err, const char* const func, const char* const file, const int line) {

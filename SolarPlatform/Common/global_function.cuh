@@ -110,6 +110,16 @@ namespace global_func
 		checkCudaErrors(cudaMemcpy(h_out, d_in, sizeof(T)*size, cudaMemcpyDeviceToHost));
 	}
 
+	template <typename T>
+	inline void gpu2gpu(T *&d_out, T *&d_in, const size_t &size)
+	{
+		if (d_out == nullptr)
+			checkCudaErrors(cudaMalloc((void **)&d_out, sizeof(T)*size));
+		checkCudaErrors(cudaMemcpy(d_out, d_in, sizeof(T)*size, cudaMemcpyDeviceToDevice));
+	}
+
+
+
 	__host__ __device__ inline bool setThreadsBlocks(dim3 &nBlocks, const int const &nThreads,
 		const size_t &size, const bool const &threadFixed)
 	{

@@ -80,6 +80,9 @@
     <ClCompile Include="Convolution\Unizar\unizar_model.cpp">
       <Filter>Convolution\Unizar</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\HFLCAL\hflcal_model.cpp">
+      <Filter>Convolution\HFLCAL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -136,6 +139,9 @@
     <Filter Include="Convolution\Unizar">
       <UniqueIdentifier>{8a972af2-fea4-4cd8-acb4-97e6a8dc9134}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution\HFLCAL">
+      <UniqueIdentifier>{3f21ced9-b31d-4f58-888f-0b6c3e782aaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">
@@ -171,6 +177,7 @@
     <CudaCompile Include="Convolution\Rasterization\reduce_sum.cu">
       <Filter>Convolution\Rasterization</Filter>
     </CudaCompile>
+    <CudaCompile Include="Test\Configure\reduce_test.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\common_var.h">
@@ -287,9 +294,6 @@
     <ClInclude Include="Test\GenKernel\gen_kernel_test.h">
       <Filter>Test\GenKernel</Filter>
     </ClInclude>
-    <ClInclude Include="Test\Configure\reduce_test.cu">
-      <Filter>Test\Configure</Filter>
-    </ClInclude>
     <ClInclude Include="Test\Configure\reduce_test.cuh">
       <Filter>Test\Configure</Filter>
     </ClInclude>
@@ -298,6 +302,9 @@
     </ClInclude>
     <ClInclude Include="Convolution\Unizar\unizar_model.h">
       <Filter>Convolution\Unizar</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\HFLCAL\hflcal_model.h">
+      <Filter>Convolution\HFLCAL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

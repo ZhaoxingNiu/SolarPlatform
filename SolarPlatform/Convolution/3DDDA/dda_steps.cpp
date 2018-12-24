@@ -161,3 +161,92 @@ bool conv_method_kernel(
 	printf("projection cost time: (%f ms)\n", gpuTime);
 	return true;
 }
+
+bool conv_method_kernel_HFLCAL(
+	SolarScene *solar_scene,
+	int rece_index,
+	int helio_index,
+	int grid_index,
+	float3 normal,
+	kernelType k_type,
+	float sigma_2,
+	float total_energy
+) {
+	StopWatchInterface *hTimer = NULL;
+	sdkCreateTimer(&hTimer);
+	// Step 1: Initialize the image plane
+	ProjectionPlane plane(
+		solarenergy::image_plane_size.x,
+		solarenergy::image_plane_size.y,
+		solarenergy::image_plane_pixel_length);
+
+	// get the receiver and heliostat's information
+	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
+	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
+
+	// calculate the normal
+	float3 in_dir = solar_scene->sunray_->sun_dir_;
+	float3 out_dir = reflect(in_dir, recthelio->normal_);   // reflect light
+	out_dir = normalize(out_dir);
+
+	// if seted normal, otherwise the normal is generated
+	if (length(normal) == 0.0f) {
+		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
+	}
+	else {
+		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, normal);
+	}
+
+#ifdef _DEBUG
+	std::string image_path = "../SimulResult/imageplane/image_debug.txt";
+	plane.save_data_text(image_path);
+#endif
+
+	// Step 3: init the kernel
+	// Step 3.1: get the projection matrix
+
+	oblique_proj_matrix(
+		out_dir,
+		plane.normal,
+		out_dir,
+		plane.M,
+		plane.offset
+	);
+
+	// Step 3.2: load the kernel
+	// calc the true angel and distance
+	float true_dis = length(recthelio->pos_
+		- solar_scene->receivers[rece_index]->focus_center_);
+	float true_angel = acosf(dot(-in_dir, out_dir)) * 180 / MATH_PI;
+	int round_distance = round(true_dis);
+	int round_angel = round(true_angel);
+
+	std::string image_path = "../SimulResult/imageplane/test_hflcal_1.txt";
+	plane.save_data_text(image_path);
+
+
+
+
+	
+	// after copy
+	std::string image_path2 = "../SimulResult/imageplane/test_hflcal_2.txt";
+	plane.save_data_text(image_path2);
+
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
+
+	// Step 5: projection
+	projection_plane_rect(
+		(solar_scene->receivers[rece_index])->d_image_,
+		plane.get_deviceData(),
+		rectrece,
+		&plane,
+		plane.M,
+		plane.offset);
+
+	sdkStopTimer(&hTimer);
+
+	double gpuTime = sdkGetTimerValue(&hTimer);
+	printf("projection cost time: (%f ms)\n", gpuTime);
+	return true;
+}

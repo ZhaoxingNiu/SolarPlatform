@@ -1,12 +1,11 @@
-#ifndef UNIZAR_MODEL_H
-#define UNIZAR_MODEL_H
-
+#ifndef HFLCAL_MODEL_H
+#define HFLCAL_MODEL_H
 
 #include "../3DDDA/dda_interface.h"
 #include "../3DDDA/dda_steps.h"
 #include "../../SceneProcess/PreProcess/scene_instance_process.h"
 
-void unizar_model(
+void hflcal_model(
 	SolarScene *solar_scene,
 	int rece_index,
 	int helio_index,
@@ -15,7 +14,6 @@ void unizar_model(
 	std::string resa_path
 );
 
-bool test_unizar_model();
+bool test_hflcal_model();
 
-
-#endif // !UNIZAR_MODEL_H
+#endif //HFLCAL_MODEL_H

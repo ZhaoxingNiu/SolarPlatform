@@ -19,7 +19,7 @@ bool test_raytracing()
 	solar_scene = SolarScene::GetInstance();
 
 	vector<int> angle_vec = { 0 }; //  30, 45, 60, 90, 135
-	int angel = 30;
+	int angel = 0;
 	solarenergy::sun_dir = make_float3(sin(angel*MATH_PI / 180), 0.0f, cos(angel*MATH_PI / 180));
 	// Step 2: Initialize the content in the scene
 	solar_scene->InitContent();

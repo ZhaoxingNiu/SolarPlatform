@@ -8,7 +8,7 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 
-enum kernelType {T_CONV, T_LOADED_CONV, T_GAUSSIAN_CONV, T_GAUSSIAN_CONV_MATLAB};
+enum kernelType {T_CONV, T_LOADED_CONV, T_GAUSSIAN_CONV, T_GAUSSIAN_CONV_MATLAB,T_HFLCAL};
 
 /*
 *
