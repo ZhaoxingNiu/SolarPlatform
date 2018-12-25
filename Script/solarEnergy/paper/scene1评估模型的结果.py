@@ -31,13 +31,13 @@ import math
 if __name__ == "__main__":
 
     scene_num = 1
-    ray_num = 4096
+    ray_num = 102400
     
     list_peak_rate = []
     list_total_rate = []
     list_rmse = []
     
-    for helios_index in range(10):
+    for helios_index in range(40):
         raytracing_path = globalVar.DATA_PATH + "../paper/scene{}/raytracing/{}/equinox_12_#{}.txt".format(scene_num,ray_num,helios_index)
         
         #model   unizar  hflcal 分别切换指标
@@ -45,6 +45,8 @@ if __name__ == "__main__":
         
         helios_flux = np.genfromtxt(raytracing_path,delimiter=',')
         model_res = np.genfromtxt(conv_model_path,delimiter=' ')
+        #model_res = np.fliplr(model_res)
+        model_res = np.rot90(model_res,1,(1,0))
         
         raytracing_peak = helios_flux.max()
         raytracing_total = helios_flux.sum()/400
