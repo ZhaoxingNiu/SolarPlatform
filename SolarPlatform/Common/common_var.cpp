@@ -7,6 +7,7 @@ float solarenergy::dni = 1000.0f;
 float solarenergy::csr = 0.1f;
 float solarenergy::num_sunshape_groups = 8.0f;
 float solarenergy::num_sunshape_lights_per_group = 1024.0f;
+int solarenergy::num_sunshape_lights_loop = 1;
 
 float solarenergy::helio_pixel_length = 0.01f;
 float solarenergy::receiver_pixel_length = 0.05f;
@@ -17,6 +18,7 @@ float solarenergy::disturb_std = 0.001f;
 //conv related
 int2 solarenergy::image_plane_size = {200, 200};
 float solarenergy::image_plane_offset = -5.0;
+float solarenergy::total_time = 0.0f;
 
 //default scene file
 string solarenergy::scene_filepath = "../SceneData/example.scn";

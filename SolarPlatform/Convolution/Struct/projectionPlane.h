@@ -37,6 +37,12 @@ public:
 	
 	void save_data_text(const std::string out_path);
 
+
+	// gen the gaussian kernel
+	// only for the gaussian kernel
+	void gen_gau_kernel(float a, float sigma);
+
+
 	// clean the data
 	~ProjectionPlane();
 

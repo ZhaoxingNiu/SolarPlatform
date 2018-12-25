@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Nov 26 20:44:53 2018
+Created on Tue Dec 25 11:47:04 2018
 
 @author: nzx
+
+@description: 绘制结果图
 """
 
 import cv2 as cv
@@ -13,24 +15,14 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import matplotlib.cm as cm
 
+import sys
+import os
+sys.path.append('../')
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import myUtils
 import globalVar
-import imageplane
 
-
-def init_mpl():
-    mpl.rcParams['xtick.labelsize'] = globalVar.FONTSIZE
-    mpl.rcParams['ytick.labelsize'] = globalVar.FONTSIZE
-
-
-
-def test_plot_map(ground_truth,res):
-    ax1 = plt.subplot(121)
-    ax1.imshow(ground_truth, interpolation='bilinear',origin='lower', \
-               cmap = cm.jet, vmin=0,vmax=700)
-    
-    ax2 = plt.subplot(122)
-    ax2.imshow(res, interpolation='bilinear',origin='lower', \
-               cmap = cm.jet, vmin=0,vmax=700)
 
 
 def get_countout_map(ground_truth,res):
@@ -71,31 +63,22 @@ def get_countout_map(ground_truth,res):
     plot1.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     #plt.legend(handles=[contour1,contour2],labels=['Groundtruth','Conv model'],loc='best')
     fig.show()
-    # calculate the wRMSD
+    
+if __name__ == "__main__":
+
+    scene_num = 1
+    ray_num = 102400
     
 
-
-
-if __name__ == '__main__':
+    helios_index = 1
+    raytracing_path = globalVar.DATA_PATH + "../paper/scene{}/raytracing/{}/equinox_12_#{}.txt".format(scene_num,ray_num,helios_index)
+    #model   unizar  hflcal 分别切换指标
+    conv_model_path = globalVar.DATA_PATH + "../paper/scene{}/model/equinox_12_#{}.txt".format(scene_num,helios_index)
+    unizar_model_path = globalVar.DATA_PATH + "../paper/scene{}/unizar/equinox_12_#{}.txt".format(scene_num,helios_index)
+    hflcal_model_path = globalVar.DATA_PATH + "../paper/scene{}/hflcal/equinox_12_#{}.txt".format(scene_num,helios_index)
     
-    ground_truth_path = globalVar.DATA_PATH + "raytracing/shadow_test.txt"
-    res_path = globalVar.DATA_PATH + "testcpu/shadow/receiver_debug.txt"
-    
-    init_mpl()
-    print("*(*******load the ground truth******************")
-    ground_truth =  np.genfromtxt(ground_truth_path,delimiter=',')
-    ground_truth = np.fliplr(ground_truth)
-    
-    print("******evaluate the c++ code********")
-    res = np.genfromtxt(res_path)
-    res = np.fliplr(res)
-    res = np.rot90(res,1,(1,0))
-    print("********  the result  ********")
-    imageplane.envaluateFlux(ground_truth,res)
-    
-    # plot the map 
-    get_countout_map(ground_truth,res)
-    
-    
-    
+    rt_res = 
+    conv_res = 
+    unizar_res = 
+    hflcal_res = 
     

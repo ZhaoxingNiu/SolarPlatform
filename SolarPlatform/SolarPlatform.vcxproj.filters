@@ -83,6 +83,15 @@
     <ClCompile Include="Convolution\HFLCAL\hflcal_model.cpp">
       <Filter>Convolution\HFLCAL</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\model\conv_model.cpp">
+      <Filter>Convolution\model</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\Configure\test_get_file_peak.cpp">
+      <Filter>Test\Configure</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\utils.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -142,6 +151,9 @@
     <Filter Include="Convolution\HFLCAL">
       <UniqueIdentifier>{3f21ced9-b31d-4f58-888f-0b6c3e782aaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution\model">
+      <UniqueIdentifier>{53188422-4d7e-42ce-a815-56287d9cf34f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">
@@ -178,6 +190,9 @@
       <Filter>Convolution\Rasterization</Filter>
     </CudaCompile>
     <CudaCompile Include="Test\Configure\reduce_test.cu" />
+    <CudaCompile Include="Convolution\Rasterization\gen_gau_kernel_gpu.cu">
+      <Filter>Convolution\Rasterization</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\common_var.h">
@@ -305,6 +320,15 @@
     </ClInclude>
     <ClInclude Include="Convolution\HFLCAL\hflcal_model.h">
       <Filter>Convolution\HFLCAL</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\model\conv_model.h">
+      <Filter>Convolution\model</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\Configure\test_get_file_peak.h">
+      <Filter>Test\Configure</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Rasterization\gen_gau_kernel_gpu.cuh">
+      <Filter>Convolution\Rasterization</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

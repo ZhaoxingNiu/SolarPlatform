@@ -1,5 +1,6 @@
 #include "convolutionFFT2D_interface.h"
 #include "convolutionFFT2D_common.h"
+#include "../../Common/common_var.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -175,6 +176,9 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	checkCudaErrors(cudaMalloc((void **)&d_DataSpectrum, fftH * (fftW / 2 + 1) * sizeof(fComplex)));
 	checkCudaErrors(cudaMalloc((void **)&d_KernelSpectrum, fftH * (fftW / 2 + 1) * sizeof(fComplex)));
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
+
 	printf("...creating R2C & C2R FFT plans for %i x %i\n", fftH, fftW);
 	checkCudaErrors(cufftPlan2d(&fftPlanFwd, fftH, fftW, CUFFT_R2C));
 	checkCudaErrors(cufftPlan2d(&fftPlanInv, fftH, fftW, CUFFT_C2R));
@@ -183,8 +187,6 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	checkCudaErrors(cudaMemset(d_PaddedKernel, 0, fftH * fftW * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_PaddedData, 0, fftH * fftW * sizeof(float)));
 
-	sdkResetTimer(&hTimer);
-	sdkStartTimer(&hTimer);
 	padKernel(
 		d_PaddedKernel,
 		d_Kernel,
@@ -235,12 +237,13 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	checkCudaErrors(cufftExecC2R(fftPlanInv, (cufftComplex *)d_DataSpectrum, (cufftReal *)d_PaddedData));
 
 	checkCudaErrors(cudaDeviceSynchronize());
+	checkCudaErrors(cudaMemcpy(h_ResultOrigin, d_PaddedData, fftH * fftW * sizeof(float), cudaMemcpyDeviceToHost));
+
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
 	printf("%f MPix/s (%f ms)\n", (double)dataH * (double)dataW * 1e-6 / (gpuTime * 0.001), gpuTime);
-
 	printf("...reading back GPU convolution results\n");
-	checkCudaErrors(cudaMemcpy(h_ResultOrigin, d_PaddedData, fftH * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 
 	printf("...reading back origin data to the result\n");
 	for (int y = 0; y < dataH; y++) {

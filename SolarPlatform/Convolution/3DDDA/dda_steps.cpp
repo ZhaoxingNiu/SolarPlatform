@@ -35,13 +35,17 @@ bool conv_method_kernel(
 ) {
 	// ********************************************************************
 	StopWatchInterface *hTimer = NULL;
+	double gpuTime = 0.0;
 	sdkCreateTimer(&hTimer);
+
 	// Step 1: Initialize the image plane
 	ProjectionPlane plane(
 		solarenergy::image_plane_size.x,
 		solarenergy::image_plane_size.y,
 		solarenergy::image_plane_pixel_length);
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// get the receiver and heliostat's information
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
@@ -59,6 +63,11 @@ bool conv_method_kernel(
 		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_,normal);
 	}
 
+	sdkStopTimer(&hTimer);
+	gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
+	printf("calculation the normal: (%f ms)\n", gpuTime);
+
 	// Step 2: rasterization
 	dda_interface(
 		*(solar_scene->sunray_),
@@ -67,6 +76,7 @@ bool conv_method_kernel(
 		*(solar_scene->grid0s[grid_index]),
 		solar_scene->heliostats
 	);
+	
 
 #ifdef _DEBUG
 	std::string image_path = "../SimulResult/imageplane/image_debug.txt";
@@ -75,6 +85,8 @@ bool conv_method_kernel(
 
 	// Step 3: init the kernel
 	// Step 3.1: get the projection matrix
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 
 	oblique_proj_matrix(
 		out_dir,
@@ -92,6 +104,10 @@ bool conv_method_kernel(
 	int round_distance = round(true_dis);
 	int round_angel = round(true_angel);
 	
+	sdkStopTimer(&hTimer);
+	gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
+
 	std::shared_ptr<ConvKernel> kernel;
 	// chose the proper kernel
 	switch (k_type)
@@ -156,8 +172,8 @@ bool conv_method_kernel(
 		plane.offset);
 
 	sdkStopTimer(&hTimer);
-
-	double gpuTime = sdkGetTimerValue(&hTimer);
+	gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
 	printf("projection cost time: (%f ms)\n", gpuTime);
 	return true;
 }
@@ -168,9 +184,7 @@ bool conv_method_kernel_HFLCAL(
 	int helio_index,
 	int grid_index,
 	float3 normal,
-	kernelType k_type,
-	float sigma_2,
-	float total_energy
+	float sigma_2
 ) {
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
@@ -180,6 +194,8 @@ bool conv_method_kernel_HFLCAL(
 		solarenergy::image_plane_size.y,
 		solarenergy::image_plane_pixel_length);
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// get the receiver and heliostat's information
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
@@ -196,6 +212,17 @@ bool conv_method_kernel_HFLCAL(
 	else {
 		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, normal);
 	}
+	// the hflcal model generate the kernel on the image plane 
+	float true_dis = length(recthelio->pos_
+		- solar_scene->receivers[rece_index]->focus_center_);
+	float air_atten = global_func::air_attenuation(true_dis);
+	float3 v0, v1, v2, v3;
+	recthelio->Cget_all_vertex(v0, v1, v2, v3);
+	float area = global_func::cal_rect_area(v0, v1, v2, v3);
+	float cos_val = abs(dot(in_dir, recthelio->normal_));
+	float total_energy = air_atten*solarenergy::dni*solarenergy::reflected_rate
+		*area*abs(dot(in_dir, recthelio->normal_));
+	plane.gen_gau_kernel(total_energy,sigma_2);
 
 #ifdef _DEBUG
 	std::string image_path = "../SimulResult/imageplane/image_debug.txt";
@@ -213,29 +240,7 @@ bool conv_method_kernel_HFLCAL(
 		plane.offset
 	);
 
-	// Step 3.2: load the kernel
-	// calc the true angel and distance
-	float true_dis = length(recthelio->pos_
-		- solar_scene->receivers[rece_index]->focus_center_);
-	float true_angel = acosf(dot(-in_dir, out_dir)) * 180 / MATH_PI;
-	int round_distance = round(true_dis);
-	int round_angel = round(true_angel);
-
-	std::string image_path = "../SimulResult/imageplane/test_hflcal_1.txt";
-	plane.save_data_text(image_path);
-
-
-
-
-	
-	// after copy
-	std::string image_path2 = "../SimulResult/imageplane/test_hflcal_2.txt";
-	plane.save_data_text(image_path2);
-
-	sdkResetTimer(&hTimer);
-	sdkStartTimer(&hTimer);
-
-	// Step 5: projection
+	// projection
 	projection_plane_rect(
 		(solar_scene->receivers[rece_index])->d_image_,
 		plane.get_deviceData(),
@@ -245,8 +250,8 @@ bool conv_method_kernel_HFLCAL(
 		plane.offset);
 
 	sdkStopTimer(&hTimer);
-
 	double gpuTime = sdkGetTimerValue(&hTimer);
 	printf("projection cost time: (%f ms)\n", gpuTime);
+	solarenergy::total_time += gpuTime;
 	return true;
 }

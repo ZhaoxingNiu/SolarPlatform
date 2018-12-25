@@ -7,7 +7,6 @@ void hflcal_model(
 	int helio_index,
 	int grid_index,
 	float ideal_peak,
-	float total_energy,
 	std::string res_path
 ) {
 	// initialization,set the value
@@ -22,7 +21,7 @@ void hflcal_model(
 		sigma_2 = (sigma_high + sigma_low) / 2.0f;
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 		conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
-			kernelType::T_HFLCAL, sigma_2, total_energy);
+			sigma_2);
 		float max_val = solar_scene->receivers[rece_index]->peek_value();
 		if (abs(max_val - ideal_peak) < 0.1f) {
 			// break
@@ -39,8 +38,8 @@ void hflcal_model(
 
 	// run the convolution model
 	solar_scene->receivers[rece_index]->Cclean_image_content();
-	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
-		kernelType::T_GAUSSIAN_CONV, ideal_sigma_2);
+	conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+		 ideal_sigma_2);
 
 	// save the result
 	solar_scene->receivers[rece_index]->save_result_conv(res_path);
@@ -72,7 +71,42 @@ bool test_hflcal_model() {
 	solar_scene->receivers[rece_index]->Cclean_image_content();
 
 	// unizar model
-	hflcal_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, total_energy, res_path);
+	hflcal_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, res_path);
 
+	return true;
+}
+
+
+bool test_hflcal_model_scene1() {
+	// Step 0: initialization
+	// Step 0.1: init the parameters
+	// h_index, chose the heliostat
+	solarenergy::csr = 0.1f;
+	solarenergy::disturb_std = 0.001f;
+	solarenergy::helio_pixel_length = 0.01f;
+	solarenergy::receiver_pixel_length = 0.05f;
+	solarenergy::total_time = 0.0f;
+	solarenergy::scene_filepath = "../SceneData/paper/helioField_scene1.scn";
+	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
+
+	// step 2:Load files
+	SolarScene *solar_scene;
+	solarenergy::sun_dir = make_float3(0.0f, -0.867765f, -1.0f);
+	solar_scene = SolarScene::GetInstance();
+	solar_scene->InitContent();
+
+	int rece_index = 0;
+	for (int helio_index = 0; helio_index < 40; ++helio_index) {
+		// clean the receiver
+		solar_scene->receivers[rece_index]->Cclean_image_content();
+		string raytracing_path = "../SimulResult/paper/scene1/raytracing/102400/equinox_12_#" + std::to_string(helio_index) + ".txt";
+		string res_path = "../SimulResult/paper/scene1/hflcal/equinox_12_#" + std::to_string(helio_index) + ".txt";
+		float ideal_peak = get_file_peak(raytracing_path);
+		int grid_index = helio_index;
+		// hfalcal model
+		hflcal_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, res_path);
+	}
+
+	std::cout << "程序平均耗时：" << solarenergy::total_time / 40 << " ms" << endl;
 	return true;
 }

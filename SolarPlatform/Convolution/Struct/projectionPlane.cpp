@@ -5,6 +5,7 @@
 #include "../../Common/vector_arithmetic.cuh"
 #include "../../Common/global_function.cuh"
 #include "../Rasterization/rasterization_common.h"
+#include "../Rasterization/gen_gau_kernel_gpu.cuh"
 
 #include <iostream>
 #include <fstream>
@@ -120,6 +121,11 @@ void ProjectionPlane::save_data_text(const std::string out_path) {
 
 	// free the data
 	free(h_Data);
+}
+
+void ProjectionPlane::gen_gau_kernel(float A, float sigma_2) {
+	gen_gau_kernel_gpu(d_Data, rows, cols,
+		pixel_length, row_offset, col_offset, A, sigma_2);
 }
 
 ProjectionPlane::~ProjectionPlane() {

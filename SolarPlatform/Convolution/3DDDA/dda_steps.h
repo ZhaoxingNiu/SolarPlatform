@@ -49,9 +49,7 @@ bool conv_method_kernel_HFLCAL(
 	int helio_index,
 	int grid_index,
 	float3 normal = make_float3(0.0f, 0.0f, 0.0f),  // defautl do not set the normal, the image plane's normal
-	kernelType k_type = kernelType::T_HFLCAL,
-	float sigma_2 = 1.2f,  // effective only k_type = kernelType::T_GAUSSIAN_CONV
-	float total_energy = 880.0f
+	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
 );
 
 

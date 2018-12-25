@@ -16,4 +16,7 @@ void hflcal_model(
 
 bool test_hflcal_model();
 
+bool test_hflcal_model_scene1();
+
+
 #endif //HFLCAL_MODEL_H

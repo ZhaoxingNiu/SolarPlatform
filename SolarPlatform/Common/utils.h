@@ -9,9 +9,13 @@
 #include <cassert>
 #include <cmath>
 #include <algorithm>
+#include <string>
 
 #include <helper_cuda.h>
 //#define checkCudaErrors(val) check_cuda_err( (val), #val, __FILE__, __LINE__)
+
+float get_file_peak(std::string path);
+
 
 template<typename T>
 void check_cuda_err(T err, const char* const func, const char* const file, const int line) {

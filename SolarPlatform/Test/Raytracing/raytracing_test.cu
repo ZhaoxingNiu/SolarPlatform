@@ -1,4 +1,5 @@
 #include "./raytracing_test.cuh"
+#include "../../Common/common_var.h"
 #include "../../Common/image_saver.h"
 #include "../../RayTracing/RectHelio/recthelio_tracing.h"
 #include "../../SceneProcess/PreProcess/scene_instance_process.h"
@@ -93,16 +94,20 @@ void raytracing_interface(SolarScene &solar_scene)
 	h_image = nullptr;
 }
 
-
-void raytracing_standard_interface(SolarScene &solar_scene,int hIndex,int gridIndex,string outpath) {
+void raytracing_standard_interface(SolarScene &solar_scene, int hIndex, int gridIndex, string outpath) {
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene.heliostats[hIndex]);
-
 	solar_scene.receivers[0]->Cclean_image_content();
-	recthelio_ray_tracing(*solar_scene.sunray_,
-		*solar_scene.receivers[0],
-		*recthelio,
-		*solar_scene.grid0s[gridIndex],
-		solar_scene.heliostats);
+	//timer
+	double start, stop, durationTime;
+	start = clock();
+
+	for (int i = 0; i < solarenergy::num_sunshape_lights_loop; ++i){
+		recthelio_ray_tracing(*solar_scene.sunray_,
+			*solar_scene.receivers[0],
+			*recthelio,
+			*solar_scene.grid0s[gridIndex],
+			solar_scene.heliostats);
+    }
 
 	float *h_image = nullptr;
 	global_func::gpu2cpu(h_image, solar_scene.receivers[0]->d_image_, solar_scene.receivers[0]->resolution_.x*solar_scene.receivers[0]->resolution_.y);
@@ -114,8 +119,14 @@ void raytracing_standard_interface(SolarScene &solar_scene,int hIndex,int gridIn
 	float Srec = solar_scene.receivers[0]->pixel_length_*solar_scene.receivers[0]->pixel_length_;
 	for (int i = 0; i < solar_scene.receivers[0]->resolution_.x*solar_scene.receivers[0]->resolution_.y; ++i)
 	{
-		h_image[i] = h_image[i] * Id * Ssub * rou / Nc / Srec;
+		h_image[i] = h_image[i] * Id * Ssub * rou / Nc / Srec/ solarenergy::num_sunshape_lights_loop;
 	}
+	//timer
+	stop = clock();
+	durationTime = ((double)(stop - start)) / CLK_TCK;
+	solarenergy::total_time += durationTime;
+	
+
 	// Save image
 	ImageSaver::savetxt(outpath.c_str(), solar_scene.receivers[0]->resolution_.x, solar_scene.receivers[0]->resolution_.y, h_image);
 	delete[] h_image;

@@ -18,4 +18,6 @@ void unizar_model(
 bool test_unizar_model();
 
 
+bool test_unizar_model_scene1();
+
 #endif // !UNIZAR_MODEL_H

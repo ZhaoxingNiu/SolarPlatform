@@ -13,6 +13,7 @@ namespace solarenergy {
 	extern float csr;
 	extern float num_sunshape_groups;
 	extern float num_sunshape_lights_per_group;
+	extern int num_sunshape_lights_loop;
 
 	extern float helio_pixel_length;
 	extern float receiver_pixel_length;
@@ -23,6 +24,7 @@ namespace solarenergy {
 	//conv related
 	extern int2 image_plane_size;
 	extern float image_plane_offset;
+	extern float total_time;
 
 	//default scene file
 	extern string scene_filepath;

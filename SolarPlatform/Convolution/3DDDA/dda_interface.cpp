@@ -16,17 +16,19 @@ void dda_interface(
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 
-	// step 1. get tht ptr vertex
-	std::vector<float3> vertex;
-	for (int i = 0; i < 4; ++i) {
-		vertex.push_back(recthelio.vertex_[i]);
-	}
-
-	// step 2. get the all vertex of the heliostat
+	// step 1. get the all vertex of the heliostat
 	float3 *h_helio_vertexs = nullptr;
 	int start_pos = grid.start_helio_pos_;
 	int end_pos = start_pos + grid.num_helios_;
 	set_helios_vertexes_cpu(heliostats, start_pos, end_pos, h_helio_vertexs);
+
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
+	// step 2. get tht ptr vertex
+	std::vector<float3> vertex;
+	for (int i = 0; i < 4; ++i) {
+		vertex.push_back(recthelio.vertex_[i]);
+	}
 
 	// step 3 dda get the relative heliostat
 	// step 3.1 get dir
@@ -43,9 +45,7 @@ void dda_interface(
 		return;
 	}
 	RectGrid *rectgrid = dynamic_cast<RectGrid *> (&grid);
-	
-	sdkResetTimer(&hTimer);
-	sdkStartTimer(&hTimer);
+
 	// step 3.2 get the shadow heliostats
 	calc_intersection_3DDDA(
 		vertex,
@@ -119,6 +119,7 @@ void dda_interface(
 
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
 	printf("3D DDA cost time: (%f ms)\n", gpuTime);
 
 	sdkResetTimer(&hTimer);
@@ -128,10 +129,9 @@ void dda_interface(
 	plane.shadow_block(vecvec_shadow_block);
 	
 	sdkStopTimer(&hTimer);
-
 	gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
 	printf("rasterization cost time: (%f ms)\n", gpuTime);
-
 
 	delete[] h_helio_vertexs;
 	h_helio_vertexs = nullptr;

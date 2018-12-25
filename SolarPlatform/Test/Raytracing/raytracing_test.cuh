@@ -13,4 +13,6 @@ void raytracing_standard_interface(SolarScene &solar_scene,int hIndex = 0, int g
 
 bool test_raytracing();
 
+bool test_raytracing_scene1();
+
 #endif // !RAYTRACING_TEST_CUH
