@@ -39,9 +39,7 @@ int main() {
 	// if (!test_reduce()) { nFailures++; }
 	// if (!test_scene_format_transfer()) { nFailures++; }
 	// if (!test_scene_format_transfer_ps10()) { nFailures++; }
-	if (!test_focus_helios_split()) { nFailures++; }
-
-
+	// if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }
 
@@ -49,6 +47,7 @@ int main() {
 	//if (!test_unizar_model()) { nFailures++; }
 	//if (!test_hflcal_model()) { nFailures++; }
 
+	//***************
 	//just for paper
 	//if (!test_raytracing_scene1()) { nFailures++; }
 	//if (!test_conv_model_scene1()) { nFailures++; }
