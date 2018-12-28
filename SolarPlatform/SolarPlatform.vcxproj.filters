@@ -92,6 +92,12 @@
     <ClCompile Include="Common\utils.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Test\SceneTrans\FormatTransfer.cpp">
+      <Filter>Test\SceneTrans</Filter>
+    </ClCompile>
+    <ClCompile Include="Test\SceneTrans\FocusHeliosSplits.cpp">
+      <Filter>Test\SceneTrans</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -153,6 +159,9 @@
     </Filter>
     <Filter Include="Convolution\model">
       <UniqueIdentifier>{53188422-4d7e-42ce-a815-56287d9cf34f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\SceneTrans">
+      <UniqueIdentifier>{b083b813-922d-4e75-824b-01f103d729c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -329,6 +338,12 @@
     </ClInclude>
     <ClInclude Include="Convolution\Rasterization\gen_gau_kernel_gpu.cuh">
       <Filter>Convolution\Rasterization</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\SceneTrans\FormatTransfer.h">
+      <Filter>Test\SceneTrans</Filter>
+    </ClInclude>
+    <ClInclude Include="Test\SceneTrans\FocusHeliosSplits.h">
+      <Filter>Test\SceneTrans</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

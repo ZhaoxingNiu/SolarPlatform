@@ -120,6 +120,7 @@ void dda_interface(
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
 	printf("3D DDA cost time: (%f ms)\n", gpuTime);
 
 	sdkResetTimer(&hTimer);
@@ -131,6 +132,7 @@ void dda_interface(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
 	printf("rasterization cost time: (%f ms)\n", gpuTime);
 
 	delete[] h_helio_vertexs;

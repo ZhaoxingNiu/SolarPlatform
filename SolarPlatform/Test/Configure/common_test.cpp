@@ -3,6 +3,7 @@
 #include <fstream>
 
 
+
 namespace common_test {
 
 	bool test_file_path() {
@@ -13,7 +14,6 @@ namespace common_test {
 		f1.close();
 		return true;
 	}
-
 
 	bool test_file_exist() {
 		std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_0_distance_500.txt";

@@ -32,6 +32,7 @@ void unizar_model(
 		else {
 			sigma_high = sigma_2;
 		}
+		solarenergy::total_times++;
 	}
 	ideal_sigma_2 = (sigma_high + sigma_low) / 2.0f;
 
@@ -39,7 +40,7 @@ void unizar_model(
 	solar_scene->receivers[rece_index]->Cclean_image_content();
 	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
 		kernelType::T_GAUSSIAN_CONV, ideal_sigma_2);
-	
+	solarenergy::total_times++;
 	// save the result
 	solar_scene->receivers[rece_index]->save_result_conv(res_path);
 }
@@ -84,27 +85,36 @@ bool test_unizar_model_scene1() {
 	solarenergy::helio_pixel_length = 0.01f;
 	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::total_time = 0.0f;
+	solarenergy::total_times = 0;
+	/******修改*****/
 	solarenergy::scene_filepath = "../SceneData/paper/helioField_scene1.scn";
+	//solarenergy::scene_filepath = "../SceneData/paper/helioField_scene_shadow.scn";
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
 
 	// step 2:Load files
 	SolarScene *solar_scene;
 	solar_scene = SolarScene::GetInstance();
+
+	// 貌似是1.0不是 -1.0
 	solarenergy::sun_dir = make_float3(0.0f, -0.867765f, -1.0f);
+	//solarenergy::sun_dir = make_float3(0.0f, 0.0f, 1.0f);
 	solar_scene->InitContent();
 
 	int rece_index = 0;
+	// *********修改******* /
 	for (int helio_index = 0; helio_index < 40; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
+		// *********修改******* /
 		string raytracing_path = "../SimulResult/paper/scene1/raytracing/102400/equinox_12_#" + std::to_string(helio_index) + ".txt";
-		string res_path = "../SimulResult/paper/scene1/unizar/equinox_12_#" + std::to_string(helio_index) + ".txt";
+		string res_path = "../SimulResult/paper/scene11/unizar/equinox_12_#" + std::to_string(helio_index) + ".txt";
 		float ideal_peak = get_file_peak(raytracing_path);
 		int grid_index = helio_index;
 		// unizar model
 		unizar_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, res_path);
 	}
 
-	std::cout << "程序平均耗时：" << solarenergy::total_time / 40 << " ms" << endl;
+	std::cout << "运行次数：" <<  solarenergy::total_times  << std::endl;
+	std::cout << "程序平均耗时：" << solarenergy::total_time / solarenergy::total_times << " ms" << endl;
 	return true;
 }

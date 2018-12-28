@@ -48,6 +48,10 @@ int boxIntersect(const int &mirrowId, const float3 &min_pos, const float3 &max_p
 			for (int z = min_grid_pos.z; z <= max_grid_pos.z; ++z)
 			{
 				int pos = x * grid.grid_num_.y * grid.grid_num_.z + y * grid.grid_num_.z + z;
+				//bug fix
+				if (pos >= grid_mirrow_match_vector.size()) {
+					continue;
+				}
 				grid_mirrow_match_vector[pos].push_back(mirrowId);
 				++size;
 			}

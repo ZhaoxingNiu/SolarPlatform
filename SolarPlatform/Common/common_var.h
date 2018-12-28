@@ -25,6 +25,8 @@ namespace solarenergy {
 	extern int2 image_plane_size;
 	extern float image_plane_offset;
 	extern float total_time;
+	extern float total_time2;
+	extern int  total_times;
 
 	//default scene file
 	extern string scene_filepath;

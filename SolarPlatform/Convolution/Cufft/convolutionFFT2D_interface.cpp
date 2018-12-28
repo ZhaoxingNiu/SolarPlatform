@@ -164,11 +164,15 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 
+#ifdef DEBUG
 	printf("built-in R2C / C2R FFT-based convolution\n");
+#endif
 	const int    fftH = snapTransformSize(dataH + kernelH - 1);
 	const int    fftW = snapTransformSize(dataW + kernelW - 1);
 
+#ifdef DEBUG
 	printf("...allocating memory\n");
+#endif
 	float *h_Result = (float *)malloc(dataH * dataW * sizeof(float));
 	h_ResultOrigin = (float *)malloc(fftH    * fftW * sizeof(float));
 	checkCudaErrors(cudaMalloc((void **)&d_PaddedData, fftH * fftW * sizeof(float)));
@@ -179,11 +183,14 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
 
+#ifdef DEBUG
 	printf("...creating R2C & C2R FFT plans for %i x %i\n", fftH, fftW);
+#endif
 	checkCudaErrors(cufftPlan2d(&fftPlanFwd, fftH, fftW, CUFFT_R2C));
 	checkCudaErrors(cufftPlan2d(&fftPlanInv, fftH, fftW, CUFFT_C2R));
-
+#ifdef DEBUG
 	printf("...uploading to GPU and padding convolution kernel and input data\n");
+#endif
 	checkCudaErrors(cudaMemset(d_PaddedKernel, 0, fftH * fftW * sizeof(float)));
 	checkCudaErrors(cudaMemset(d_PaddedData, 0, fftH * fftW * sizeof(float)));
 
@@ -225,10 +232,13 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 
 	//Not including kernel transformation into time measurement,
 	//since convolution kernel is not changed very frequently
+#ifdef DEBUG
 	printf("...transforming convolution kernel\n");
-	checkCudaErrors(cufftExecR2C(fftPlanFwd, (cufftReal *)d_PaddedKernel, (cufftComplex *)d_KernelSpectrum));
-
 	printf("...running GPU FFT convolution: ");
+#endif
+
+	checkCudaErrors(cufftExecR2C(fftPlanFwd, (cufftReal *)d_PaddedKernel, (cufftComplex *)d_KernelSpectrum));
+	
 	checkCudaErrors(cudaDeviceSynchronize());
 	//sdkResetTimer(&hTimer);
 	//sdkStartTimer(&hTimer);
@@ -242,10 +252,13 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
 	printf("%f MPix/s (%f ms)\n", (double)dataH * (double)dataW * 1e-6 / (gpuTime * 0.001), gpuTime);
+#ifdef DEBUG
 	printf("...reading back GPU convolution results\n");
-
 	printf("...reading back origin data to the result\n");
+#endif // DEBUG
+
 	for (int y = 0; y < dataH; y++) {
 		for (int x = 0; x < dataW; x++)
 		{

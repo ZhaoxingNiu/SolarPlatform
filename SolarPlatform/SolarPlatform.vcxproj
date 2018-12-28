@@ -208,6 +208,8 @@
     <ClCompile Include="Test\Configure\test_get_file_peak.cpp" />
     <ClCompile Include="Test\GenKernel\gen_kernel_test.cpp" />
     <ClCompile Include="Test\Raytracing\raytracing_test.cpp" />
+    <ClCompile Include="Test\SceneTrans\FocusHeliosSplits.cpp" />
+    <ClCompile Include="Test\SceneTrans\FormatTransfer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu" />
@@ -265,6 +267,8 @@
     <ClInclude Include="SceneProcess\solar_scene.h" />
     <ClInclude Include="Test\Configure\common_test.h" />
     <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
+    <ClInclude Include="Test\SceneTrans\FocusHeliosSplits.h" />
+    <ClInclude Include="Test\SceneTrans\FormatTransfer.h" />
     <CudaCompile Include="Test\Configure\reduce_test.cu">
       <FileType>CppHeader</FileType>
     </CudaCompile>

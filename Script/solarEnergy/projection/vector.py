@@ -108,7 +108,7 @@ class Vector:
         return self
         
     def display(self):
-        print( "x: {:.2f} y: {:.2f} z:{:.2f}".format(self.x,self.y,self.z))
+        print( "x: {:.6f} y: {:.6f} z:{:.6f}".format(self.x,self.y,self.z))
         
 if __name__ == "__main__":
     d = Vector(0, 1, 1)

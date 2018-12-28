@@ -66,6 +66,7 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
 	printf("calculation the normal: (%f ms)\n", gpuTime);
 
 	// Step 2: rasterization
@@ -107,6 +108,8 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
+	std::cout << "calculation distance time: " << gpuTime << " ms" << std::endl;
 
 	std::shared_ptr<ConvKernel> kernel;
 	// chose the proper kernel
@@ -174,6 +177,7 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
+	solarenergy::total_time2 += gpuTime;
 	printf("projection cost time: (%f ms)\n", gpuTime);
 	return true;
 }
