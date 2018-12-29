@@ -166,7 +166,6 @@ if __name__ == "__main__":
         unizar_res = np.genfromtxt(unizar_model_path,delimiter=' ')
         hflcal_res = np.genfromtxt(hflcal_model_path,delimiter=' ')
 
-        
 
         
         conv_res = np.rot90(conv_res,1,(1,0))

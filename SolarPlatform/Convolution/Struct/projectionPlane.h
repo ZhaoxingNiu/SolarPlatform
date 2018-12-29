@@ -25,27 +25,27 @@ public:
 
 	// ray intersect
 	bool ray_intersect(const float3 ori, const float3 dir, float3 &p) const;
-
 	// ray intersect pos, the relative position
 	bool ray_intersect_pos2(const float3 ori, const float3 dir, float3 &p) const;
 
 	// calculate the projection area
 	void projection(const std::vector<float3> &points);
-
 	// calcluate the shadow and blockss
 	void shadow_block(const std::vector<std::vector<float3>> &points);
-	
+
+	//投影区域能量累加
+	void accumuluation(const ProjectionPlane &plane);
+
 	void save_data_text(const std::string out_path);
 
 
 	// gen the gaussian kernel
-	// only for the gaussian kernel
+	// only for the HFLCAL model
 	void gen_gau_kernel(float a, float sigma);
 
 
 	// clean the data
 	~ProjectionPlane();
-
 
 	float *d_Data;
 	int rows;

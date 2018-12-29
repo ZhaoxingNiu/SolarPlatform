@@ -29,3 +29,11 @@ extern "C" void triangle_rasterization(
 	float3 p3,
 	float val
 );
+
+
+extern "C" void sum_rasterization(
+	float* const d_Data1,
+	float* const d_Data2,
+	int rows,
+	int cols
+);

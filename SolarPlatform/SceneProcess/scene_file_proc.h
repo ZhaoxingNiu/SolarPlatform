@@ -38,6 +38,8 @@ class SceneFileProc{
 public:
 	SceneFileProc();
 	bool SceneFileRead(SolarScene *solarscene, std::string filepath);
+
+	static void SceneNormalRead(std::string filepath, std::vector<float3> &norm_vec);
 private:
 	SolarScene *solarScene_;  //eqaul the Scolar::GetInstance
 	// Map to associate the strings with the enum values

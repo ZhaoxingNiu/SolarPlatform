@@ -99,4 +99,17 @@ __global__ void point_mul_val(
 	}
 }
 
+__global__ void sum_array(
+	float* const d_Data1,
+	float* const d_Data2,
+	int rows,
+	int cols) {
+	const int x = blockDim.x * blockIdx.x + threadIdx.x;
+	const int y = blockDim.y * blockIdx.y + threadIdx.y;
+
+	if (x < rows && y < cols) {
+		d_Data1[x * cols + y] = d_Data1[x * cols + y] + d_Data2[x * cols + y];
+	}
+}
+
 #endif // !TRIANGLE_RASTERIZATION_H

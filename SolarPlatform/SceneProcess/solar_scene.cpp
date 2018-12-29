@@ -89,9 +89,16 @@ bool SolarScene::InitContent()
 	return true;
 }
 
+
 bool SolarScene::ResetHelioNorm(float3 foucupoint) {
 	
 	focus_center_ = foucupoint;
 	SceneProcessor::set_helio_content(this->heliostats, focus_center_, this->sunray_->sun_dir_);
+	return true;
+}
+
+bool SolarScene::ResetHelioNorm(const std::vector<float3> &norm_vec) {
+
+	SceneProcessor::set_helio_content(this->heliostats, norm_vec);
 	return true;
 }

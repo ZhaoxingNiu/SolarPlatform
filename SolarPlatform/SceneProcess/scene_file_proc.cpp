@@ -35,6 +35,25 @@ StringValue SceneFileProc::Str2Value(string str) {
 	}
 }
 
+void SceneFileProc::SceneNormalRead(std::string filepath, std::vector<float3> &norm_vec) {
+	std::ifstream scene_normal_file;
+	scene_normal_file.open(filepath);
+	stringstream scene_normal_stream;
+	// read file's buffer contents into streams
+	scene_normal_stream << scene_normal_file.rdbuf();
+	scene_normal_file.close();
+
+	std::string str_line;
+	norm_vec.clear();
+	while (getline(scene_normal_stream, str_line)) {
+		std::stringstream line_stream;
+		line_stream << str_line;
+		float3 norm;
+		line_stream >> norm.x >> norm.y >> norm.z;
+		norm_vec.push_back(norm);
+	}
+}
+
 
 bool SceneFileProc::SceneFileRead(SolarScene *solarscene, std::string filepath) {
 	Receiver *receiver;

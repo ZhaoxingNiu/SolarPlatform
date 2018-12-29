@@ -25,6 +25,7 @@ public:
 	bool InitSolarScene(string filepath);
 	bool InitContent();					// Call the method only if all grids, heliostats and receivers needs initializing. 
 	bool ResetHelioNorm(float3 foucupoint);			    // reset heliostats focus point
+	bool ResetHelioNorm(const std::vector<float3> &norm_vec);			    // reset heliostats focus point
 
 private:
 	static SolarScene *m_instance;		//Singleton

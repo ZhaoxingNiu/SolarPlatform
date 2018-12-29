@@ -100,6 +100,12 @@ void ProjectionPlane::shadow_block(const std::vector<std::vector<float3>> &point
 }
 
 
+// 阴影和遮挡暂时只考虑矩形的定日镜，其他形状不考虑
+void ProjectionPlane::accumuluation(const ProjectionPlane &plane) {
+	// project 
+	sum_rasterization(d_Data, plane.d_Data,rows, cols);
+}
+
 void ProjectionPlane::save_data_text(const std::string out_path) {
 
 	std::ofstream out(out_path.c_str());

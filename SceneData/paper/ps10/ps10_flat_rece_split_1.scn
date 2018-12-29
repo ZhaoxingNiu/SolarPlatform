@@ -1,3 +1,26 @@
+# Ground Boundary
+ground 1024 1024
+ngrid 1
+
+# Receiver attributes
+Recv 0
+pos 0.0 101  0.0
+size 10.0  10.0 0.0
+norm 0.0  0.0 -1.0
+face 2
+end
+
+
+# Grid1 attributes
+Grid 0
+pos -396.483 0 -781.184
+size 792.966 15 750.088
+inter 15 15 15
+n 17472
+type 0
+end
+
+
 # Heliostats
 gap  0.02 0.02
 matrix 1 1

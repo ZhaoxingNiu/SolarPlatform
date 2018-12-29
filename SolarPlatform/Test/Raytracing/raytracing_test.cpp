@@ -1,4 +1,5 @@
 #include "./raytracing_test.cuh"
+#include "../../SceneProcess/scene_file_proc.h"
 #include "time.h"
 
 bool test_raytracing()
@@ -84,6 +85,65 @@ bool test_raytracing_scene1()
 	}
 
 	std::cout << "程序平均耗时：" << solarenergy::total_time/40 << " s" << endl;
+	// Finally, destroy solar_scene
+	solar_scene->~SolarScene();
+	return true;
+}
+
+
+
+
+bool test_raytracing_scene_ps10()
+{
+	// 单点与卷积需要修改的位置
+	// num_sunshape_lights_per_group
+	// helio_pixel_length
+	solarenergy::num_sunshape_lights_per_group = 2048;
+	solarenergy::num_sunshape_lights_loop = 1;
+	int ray_num = int(solarenergy::num_sunshape_lights_per_group*solarenergy::num_sunshape_lights_loop);
+	solarenergy::csr = 0.1f;
+	solarenergy::disturb_std = 0.001f;
+	solarenergy::helio_pixel_length = 0.01f;
+	solarenergy::receiver_pixel_length = 0.05f;
+	solarenergy::total_time = 0.0f;
+	/******修改*****/
+	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece_split_1.scn";
+	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
+
+	//load the norm
+	std::string normal_filepath = "../SceneData/paper/ps10/ps10_flat_rece_split_1_norm.scn";
+	std::cout << "filepath: " << normal_filepath << std::endl;
+	std::vector<float3> norm_vec;
+	SceneFileProc::SceneNormalRead(normal_filepath, norm_vec);
+
+
+	// Step 1: Load files
+	SolarScene *solar_scene;
+	solar_scene = SolarScene::GetInstance();
+	// set the normal
+	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
+	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
+
+	// Step 2: Initialize the content in the scene
+	// 有两种方式，后续调整，也可以直接进行调整
+	solar_scene->InitContent();
+	solar_scene->ResetHelioNorm(norm_vec);
+
+
+	//double total_time = 0.0;
+	// *********修改******* /
+	for (int helio_index = 0; helio_index < 56; ++helio_index) {
+		// Step 3: 
+		// *********修改******* /
+		string file_outputname = "../SimulResult/paper/scene_ps10_flat/raytracing/"
+			+ std::to_string(ray_num) + "/equinox_12_#"
+			+ std::to_string(helio_index/28) + "_" + std::to_string(helio_index % 28)  + ".txt";
+		int grid_index = 0;
+
+		raytracing_standard_interface(*solar_scene, helio_index, grid_index, file_outputname);
+	}
+
+	std::cout << "程序平均耗时：" << solarenergy::total_time/2  << " s" << endl;
 	// Finally, destroy solar_scene
 	solar_scene->~SolarScene();
 	return true;

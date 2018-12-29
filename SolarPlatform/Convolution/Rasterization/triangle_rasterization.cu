@@ -46,3 +46,15 @@ extern "C" void triangle_rasterization(
 #endif // SUPER_RESOLUTION_SAMPLE
 	
 }
+
+
+extern "C" void sum_rasterization(
+	float* const d_Data1,
+	float* const d_Data2,
+	int rows,
+	int cols
+) {
+	dim3 threads(32, 32);
+	dim3 grid(global_func::iDivUp(rows, threads.x), global_func::iDivUp(cols, threads.y));
+	sum_array << <grid, threads >> >(d_Data1, d_Data2, rows, cols);
+}

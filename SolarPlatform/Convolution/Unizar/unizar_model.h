@@ -20,4 +20,7 @@ bool test_unizar_model();
 
 bool test_unizar_model_scene1();
 
+
+bool test_unizar_model_ps10();
+
 #endif // !UNIZAR_MODEL_H

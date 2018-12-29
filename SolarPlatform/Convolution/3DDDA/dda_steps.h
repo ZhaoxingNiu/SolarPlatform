@@ -39,6 +39,17 @@ bool conv_method_kernel(
 	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
 );
 
+bool conv_method_kernel_focus(
+	SolarScene *solar_scene,
+	int rece_index,
+	int helio_index,
+	int sub_num,
+	int grid_index,
+	float3 normal = make_float3(0.0f, 0.0f, 0.0f),  // defautl do not set the normal, the image plane's normal
+	kernelType k_type = kernelType::T_LOADED_CONV,
+	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
+);
+
 /*
 * for the hfcal model
 * the convolution calcualtion unnecessary
@@ -52,6 +63,16 @@ bool conv_method_kernel_HFLCAL(
 	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
 );
 
+
+bool conv_method_kernel_HFLCAL_focus(
+	SolarScene *solar_scene,
+	int rece_index,
+	int helio_index,
+	int sub_num,
+	int grid_index,
+	float3 normal = make_float3(0.0f, 0.0f, 0.0f),  // defautl do not set the normal, the image plane's normal
+	float sigma_2 = 1.2f  // effective only k_type = kernelType::T_GAUSSIAN_CONV
+);
 
 
 #endif // !DDA_STEPS_H

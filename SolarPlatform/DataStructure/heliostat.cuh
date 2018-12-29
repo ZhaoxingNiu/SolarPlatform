@@ -18,6 +18,7 @@ public:
 
 	virtual void Cset_pixel_length(const float &pixel_length) = 0;
 	virtual void CRotate(const float3 &focus_center, const float3 &sunray_dir) = 0;
+	virtual void CRotate(const float3 &norm_dir) = 0;
 	virtual void Cget_vertex(float3 &v0, float3 &v1, float3 &v3) = 0;
 	virtual void Cget_all_vertex(float3 &v0, float3 &v1, float3 &v2, float3 &v3) = 0;
 	virtual bool Cray_intersect(const float3 ori, const float3 dir, float3 &p) const = 0;
@@ -35,6 +36,7 @@ public:
 	//	return global_func::rayParallelogramIntersect(orig, dir, vertex_[0], vertex_[1], vertex_[3], t, u, v);
 	//}
 	virtual void CRotate(const float3 &focus_center, const float3 &sunray_dir);
+	virtual void CRotate(const float3 &norm_dir);
 	virtual void Cget_vertex(float3 &v0, float3 &v1, float3 &v3)
 	{
 		v0 = vertex_[0];

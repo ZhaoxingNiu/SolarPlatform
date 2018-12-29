@@ -15,6 +15,8 @@ public:
 
 	// helio
 	static void set_helio_content(vector<Heliostat *> &heliostats, const float3 &focus_center, const float3 &sunray_dir);
+
+	static void set_helio_content(vector<Heliostat *> &heliostats, const vector<float3> &norm_vec);
 	// focus_centers is the head of array
 	static bool set_helio_content(vector<Heliostat *> &heliostats, const float3 *focus_centers, const float3 &sunray_dir, const size_t &size);
 

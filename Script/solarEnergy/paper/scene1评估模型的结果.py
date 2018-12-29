@@ -27,7 +27,6 @@ import math
 
 
 
-
 if __name__ == "__main__":
 
     scene_num = 1
@@ -37,7 +36,8 @@ if __name__ == "__main__":
     list_total_rate = []
     list_rmse = []
     
-    for helios_index in range(40):
+    for helios_index in range(1):
+    
         raytracing_path = globalVar.DATA_PATH + "../paper/scene{}/raytracing/{}/equinox_12_#{}.txt".format(scene_num,ray_num,helios_index)
         
         #model   unizar  hflcal 分别切换指标

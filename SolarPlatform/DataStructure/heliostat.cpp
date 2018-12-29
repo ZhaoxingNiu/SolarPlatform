@@ -20,6 +20,14 @@ void RectangleHelio::CRotate(const float3 &focus_center, const float3 &sunray_di
 	Cset_worldvertex();
 }
 
+void RectangleHelio::CRotate(const float3 &norm_dir)
+{
+	//set the normal
+	normal_ = normalize(norm_dir);
+	Cset_localvertex();
+	Cset_worldvertex();
+}
+
 void RectangleHelio::Cset_localvertex()
 {
 	vertex_[0] = make_float3(-size_.x / 2, size_.y / 2, -size_.z / 2);
