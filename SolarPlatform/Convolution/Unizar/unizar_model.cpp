@@ -8,7 +8,9 @@ void unizar_model(
 	int helio_index,
 	int grid_index,
 	float ideal_peak,
-	std::string res_path
+	std::string res_path,
+	bool is_focus,
+	int sub_num
 ) {
 	// initialization,set the value
 	float ideal_sigma_2 = -1.0;
@@ -21,8 +23,14 @@ void unizar_model(
 		// init the clean
 		sigma_2 = (sigma_high + sigma_low) / 2.0f;
 		solar_scene->receivers[rece_index]->Cclean_image_content();
-		conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f,0.0f,0.0f),
-			kernelType::T_GAUSSIAN_CONV, sigma_2);
+		if (is_focus) {
+			conv_method_kernel_focus(solar_scene, rece_index,helio_index, 28, grid_index,
+				kernelType::T_GAUSSIAN_CONV, sigma_2);
+		}
+		else {
+			conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+				kernelType::T_GAUSSIAN_CONV, sigma_2);
+		}
 		float max_val = solar_scene->receivers[rece_index]->peek_value();
 		if (abs(max_val - ideal_peak) < 0.1f) {
 			// break
@@ -39,8 +47,14 @@ void unizar_model(
 
 	// run the convolution model
 	solar_scene->receivers[rece_index]->Cclean_image_content();
-	conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
-		kernelType::T_GAUSSIAN_CONV, ideal_sigma_2);
+	if (is_focus) {
+		conv_method_kernel_focus(solar_scene, rece_index, helio_index, 28, grid_index,
+			kernelType::T_GAUSSIAN_CONV, ideal_sigma_2);
+	}
+	else {
+		conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+			kernelType::T_GAUSSIAN_CONV, ideal_sigma_2);
+	}
 	solarenergy::total_times++;
 	// save the result
 	solar_scene->receivers[rece_index]->save_result_conv(res_path);
@@ -157,22 +171,25 @@ bool test_unizar_model_ps10() {
 	solar_scene->ResetHelioNorm(norm_vec);
 
 	int rece_index = 0;
+	solarenergy::total_time = 0.0f;
+	int helio_index_range = 2;
+	solarenergy::total_times = 0;
+	double first_times = 0;
 	// *********修改******* /
-	for (int helio_index = 0; helio_index < 5600; ++helio_index) {
+	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 		// *********修改******* /
 		string raytracing_path = "../SimulResult/paper/scene_ps10_flat/raytracing/2048/equinox_12_#"
-			+ std::to_string(helio_index / 28) + "_" + std::to_string(helio_index % 28) + ".txt";
-		string res_path = "../SimulResult/paper/scene_ps10_flat/unizar_sub/equinox_12_#"
-			+ std::to_string(helio_index / 28) + "_" + std::to_string(helio_index % 28) + ".txt";
+			+ std::to_string(helio_index)  + ".txt";
+		string res_path = "../SimulResult/paper/scene_ps10_flat/unizar/equinox_12_#"
+			+ std::to_string(helio_index) + ".txt";
 		float ideal_peak = get_file_peak(raytracing_path);
 		int grid_index = 0;
 		// unizar model
-		unizar_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, res_path);
+		unizar_model(solar_scene, rece_index, helio_index, grid_index, ideal_peak, res_path,true,28);
 	}
 
-	std::cout << "运行次数：" << solarenergy::total_times << std::endl;
 	std::cout << "程序平均耗时：" << solarenergy::total_time / solarenergy::total_times << " ms" << endl;
 	return true;
 }

@@ -68,7 +68,13 @@ void dda_interface(
 		block_helio_label
 	);
 
+	sdkStopTimer(&hTimer);
+	double gpuTime = sdkGetTimerValue(&hTimer);
+	solarenergy::total_time += gpuTime;
+	printf("3D DDA cost time: (%f ms)\n", gpuTime);
 
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	// step 4 process the vertex
 	// step 4.1 calculate the contour on the image plane
 	std::vector<float3> vec_project;
@@ -117,14 +123,6 @@ void dda_interface(
 		vecvec_shadow_block.push_back(vec_shadow_block);
 	}
 
-	sdkStopTimer(&hTimer);
-	double gpuTime = sdkGetTimerValue(&hTimer);
-	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
-	printf("3D DDA cost time: (%f ms)\n", gpuTime);
-
-	sdkResetTimer(&hTimer);
-	sdkStartTimer(&hTimer);
 	// step 5. rasterization the image plane
 	plane.projection(vec_project);
 	plane.shadow_block(vecvec_shadow_block);
@@ -132,7 +130,6 @@ void dda_interface(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
 	printf("rasterization cost time: (%f ms)\n", gpuTime);
 
 	delete[] h_helio_vertexs;

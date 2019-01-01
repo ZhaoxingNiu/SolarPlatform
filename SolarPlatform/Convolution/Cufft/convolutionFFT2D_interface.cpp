@@ -247,14 +247,17 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	checkCudaErrors(cufftExecC2R(fftPlanInv, (cufftComplex *)d_DataSpectrum, (cufftReal *)d_PaddedData));
 
 	checkCudaErrors(cudaDeviceSynchronize());
-	checkCudaErrors(cudaMemcpy(h_ResultOrigin, d_PaddedData, fftH * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 
+	// 只统计了计算的耗时，数组拷贝会CPU 再到 GPU 只是为了接口方便，需要优化重写
+	// 写成GPU复制的形式
 	sdkStopTimer(&hTimer);
 	double gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
-	printf("%f MPix/s (%f ms)\n", (double)dataH * (double)dataW * 1e-6 / (gpuTime * 0.001), gpuTime);
+	printf("卷积计算耗时 (%f ms)\n", gpuTime);
+	checkCudaErrors(cudaMemcpy(h_ResultOrigin, d_PaddedData, fftH * fftW * sizeof(float), cudaMemcpyDeviceToHost));
+	
 #ifdef DEBUG
+	printf("%f MPix/s (%f ms)\n", (double)dataH * (double)dataW * 1e-6 / (gpuTime * 0.001), gpuTime);
 	printf("...reading back GPU convolution results\n");
 	printf("...reading back origin data to the result\n");
 #endif // DEBUG
@@ -270,7 +273,6 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	std::cout << "h_Result in function" << std::endl;
 	showDataConvolution(h_Result, dataH, dataW);
 #endif
-
 	// process the data
 	checkCudaErrors(cudaMemcpy(d_Data, h_Result, dataH * dataW * sizeof(float),
 		cudaMemcpyHostToDevice));

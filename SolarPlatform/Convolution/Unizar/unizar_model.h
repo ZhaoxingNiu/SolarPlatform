@@ -12,7 +12,10 @@ void unizar_model(
 	int helio_index,
 	int grid_index,
 	float ideal_peak,
-	std::string resa_path
+	std::string res_path,
+	bool is_focus = false,
+	int sub_num = 1
+
 );
 
 bool test_unizar_model();

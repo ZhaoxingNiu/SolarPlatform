@@ -33,7 +33,6 @@ bool conv_method_kernel(
 	kernelType k_type,
 	float sigma_2
 ) {
-	// ********************************************************************
 	StopWatchInterface *hTimer = NULL;
 	double gpuTime = 0.0;
 	sdkCreateTimer(&hTimer);
@@ -66,7 +65,6 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
 	printf("calculation the normal: (%f ms)\n", gpuTime);
 
 	// Step 2: rasterization
@@ -80,7 +78,7 @@ bool conv_method_kernel(
 	
 
 #ifdef _DEBUG
-	std::string image_path = "../SimulResult/imageplane/image_debug.txt";
+	std::string image_path = "../SimulResult/imageplane/ps10_sub_image_"+std::to_string(helio_index)+".txt";
 	plane.save_data_text(image_path);
 #endif
 
@@ -88,7 +86,6 @@ bool conv_method_kernel(
 	// Step 3.1: get the projection matrix
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
-
 	oblique_proj_matrix(
 		out_dir,
 		plane.normal,
@@ -101,6 +98,7 @@ bool conv_method_kernel(
 	// calc the true angel and distance
 	float true_dis = length(recthelio->pos_
 		- solar_scene->receivers[rece_index]->focus_center_);
+	// true_angel 对应的是 入射角 与 出射角 之间的关系
 	float true_angel = acosf(dot(-in_dir, out_dir)) * 180 / MATH_PI;
 	int round_distance = round(true_dis);
 	int round_angel = round(true_angel);
@@ -108,7 +106,6 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
 	std::cout << "calculation distance time: " << gpuTime << " ms" << std::endl;
 
 	std::shared_ptr<ConvKernel> kernel;
@@ -177,7 +174,6 @@ bool conv_method_kernel(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
 	printf("projection cost time: (%f ms)\n", gpuTime);
 	return true;
 }
@@ -188,7 +184,6 @@ bool conv_method_kernel_focus(
 	int helio_index,
 	int sub_num,
 	int grid_index,
-	float3 normal,
 	kernelType k_type,
 	float sigma_2
 ) {
@@ -196,6 +191,7 @@ bool conv_method_kernel_focus(
 	StopWatchInterface *hTimer = NULL;
 	double gpuTime = 0.0;
 	sdkCreateTimer(&hTimer);
+
 	// Step 1: Initialize the image plane
 	ProjectionPlane plane_total(
 		solarenergy::image_plane_size.x,
@@ -205,8 +201,12 @@ bool conv_method_kernel_focus(
 		solarenergy::image_plane_size.x,
 		solarenergy::image_plane_size.y,
 		solarenergy::image_plane_pixel_length);
-
+	
+	std::cout << "\n****** Index: " << std::to_string(helio_index) << "******" << std::endl;
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
 	float3 average_normal = make_float3(0.0f,0.0f,0.0f);
+	float3 average_out_dir = make_float3(0.0f, 0.0f, 0.0f);
 	float3 in_dir = solar_scene->sunray_->sun_dir_;
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
 
@@ -214,38 +214,33 @@ bool conv_method_kernel_focus(
 	float average_angle = 0.0f;
 	// calculatation the  average
 	for (int i = helio_index*sub_num; i < (helio_index + 1)*sub_num; ++i) {
-		sdkResetTimer(&hTimer);
-		sdkStartTimer(&hTimer);
 		// get the receiver and heliostat's information
-		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
-		
-		float3 out_dir = reflect(in_dir, recthelio->normal_);   // reflect light
-		out_dir = normalize(out_dir);
-		average_normal += out_dir;
+		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[i]);
+		average_normal += recthelio->normal_;
 		float true_dis = length(recthelio->pos_
 			- solar_scene->receivers[rece_index]->focus_center_);
-		float true_angel = acosf(dot(-in_dir, out_dir)) * 180 / MATH_PI;
 		average_dis += true_dis;
-		average_angle += true_angel;
 
 	}
 	average_normal = normalize(average_normal);
+	average_out_dir = reflect(in_dir, average_normal);   // reflect light
+	average_out_dir = normalize(average_out_dir);
 	average_dis /= sub_num;
-	average_angle /= sub_num;
+	average_angle  = acosf(dot(-in_dir, average_out_dir)) * 180 / MATH_PI;
 
 	// set the image plane
-	plane_total.set_pos(solar_scene->receivers[rece_index]->focus_center_, -average_normal);
-	plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -average_normal);
+	plane_total.set_pos(solar_scene->receivers[rece_index]->focus_center_, -average_out_dir);
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
-	printf("calculation the normal: (%f ms)\n", gpuTime);
+	printf("init the image plane cost : (%f ms)\n", gpuTime);
+
 
 	// 累加投影区域
 	for (int i = helio_index*sub_num; i < (helio_index + 1)*sub_num; ++i) {
 		plane.clean_image_content();
-		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
+		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[i]);
+		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -average_out_dir);
 		// Step 2: rasterization
 		dda_interface(
 			*(solar_scene->sunray_),
@@ -254,20 +249,17 @@ bool conv_method_kernel_focus(
 			*(solar_scene->grid0s[grid_index]),
 			solar_scene->heliostats
 		);
-		sdkResetTimer(&hTimer);
-		sdkStartTimer(&hTimer);
-
+#ifdef _DEBUG
+		std::string image_path = "../SimulResult/imageplane/ps10_plane_#" + std::to_string(helio_index) +
+			"_"+ std::to_string(i- helio_index*sub_num) + ".txt";
+		plane.save_data_text(image_path);
+#endif
 		// 累加投影区域能量
 		plane_total.accumuluation(plane);
-
-		sdkStopTimer(&hTimer);
-		gpuTime = sdkGetTimerValue(&hTimer);
-		solarenergy::total_time += gpuTime;
-		std::cout << "calculation distance time: " << gpuTime << " ms" << std::endl;
 	}
 
 #ifdef _DEBUG
-	std::string image_path = "../SimulResult/imageplane/focus_image_plane.txt";
+	std::string image_path = "../SimulResult/imageplane/ps10_plane_#"+ std::to_string(helio_index) +".txt";
 	plane_total.save_data_text(image_path);
 #endif
 	// Step 3.2: load the kernel
@@ -322,16 +314,16 @@ bool conv_method_kernel_focus(
 	);
 
 #ifdef _DEBUG
-	std::string image_path2 = "../SimulResult/imageplane/image_debug2.txt";
-	plane.save_data_text(image_path2);
+	std::string image_path2 = "../SimulResult/imageplane/ps10_plane_energy_#" + std::to_string(helio_index) + ".txt";
+	plane_total.save_data_text(image_path2);
 #endif
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
 
 	oblique_proj_matrix(
-		average_normal,
+		average_out_dir,
 		plane_total.normal,
-		average_normal,
+		average_out_dir,
 		plane_total.M,
 		plane_total.offset
 	);
@@ -348,7 +340,6 @@ bool conv_method_kernel_focus(
 	sdkStopTimer(&hTimer);
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
-	solarenergy::total_time2 += gpuTime;
 	printf("projection cost time: (%f ms)\n", gpuTime);
 	return true;
 }
@@ -359,7 +350,6 @@ bool conv_method_kernel_HFLCAL(
 	int rece_index,
 	int helio_index,
 	int grid_index,
-	float3 normal,
 	float sigma_2
 ) {
 	StopWatchInterface *hTimer = NULL;
@@ -382,12 +372,8 @@ bool conv_method_kernel_HFLCAL(
 	out_dir = normalize(out_dir);
 
 	// if seted normal, otherwise the normal is generated
-	if (length(normal) == 0.0f) {
-		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
-	}
-	else {
-		plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, normal);
-	}
+	plane.set_pos(solar_scene->receivers[rece_index]->focus_center_, -out_dir);
+
 	// the hflcal model generate the kernel on the image plane 
 	float true_dis = length(recthelio->pos_
 		- solar_scene->receivers[rece_index]->focus_center_);
@@ -438,7 +424,6 @@ bool conv_method_kernel_HFLCAL_focus(
 	int helio_index,
 	int sub_num,
 	int grid_index,
-	float3 normal,
 	float sigma_2
 ) {
 	StopWatchInterface *hTimer = NULL;
@@ -459,7 +444,7 @@ bool conv_method_kernel_HFLCAL_focus(
 	// calculatation the  average
 	for (int i = helio_index*sub_num; i < (helio_index + 1)*sub_num; ++i) {
 		// get the receiver and heliostat's information
-		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
+		RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[i]);
 		average_normal += recthelio->normal_;
 
 		float true_dis = length(recthelio->pos_
@@ -482,7 +467,7 @@ bool conv_method_kernel_HFLCAL_focus(
 
 
 	float air_atten = global_func::air_attenuation(average_dis);
-	float cos_val = abs(dot(in_dir, average_normal));
+	float cos_val = abs(dot(-in_dir, average_normal));
 
 	float total_energy = air_atten*solarenergy::dni*solarenergy::reflected_rate
 		*total_area*cos_val;

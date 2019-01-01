@@ -100,7 +100,7 @@ def showHeliosSubRT(index,sub):
 if __name__ == '__main__':
     # 这个函数的功能是将28个子文件合成一个
     #process_raytracing(50)
-    helio_index =1
+    helio_index = 5
     flux_spot_rt = showHeliosRT(helio_index)
     #flux_spot_hflcal = showHeliosHFLCAL(helio_index)
     

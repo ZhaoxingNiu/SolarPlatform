@@ -92,6 +92,19 @@ void calc_intersection_3DDDA(
 		int grid_address = global_func::unroll_index(grid_index, rectgrid.grid_num_);
 
 		while (true) {
+			// add the grid 
+			int block_num = intersect_helio(
+				d_orig,
+				d_dir,
+				grid_address,
+				h_heliotat_vertex,
+				h_grid_heliostat_match,
+				h_grid_heliostat_index,
+				relative_helio_label);
+
+#ifdef _DEBUG
+			std::cout << "the block number is: " << block_num << std::endl;
+#endif
 			if (t_max.x < t_max.y)
 			{
 				if (t_max.x < t_max.z)
@@ -132,19 +145,19 @@ void calc_intersection_3DDDA(
 			}
 			grid_address = global_func::unroll_index(grid_index, rectgrid.grid_num_);
 
-			// add the grid 
-			int block_num = intersect_helio(
-				d_orig,
-				d_dir,
-				grid_address,
-				h_heliotat_vertex,
-				h_grid_heliostat_match,
-				h_grid_heliostat_index,
-				relative_helio_label);
-
-#ifdef DEBUG
-			std::cout << "the block number is: " << block_num << std::endl;
-#endif
+//			// add the grid 
+//			int block_num = intersect_helio(
+//				d_orig,
+//				d_dir,
+//				grid_address,
+//				h_heliotat_vertex,
+//				h_grid_heliostat_match,
+//				h_grid_heliostat_index,
+//				relative_helio_label);
+//
+//#ifdef _DEBUG
+//			std::cout << "the block number is: " << block_num << std::endl;
+//#endif
 		}
 	}
 }

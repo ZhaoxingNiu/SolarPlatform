@@ -21,7 +21,7 @@ void hflcal_model(
 		// init the clean
 		sigma_2 = (sigma_high + sigma_low) / 2.0f;
 		solar_scene->receivers[rece_index]->Cclean_image_content();
-		conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+		conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index,
 			sigma_2);
 		float max_val = solar_scene->receivers[rece_index]->peek_value();
 		if (abs(max_val - ideal_peak) < 0.1f) {
@@ -40,7 +40,7 @@ void hflcal_model(
 
 	// run the convolution model
 	solar_scene->receivers[rece_index]->Cclean_image_content();
-	conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+	conv_method_kernel_HFLCAL(solar_scene, rece_index, helio_index, grid_index,
 		 ideal_sigma_2);
 
 	solarenergy::total_times++;
@@ -69,7 +69,7 @@ void hflcal_model_focus(
 		// init the clean
 		sigma_2 = (sigma_high + sigma_low) / 2.0f;
 		solar_scene->receivers[rece_index]->Cclean_image_content();
-		conv_method_kernel_HFLCAL_focus(solar_scene, rece_index, helio_index, sub_num, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+		conv_method_kernel_HFLCAL_focus(solar_scene, rece_index, helio_index, sub_num, grid_index, 
 			sigma_2);
 		float max_val = solar_scene->receivers[rece_index]->peek_value();
 		if (abs(max_val - ideal_peak) < 0.1f) {
@@ -88,7 +88,7 @@ void hflcal_model_focus(
 
 	// run the convolution model
 	solar_scene->receivers[rece_index]->Cclean_image_content();
-	conv_method_kernel_HFLCAL_focus(solar_scene, rece_index, helio_index, sub_num, grid_index, make_float3(0.0f, 0.0f, 0.0f),
+	conv_method_kernel_HFLCAL_focus(solar_scene, rece_index, helio_index, sub_num, grid_index, 
 		ideal_sigma_2);
 
 	solarenergy::total_times++;
@@ -204,22 +204,23 @@ bool test_hflcal_model_ps10() {
 	solar_scene->ResetHelioNorm(norm_vec);
 
 	int rece_index = 0;
+	solarenergy::total_time = 0.0f;
+	int helio_index_range = 10;
+	solarenergy::total_times = 0;
+	double first_times = 0;
 	// *********修改******* /
-	for (int helio_index = 0; helio_index < 5600; ++helio_index) {
+	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 		// *********修改******* /
-		string raytracing_path = "../SimulResult/paper/scene_ps10_flat/raytracing/2048/equinox_12_#" 
-			+ std::to_string(helio_index / 28) + "_" + std::to_string(helio_index % 28) + ".txt";
-		string res_path = "../SimulResult/paper/scene_ps10_flat/hflcal_sub/equinox_12_#"
-			+ std::to_string(helio_index / 28) + "_" + std::to_string(helio_index % 28) + ".txt";
+		string raytracing_path = "../SimulResult/paper/scene_ps10_flat/raytracing/2048/equinox_12_#"
+			+ std::to_string(helio_index) + ".txt";
+		string res_path = "../SimulResult/paper/scene_ps10_flat/hflcal/equinox_12_#"
+			+ std::to_string(helio_index) + ".txt";
 		float ideal_peak = get_file_peak(raytracing_path);
-		int grid_index = 0;
 		// hfalcal model
-		hflcal_model(solar_scene, rece_index, helio_index, 28, ideal_peak, res_path);
+		hflcal_model_focus(solar_scene, rece_index, helio_index, 28, 0 ,ideal_peak, res_path);
 	}
-
-	std::cout << "hflcal运行次数：" << solarenergy::total_times << endl;
 	std::cout << "程序平均耗时：" << solarenergy::total_time / solarenergy::total_times << " ms" << endl;
 	return true;
 }

@@ -96,11 +96,11 @@ void raytracing_interface(SolarScene &solar_scene)
 
 void raytracing_standard_interface(SolarScene &solar_scene, int hIndex, int gridIndex, string outpath) {
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene.heliostats[hIndex]);
-	solar_scene.receivers[0]->Cclean_image_content();
 	//timer
 	double start, stop, durationTime;
+	solar_scene.receivers[0]->Cclean_image_content();
 	start = clock();
-
+	
 	for (int i = 0; i < solarenergy::num_sunshape_lights_loop; ++i){
 		recthelio_ray_tracing(*solar_scene.sunray_,
 			*solar_scene.receivers[0],
@@ -126,7 +126,6 @@ void raytracing_standard_interface(SolarScene &solar_scene, int hIndex, int grid
 	durationTime = ((double)(stop - start)) / CLK_TCK;
 	solarenergy::total_time += durationTime;
 	
-
 	// Save image
 	ImageSaver::savetxt(outpath.c_str(), solar_scene.receivers[0]->resolution_.x, solar_scene.receivers[0]->resolution_.y, h_image);
 	delete[] h_image;
