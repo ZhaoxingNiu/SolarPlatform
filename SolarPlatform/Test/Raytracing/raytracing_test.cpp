@@ -96,7 +96,7 @@ bool test_raytracing_scene_ps10()
 	// 单点与卷积需要修改的位置
 	// num_sunshape_lights_per_group
 	// helio_pixel_length
-	solarenergy::num_sunshape_lights_per_group = 1024;
+	solarenergy::num_sunshape_lights_per_group = 2048;
 	solarenergy::num_sunshape_lights_loop = 1;
 	int ray_num = int(solarenergy::num_sunshape_lights_per_group*solarenergy::num_sunshape_lights_loop);
 	solarenergy::csr = 0.1f;
@@ -128,16 +128,16 @@ bool test_raytracing_scene_ps10()
 
 	// 计时，并且修改统计方式
 	solarenergy::total_time = 0.0f;
-	solarenergy::total_times = 4;
+	solarenergy::total_times = 624;
 	// *********修改******* /
 	for (int helio_index = 0; helio_index < solarenergy::total_times * 28; ++helio_index) {
 		// Step 3: 
 		// *********修改******* /
-		string file_outputname = "../SimulResult/paper/scene_ps10_flat/raytracing/"
+		string res_path = "../SimulResult/paper/scene_ps10_flat/raytracing/"
 			+ std::to_string(ray_num) + "/equinox_12_#"
 			+ std::to_string(helio_index/28) + "_" + std::to_string(helio_index % 28)  + ".txt";
 		int grid_index = 0;
-		raytracing_standard_interface(*solar_scene, helio_index, grid_index, file_outputname);
+		raytracing_standard_interface(*solar_scene, helio_index, grid_index, res_path);
 	}
 
 	std::cout << "程序平均耗时：" << solarenergy::total_time/ solarenergy::total_times << " s" << endl;

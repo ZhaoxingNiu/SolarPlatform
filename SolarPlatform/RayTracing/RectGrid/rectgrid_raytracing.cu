@@ -172,14 +172,14 @@ __global__ void map_tracing(const SunRay sunray,		// sun
 	dir = -dir;													// Since the sun direction is incident direction, reverse it
 
 	float3 orig = d_microhelio_center[myId / nLights];			// get the center of submirror
-
 	if (!NotCollision(orig, dir, grid, d_helio_vertexs))
 		return;
 
 	//	Step 2: whether the reflect light is shadowed by other heliostats	
 	float3 normal = d_microhelio_normals[myId / nLights];
 	float3 turbulence = sunray.d_perturbation_[myId % nLights];
-	normal = global_func::local2world(turbulence, normal); normal = normalize(normal);
+	normal = global_func::local2world(turbulence, normal); 
+	normal = normalize(normal);
 
 	dir = -dir;
 	dir = reflect(dir, normal);					// reflect light

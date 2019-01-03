@@ -1,7 +1,7 @@
 #include "./conv_model.h"
 #include <cmath>
 #include "../../SceneProcess/scene_file_proc.h"
-
+#include "../Struct/analyticModelScene.h"
 
 bool test_conv_model_scene1() {
 
@@ -26,6 +26,12 @@ bool test_conv_model_scene1() {
 	//solarenergy::sun_dir = make_float3(0.0f, 0.0f, 1.0f);
 	solar_scene->InitContent();
 
+	//  初始化AnalyticModelScene
+	AnalyticModelScene *model_scene;
+	model_scene = AnalyticModelScene::GetInstance();
+	model_scene->InitContent(solar_scene);
+
+
 	int rece_index = 0;
 	double first_times = 0;
 	for (int helio_index = 0; helio_index < 40; ++helio_index) {
@@ -35,7 +41,7 @@ bool test_conv_model_scene1() {
 
 		int grid_index = helio_index;
 		// run the model 
-		conv_method_kernel(solar_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f), kernelType::T_LOADED_CONV, 0.0f);
+		conv_method_kernel(solar_scene, model_scene, rece_index, helio_index, grid_index, make_float3(0.0f, 0.0f, 0.0f), kernelType::T_LOADED_CONV, 0.0f);
 
 		// *********修改******* /
 		string file_outputname = "../SimulResult/paper/scene_11/model/equinox_12_#" + std::to_string(helio_index) + ".txt";
@@ -85,17 +91,24 @@ bool test_conv_model_scene_ps10_tmp() {
 	solar_scene->InitContent();
 	solar_scene->ResetHelioNorm(norm_vec);
 
+	//  初始化AnalyticModelScene
+	AnalyticModelScene *model_scene;
+	model_scene = AnalyticModelScene::GetInstance();
+	model_scene->InitContent(solar_scene);
+
+
 	int rece_index = 0;
 	solarenergy::total_time = 0.0f;
-	solarenergy::total_times = 1;
+	solarenergy::total_times = 5;
 	double first_times = 0;
-	for (int helio_index = 0; helio_index < solarenergy::total_times*28; ++helio_index) {
+	//for (int helio_index = 4 * 28; helio_index < solarenergy::total_times * 28; ++helio_index) {
+	for (int helio_index = 4*28+1; helio_index < 4*28+2; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 
 		int grid_index = 0;
 		// run the model 
-		conv_method_kernel(solar_scene, rece_index, helio_index, 0, make_float3(0.0f, 0.0f, 0.0f), kernelType::T_LOADED_CONV, 0.0f);
+		conv_method_kernel(solar_scene, model_scene, rece_index, helio_index, 0, make_float3(0.0f, 0.0f, 0.0f), kernelType::T_LOADED_CONV, 0.0f);
 
 		// *********修改******* /
 		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model_sub_tmp/equinox_12_#"
@@ -106,15 +119,14 @@ bool test_conv_model_scene_ps10_tmp() {
 		}
 	}
 
-	std::cout << "程序平均耗时：" << (solarenergy::total_time - first_times) / solarenergy::total_times << " ms" << endl;
+	std::cout << "程序平均耗时：" << (solarenergy::total_time - first_times) / (solarenergy::total_times-1) << " ms" << endl;
 	return true;
 }
 
 // 论文修改版
 // 28个平面使用平均法向平面进行处理，然后得到总体结果
 bool test_conv_model_scene_ps10() {
-	// num_sunshape_lights_per_group
-	// helio_pixel_length
+	// 初始化配置信息
 	solarenergy::num_sunshape_lights_per_group = 1024;
 	solarenergy::num_sunshape_lights_loop = 1;
 	int ray_num = int(solarenergy::num_sunshape_lights_per_group*solarenergy::num_sunshape_lights_loop);
@@ -126,37 +138,40 @@ bool test_conv_model_scene_ps10() {
 	/******修改*****/
 	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece_split_1.scn";
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
-
 	//load the norm
 	std::string normal_filepath = "../SceneData/paper/ps10/ps10_flat_rece_split_1_norm.scn";
 	std::cout << "filepath: " << normal_filepath << std::endl;
 	std::vector<float3> norm_vec;
 	SceneFileProc::SceneNormalRead(normal_filepath, norm_vec);
 
-
-	// Step 1: Load files
+	
+	// Step 1: 加载场景文件，初始化
 	SolarScene *solar_scene;
 	solar_scene = SolarScene::GetInstance();
 	// set the normal
 	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
-
 	// Step 2: Initialize the content in the scene
 	// 有两种方式，后续调整，也可以直接进行调整
 	solar_scene->InitContent();
 	solar_scene->ResetHelioNorm(norm_vec);
 
+	//  初始化AnalyticModelScene
+	AnalyticModelScene *model_scene;
+	model_scene = AnalyticModelScene::GetInstance();
+	model_scene->InitContent(solar_scene);
+
 	int rece_index = 0;
 	solarenergy::total_time = 0.0f;
-	int helio_index_range = 5;
+	int helio_index_range = 10;
 	double first_times = 0;
-	for (int helio_index = 4; helio_index < helio_index_range; ++helio_index) {
+	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 
 		int grid_index = 0;
 		// run the model 
-		conv_method_kernel_focus(solar_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
+		conv_method_kernel_focus(solar_scene, model_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
 
 		// *********修改******* /
 		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model_sub_tmp2/equinox_12_#"

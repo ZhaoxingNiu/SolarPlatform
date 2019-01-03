@@ -8,6 +8,7 @@
 
 void unizar_model(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -18,11 +19,7 @@ void unizar_model(
 
 );
 
-bool test_unizar_model();
-
-
 bool test_unizar_model_scene1();
-
 
 bool test_unizar_model_ps10();
 

@@ -3,29 +3,9 @@
 #include <memory>
 // share_ptr : memory 
 
-// get the vertex
-bool set_helios_vertexes_cpu(
-	const std::vector<Heliostat *> heliostats,
-	const int start_pos,
-	const int end_pos,
-	float3 *&h_helio_vertexs){
-	int size = end_pos - start_pos;
-	h_helio_vertexs = new float3[size * 3];
-
-	for (int i = start_pos; i < end_pos; ++i) {
-		int offset = i - start_pos;
-		// only save the 0 1 3 vertexs
-		float3 v0, v1, v3;
-		heliostats[i]->Cget_vertex(v0, v1, v3);
-		h_helio_vertexs[3 * offset] = v0;
-		h_helio_vertexs[3 * offset + 1] = v1;
-		h_helio_vertexs[3 * offset + 2] = v3;
-	}
-	return true;
-}
-
 bool conv_method_kernel(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -36,15 +16,11 @@ bool conv_method_kernel(
 	StopWatchInterface *hTimer = NULL;
 	double gpuTime = 0.0;
 	sdkCreateTimer(&hTimer);
-
-	// Step 1: Initialize the image plane
-	ProjectionPlane plane(
-		solarenergy::image_plane_size.x,
-		solarenergy::image_plane_size.y,
-		solarenergy::image_plane_pixel_length);
-
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+	// Step 1: Initialize the image plane
+	ProjectionPlane &plane = *(model_scene->plane);
+	plane.clean_image_content();
 	// get the receiver and heliostat's information
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
@@ -73,7 +49,8 @@ bool conv_method_kernel(
 		plane,
 		*recthelio,
 		*(solar_scene->grid0s[grid_index]),
-		solar_scene->heliostats
+		solar_scene->heliostats,
+		model_scene->grid_vertexs[grid_index]
 	);
 	
 
@@ -180,6 +157,7 @@ bool conv_method_kernel(
 
 bool conv_method_kernel_focus(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int sub_num,
@@ -187,24 +165,19 @@ bool conv_method_kernel_focus(
 	kernelType k_type,
 	float sigma_2
 ) {
-	// ********************************************************************
 	StopWatchInterface *hTimer = NULL;
 	double gpuTime = 0.0;
-	sdkCreateTimer(&hTimer);
-
-	// Step 1: Initialize the image plane
-	ProjectionPlane plane_total(
-		solarenergy::image_plane_size.x,
-		solarenergy::image_plane_size.y,
-		solarenergy::image_plane_pixel_length);
-	ProjectionPlane plane(
-		solarenergy::image_plane_size.x,
-		solarenergy::image_plane_size.y,
-		solarenergy::image_plane_pixel_length);
-	
 	std::cout << "\n****** Index: " << std::to_string(helio_index) << "******" << std::endl;
+	sdkCreateTimer(&hTimer);
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+
+	// Step 1: Initialize the image plane
+	ProjectionPlane &plane_total = *(model_scene->plane_total);
+	ProjectionPlane &plane = *(model_scene->plane);
+	plane_total.clean_image_content();
+	plane.clean_image_content();
+
 	float3 average_normal = make_float3(0.0f,0.0f,0.0f);
 	float3 average_out_dir = make_float3(0.0f, 0.0f, 0.0f);
 	float3 in_dir = solar_scene->sunray_->sun_dir_;
@@ -220,7 +193,6 @@ bool conv_method_kernel_focus(
 		float true_dis = length(recthelio->pos_
 			- solar_scene->receivers[rece_index]->focus_center_);
 		average_dis += true_dis;
-
 	}
 	average_normal = normalize(average_normal);
 	average_out_dir = reflect(in_dir, average_normal);   // reflect light
@@ -247,7 +219,8 @@ bool conv_method_kernel_focus(
 			plane,
 			*recthelio,
 			*(solar_scene->grid0s[grid_index]),
-			solar_scene->heliostats
+			solar_scene->heliostats,
+			model_scene->grid_vertexs[grid_index]
 		);
 #ifdef _DEBUG
 		std::string image_path = "../SimulResult/imageplane/ps10_plane_#" + std::to_string(helio_index) +
@@ -347,6 +320,7 @@ bool conv_method_kernel_focus(
 
 bool conv_method_kernel_HFLCAL(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -355,13 +329,11 @@ bool conv_method_kernel_HFLCAL(
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 	// Step 1: Initialize the image plane
-	ProjectionPlane plane(
-		solarenergy::image_plane_size.x,
-		solarenergy::image_plane_size.y,
-		solarenergy::image_plane_pixel_length);
-
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+
+	ProjectionPlane &plane = *(model_scene->plane);
+	plane.clean_image_content();
 	// get the receiver and heliostat's information
 	RectangleHelio *recthelio = dynamic_cast<RectangleHelio *>(solar_scene->heliostats[helio_index]);
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene->receivers[rece_index]);
@@ -420,6 +392,7 @@ bool conv_method_kernel_HFLCAL(
 
 bool conv_method_kernel_HFLCAL_focus(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int sub_num,
@@ -429,10 +402,12 @@ bool conv_method_kernel_HFLCAL_focus(
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 	// Step 1: Initialize the image plane
-	ProjectionPlane plane(
-		solarenergy::image_plane_size.x,
-		solarenergy::image_plane_size.y,
-		solarenergy::image_plane_pixel_length);
+	sdkResetTimer(&hTimer);
+	sdkStartTimer(&hTimer);
+
+	// Step 1: Initialize the image plane
+	ProjectionPlane &plane = *(model_scene->plane);
+	plane.clean_image_content();
 
 	float3 average_normal = make_float3(0.0f, 0.0f, 0.0f);
 	float3 average_out_dir = make_float3(0.0f, 0.0f, 0.0f);

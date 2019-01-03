@@ -7,6 +7,8 @@
 #include "./dda_interface.h"
 #include "../Struct/oblique_parallel.cuh"
 #include "../Struct/convKernel.h"
+#include "../Struct/analyticModelScene.h"
+
 #include "../Script/gen_kernel.h"
 #include "../Cufft/convolutionFFT2D_interface.h"
 
@@ -16,11 +18,6 @@
 #include <vector>
 #include <cmath>
 
-bool set_helios_vertexes_cpu(
-	const std::vector<Heliostat *> heliostats,
-	const int start_pos,
-	const int end_pos,
-	float3 *&h_helio_vertexs);
 
 /*
 * Step 1. initialize the image plane
@@ -31,6 +28,7 @@ bool set_helios_vertexes_cpu(
 */
 bool conv_method_kernel(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -41,6 +39,7 @@ bool conv_method_kernel(
 
 bool conv_method_kernel_focus(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int sub_num,
@@ -55,6 +54,7 @@ bool conv_method_kernel_focus(
 */
 bool conv_method_kernel_HFLCAL(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -64,6 +64,7 @@ bool conv_method_kernel_HFLCAL(
 
 bool conv_method_kernel_HFLCAL_focus(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int sub_num,

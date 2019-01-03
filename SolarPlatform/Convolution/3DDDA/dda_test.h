@@ -1,4 +1,5 @@
 #ifndef DDA_TEST_H
+#define DDA_TEST_H
 
 #include "./dda_interface.h"
 #include "./dda_steps.h"

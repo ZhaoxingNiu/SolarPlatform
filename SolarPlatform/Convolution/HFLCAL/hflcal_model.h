@@ -7,6 +7,7 @@
 
 void hflcal_model(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int grid_index,
@@ -16,6 +17,7 @@ void hflcal_model(
 
 void hflcal_model_focus(
 	SolarScene *solar_scene,
+	AnalyticModelScene *model_scene,
 	int rece_index,
 	int helio_index,
 	int sub_num,
@@ -23,8 +25,6 @@ void hflcal_model_focus(
 	float ideal_peak,
 	std::string resa_path
 );
-
-bool test_hflcal_model();
 
 bool test_hflcal_model_scene1();
 

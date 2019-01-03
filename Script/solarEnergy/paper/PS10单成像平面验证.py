@@ -69,6 +69,25 @@ def getHeliosSub(index,model_name,delim=','):
     return flux_spot
 
 
+
+def getHeliosSub2(index,sub_index,model_name,delim=','):
+    flux_spot = np.zeros((200,200))
+    for helios_index in range(index,index+1):
+        for sub_index in range(sub_index,sub_index+1):
+            raytracing_path = globalVar.DATA_PATH + "../paper/scene_ps10_flat/{}/equinox_12_#{}_{}.txt".format(model_name,helios_index,sub_index)
+            #helios_flux = np.genfromtxt(raytracing_path,delimiter=' ')
+            helios_flux = np.genfromtxt(raytracing_path,delimiter=delim)
+            flux_spot += helios_flux
+    if delim == ' ':
+        flux_spot = np.rot90(flux_spot,1,(1,0))
+        flux_spot = np.rot90(flux_spot,1,(1,0))
+        flux_spot = np.rot90(flux_spot,1,(1,0))
+        
+    plt.imshow(flux_spot, interpolation='bilinear',origin='lower', \
+        cmap = cm.jet, vmin=0)
+    return flux_spot
+
+
 def plot3fig(rt_res, hflcal_res, unizar_res ,conv_res):
     fig = plt.figure(figsize=(15,15))
     
@@ -141,11 +160,11 @@ def process_the_image_plane(index,delim=','):
 if __name__ == "__main__":
     #init()
    
-    helios_index = 4
+    helios_index = 9
     rt_res = getHeliosTotal(helios_index,'raytracing/2048')
     hflcal_res = getHeliosTotal(helios_index,'hflcal',' ')
     unizar_res = getHeliosTotal(helios_index,'unizar',' ')
-    conv_res = getHeliosSub(helios_index,'model_sub_tmp',' ')
+    conv_res = getHeliosTotal(helios_index,'model_sub_tmp2',' ')
     
     
     hflcal_res = np.rot90(hflcal_res,1,(1,0))

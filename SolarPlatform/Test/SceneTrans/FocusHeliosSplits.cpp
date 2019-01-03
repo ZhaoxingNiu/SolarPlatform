@@ -22,9 +22,9 @@ void FocusHeliosSplit::local_coor() {
 		//生成 局部坐标,保存
 		auto helios0 = solar_scene_->heliostats[helio_index];
 		float3 start_pos = helios0->size_ / -2; 
-		start_pos.x += helio_sub_size.x;
+		start_pos.x += helio_sub_size.x/2;
 		start_pos.y = 0;
-		start_pos.z += helio_sub_size.z;
+		start_pos.z += helio_sub_size.z/2;
 
 		float step_x = helio_sub_size.x + gap_length.x;
 		float step_z = helio_sub_size.z + gap_length.y;
@@ -33,7 +33,7 @@ void FocusHeliosSplit::local_coor() {
 				float3 pos;
 				pos.x = start_pos.x + i * step_x;
 				pos.y = start_pos.y;
-				pos.z = start_pos.z + i * step_z;
+				pos.z = start_pos.z + j * step_z;
 				sub_pos.push_back(pos);
 				sub_size.push_back(helio_sub_size);
 			}
@@ -137,8 +137,6 @@ void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_n
 	outFile.close();
 	outFileNorm.close();
 }
-
-
 
 
 bool test_focus_helios_split() {

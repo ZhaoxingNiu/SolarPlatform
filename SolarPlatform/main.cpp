@@ -42,10 +42,11 @@ int main() {
 	// if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }
-
     //if (!test_dda_rasterization()) { nFailures++; }
-	//if (!test_unizar_model()) { nFailures++; }
-	//if (!test_hflcal_model()) { nFailures++; }
+
+	// modify the one point
+
+
 
 	//***************
 	//just for paper
@@ -58,9 +59,9 @@ int main() {
 	//test ps 10
 	//if (!test_raytracing_scene_ps10()) { nFailures++; }
 	//if (!test_conv_model_scene_ps10_tmp()) { nFailures++; }
-	if (!test_conv_model_scene_ps10()) { nFailures++; }
+	//if (!test_conv_model_scene_ps10()) { nFailures++; }
 	//if (!test_unizar_model_ps10()) { nFailures++; }
-	//if (!test_hflcal_model_ps10()) { nFailures++; }
+	if (!test_hflcal_model_ps10()) { nFailures++; }
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

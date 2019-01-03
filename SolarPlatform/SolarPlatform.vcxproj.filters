@@ -98,6 +98,9 @@
     <ClCompile Include="Test\SceneTrans\FocusHeliosSplits.cpp">
       <Filter>Test\SceneTrans</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\Struct\analyticModelScene.cpp">
+      <Filter>Convolution\Struct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -198,9 +201,11 @@
     <CudaCompile Include="Convolution\Rasterization\reduce_sum.cu">
       <Filter>Convolution\Rasterization</Filter>
     </CudaCompile>
-    <CudaCompile Include="Test\Configure\reduce_test.cu" />
     <CudaCompile Include="Convolution\Rasterization\gen_gau_kernel_gpu.cu">
       <Filter>Convolution\Rasterization</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Test\Configure\reduce_test.cu">
+      <Filter>Test\Configure</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="Test\SceneTrans\FocusHeliosSplits.h">
       <Filter>Test\SceneTrans</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Struct\analyticModelScene.h">
+      <Filter>Convolution\Struct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

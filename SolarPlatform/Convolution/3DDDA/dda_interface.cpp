@@ -2,28 +2,43 @@
 #include "./dda_steps.h"
 #include "./dda_shadow_block.h"
 
-// Helper functions for CUDA
-#include <helper_functions.h>
-#include <helper_cuda.h>
+
+// get the vertex
+bool set_helios_vertexes_cpu(
+	const std::vector<Heliostat *> &heliostats,
+	const int start_pos,
+	const int end_pos,
+	float3 *&h_helio_vertexs) {
+	int size = end_pos - start_pos;
+	h_helio_vertexs = new float3[size * 3];
+
+	for (int i = start_pos; i < end_pos; ++i) {
+		int offset = i - start_pos;
+		// only save the 0 1 3 vertexs
+		float3 v0, v1, v3;
+		heliostats[i]->Cget_vertex(v0, v1, v3);
+		h_helio_vertexs[3 * offset] = v0;
+		h_helio_vertexs[3 * offset + 1] = v1;
+		h_helio_vertexs[3 * offset + 2] = v3;
+	}
+	return true;
+}
+
+
 
 void dda_interface(
 	const SunRay &sunray,                   //  the sun ray
 	ProjectionPlane &plane,                 //  the receiver
 	const RectangleHelio &recthelio,		//	which heliostat will be traced
 	Grid &grid,								//	the grid heliostat belongs to
-	const vector<Heliostat *> heliostats)	//	all heliostats
+	const vector<Heliostat *> &heliostats,
+	float3 *h_helio_vertexs)	//	all heliostats
 {
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
-
-	// step 1. get the all vertex of the heliostat
-	float3 *h_helio_vertexs = nullptr;
-	int start_pos = grid.start_helio_pos_;
-	int end_pos = start_pos + grid.num_helios_;
-	set_helios_vertexes_cpu(heliostats, start_pos, end_pos, h_helio_vertexs);
-
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
+
 	// step 2. get tht ptr vertex
 	std::vector<float3> vertex;
 	for (int i = 0; i < 4; ++i) {
@@ -44,8 +59,8 @@ void dda_interface(
 		std::cerr << "now the code can only process the rectgrid" << std::endl;
 		return;
 	}
-	RectGrid *rectgrid = dynamic_cast<RectGrid *> (&grid);
 
+	RectGrid *rectgrid = dynamic_cast<RectGrid *> (&grid);
 	// step 3.2 get the shadow heliostats
 	calc_intersection_3DDDA(
 		vertex,
@@ -61,7 +76,7 @@ void dda_interface(
 	calc_intersection_3DDDA(
 		vertex,
 		*rectgrid,
-		in_dir,
+		out_dir,
 		h_helio_vertexs,
 		rectgrid->h_grid_helio_match_,
 		rectgrid->h_grid_helio_index_,
@@ -131,7 +146,4 @@ void dda_interface(
 	gpuTime = sdkGetTimerValue(&hTimer);
 	solarenergy::total_time += gpuTime;
 	printf("rasterization cost time: (%f ms)\n", gpuTime);
-
-	delete[] h_helio_vertexs;
-	h_helio_vertexs = nullptr;
 } 

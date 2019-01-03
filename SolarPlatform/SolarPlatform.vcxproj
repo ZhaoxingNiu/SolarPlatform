@@ -192,6 +192,7 @@
     <ClCompile Include="Convolution\model\conv_model.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
     <ClCompile Include="Convolution\Script\gen_kernel.cpp" />
+    <ClCompile Include="Convolution\Struct\analyticModelScene.cpp" />
     <ClCompile Include="Convolution\Struct\convKernel.cpp" />
     <ClCompile Include="Convolution\Struct\oblique_parallel.cpp" />
     <ClCompile Include="Convolution\Struct\projectionPlane.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="Convolution\Rasterization\reduce_sum.cuh" />
     <ClInclude Include="Convolution\Rasterization\triangle_rasterization.cuh" />
     <ClInclude Include="Convolution\Script\gen_kernel.h" />
+    <ClInclude Include="Convolution\Struct\analyticModelScene.h" />
     <ClInclude Include="Convolution\Struct\convKernel.h" />
     <ClInclude Include="Convolution\Struct\oblique_parallel.cuh" />
     <ClInclude Include="Convolution\Struct\projectionPlane.h" />
