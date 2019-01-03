@@ -23,32 +23,33 @@
 
 int main() {
 	
-	// test cuda's configure
-	//std::cout << "test cuda configure" << std::endl;
-	//test_cuda_conf();
-	
-    int nFailures = 0;
+	int nFailures = 0;
+	// test basic configure
+	// test_cuda_conf();
 	// if (!common_test::test_file_path()) { nFailures++; }
 	// if (!common_test::test_file_exist()) { nFailures++; }
 
+	// test sub function
 	// if (!test_gen_kernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
 	// if (!test_gen_kernel_gaussian(500.0f, 500.0f, 135.0f)) { nFailures++; }
+
 	// if (!testFastConvolution()){  nFailures++; }
 	// if (!test_rasterization()) { nFailures++;  }
 	// if (!test_load_kernel()) { nFailures++;}
 	// if (!test_reduce()) { nFailures++; }
+
 	// if (!test_scene_format_transfer()) { nFailures++; }
 	// if (!test_scene_format_transfer_ps10()) { nFailures++; }
 	// if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }
     //if (!test_dda_rasterization()) { nFailures++; }
-
+	if (!test_raytracing_onepoint()) { nFailures++; }
 	// modify the one point
 
 
 
-	//***************
+	//***************华丽丽的分割线*****************************
 	//just for paper
 	//if (!test_raytracing_scene1()) { nFailures++; }
 	//if (!test_conv_model_scene1()) { nFailures++; }
@@ -58,10 +59,11 @@ int main() {
 
 	//test ps 10
 	//if (!test_raytracing_scene_ps10()) { nFailures++; }
+	//子平面镜分开计算的版本
 	//if (!test_conv_model_scene_ps10_tmp()) { nFailures++; }
 	//if (!test_conv_model_scene_ps10()) { nFailures++; }
 	//if (!test_unizar_model_ps10()) { nFailures++; }
-	if (!test_hflcal_model_ps10()) { nFailures++; }
+	//if (!test_hflcal_model_ps10()) { nFailures++; }
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

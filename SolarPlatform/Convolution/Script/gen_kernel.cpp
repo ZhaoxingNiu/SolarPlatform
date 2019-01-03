@@ -21,7 +21,7 @@ void gen_kernel(
 	if (flush) {
 		int round_angel = round(angel);
 		int round_distance = round(true_dis);
-		std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_";
+		std::string kernel_path = "../SimulResult/data/gen_flux_dst/onepoint_angle_";
 		kernel_path += std::to_string(round_angel) + "_distance_"
 			+ std::to_string(round_distance) + ".txt";
 		std::ifstream fin(kernel_path);

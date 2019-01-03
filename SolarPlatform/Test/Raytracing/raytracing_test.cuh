@@ -12,6 +12,7 @@ void raytracing_interface(SolarScene &solar_scene);
 void raytracing_standard_interface(SolarScene &solar_scene,int hIndex = 0, int gridIndex = 0, string outpath = "result/test.txt");
 
 bool test_raytracing();
+bool test_raytracing_onepoint();
 
 // just for paper
 bool test_raytracing_scene1();

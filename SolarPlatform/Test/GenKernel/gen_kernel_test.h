@@ -6,6 +6,7 @@
 
 bool test_gen_kernel(float ori_dis, float true_dis, float angel);
 
+// 调用matlab的程序生成高斯核函数，depression 
 bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel);
 
 bool test_load_kernel();
