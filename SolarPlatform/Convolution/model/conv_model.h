@@ -13,5 +13,6 @@ bool test_conv_model_scene1();
 bool test_conv_model_scene_ps10_tmp();
 bool test_conv_model_scene_ps10();
 
+bool test_conv_model_scene_ps10_real();
 #endif // !CONV_MODEL_H
 

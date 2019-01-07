@@ -43,6 +43,7 @@ def EnergyTransformDeriv(func,func_distance,predict_diatance,predict_r):
     fun_r = predict_r*distance_rate
     if fun_r>= PREDICT_MAX_R:
         fun_r = PREDICT_MAX_R
+    #energy = air_rate2/air_rate1*func(fun_r,1)*distance_rate
     energy = air_rate2/air_rate1*func(fun_r,1)*distance_rate
     return energy
 
@@ -70,6 +71,7 @@ def getPDFFluxTransform(fit_func,func_distance,trans_diatance,width = 10.05,heig
             true_pos_r = pos_r*distance_rate
             #计算flux_map
             if pos_r <=compute_threshold:
+                # 修改 compute_threshold
                 fit_flux[x,y] = attenuation_rate*fit_func(true_pos_r)/math.pi/compute_threshold/compute_threshold   # 4
             else:
                 # 这一部分 空气的衰减因素已经 考虑在函数中

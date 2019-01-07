@@ -24,6 +24,7 @@ namespace solarenergy {
 	//conv related
 	extern int2 image_plane_size;
 	extern float image_plane_offset;
+	extern float kernel_ori_dis;
 	extern float total_time;
 	extern int  total_times;
 

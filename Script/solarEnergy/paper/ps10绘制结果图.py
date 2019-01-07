@@ -35,7 +35,7 @@ import globalVar
 plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
-lim_num = 2
+lim_num = 5
 xmin = -1*lim_num
 xmax = lim_num
 ymin = -1*lim_num
@@ -43,7 +43,7 @@ ymax = lim_num
 
 globalVar.FONTSIZE = 24
 
-tick_font_size = 18
+tick_font_size = 24
 
 def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     step = 0.05
@@ -134,24 +134,13 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plt.close()
     
     
-def getHeliosRT(index):
+def getHeliosTotal(index,model_name,delim=','):
     flux_spot = np.zeros((200,200))
     for helios_index in range(index,index+1):
-        for sub_index in range(28):
-            raytracing_path = globalVar.DATA_PATH + "../paper/scene_ps10_flat/raytracing/2048/equinox_12_#{}_{}.txt".format(helios_index,sub_index)
-            #helios_flux = np.genfromtxt(raytracing_path,delimiter=' ')
-            helios_flux = np.genfromtxt(raytracing_path,delimiter=',')
-            flux_spot += helios_flux
-    return flux_spot
-    
-def getHeliosModel(index,model_name):
-    flux_spot = np.zeros((200,200))
-    for helios_index in range(index,index+1):
-        for sub_index in range(28):
-            raytracing_path = globalVar.DATA_PATH + "../paper/scene_ps10_flat/{}/equinox_12_#{}_{}.txt".format(model_name,helios_index,sub_index)
-            #helios_flux = np.genfromtxt(raytracing_path,delimiter=' ')
-            helios_flux = np.genfromtxt(raytracing_path,delimiter=' ')
-            flux_spot += helios_flux
+        raytracing_path = globalVar.DATA_PATH + "../paper/scene_ps10_flat/{}/equinox_12_#{}.txt".format(model_name,helios_index)
+        #helios_flux = np.genfromtxt(raytracing_path,delimiter=' ')
+        helios_flux = np.genfromtxt(raytracing_path,delimiter= delim)
+        flux_spot += helios_flux
     return flux_spot
     
 
@@ -187,8 +176,7 @@ def mersure_res(rt_res,conv_res,unizar_res,hflcal_res):
 if __name__ == "__main__":
 
     scene_num = "_ps10_flat"
-    ray_num = 2048
-    helios_num = 100
+    helios_num = 624
     
     conv_rmse = 0
     conv_peak_rate = 0 
@@ -202,13 +190,13 @@ if __name__ == "__main__":
     unizar_peak_rate = 0 
     unizar_total_rate = 0
     
-    for helios_index in range(50):
+    for helios_index in range(helios_num):
         pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
-                
-        rt_res = getHeliosRT(helios_index)     
-        conv_res = getHeliosModel(helios_index,'model_sub') 
-        hflcal_res = getHeliosModel(helios_index,'hflcal_sub') 
-        unizar_res = getHeliosModel(helios_index,'unizar_sub') 
+        
+        rt_res = getHeliosTotal(helios_index,'raytracing/2048')
+        hflcal_res = getHeliosTotal(helios_index,'hflcal',' ')
+        unizar_res = getHeliosTotal(helios_index,'unizar',' ')
+        conv_res = getHeliosTotal(helios_index,'model',' ')
 
         #仅仅是旋转而已
         conv_res = np.rot90(conv_res,1,(1,0))
@@ -223,7 +211,7 @@ if __name__ == "__main__":
         unizar_res = np.rot90(unizar_res,1,(1,0))
         hflcal_res = np.rot90(hflcal_res,1,(1,0))
         
-        #get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
+        get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
         
         result = mersure_res(rt_res,conv_res,unizar_res,hflcal_res)
         

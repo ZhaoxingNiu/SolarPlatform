@@ -8,7 +8,7 @@
 void gen_kernel(
 	float true_dis,
 	float ori_dis,
-	float angel,
+	float angle,
 	bool flush,
 	float step_r,
 	float grid_len,
@@ -19,14 +19,16 @@ void gen_kernel(
 
 	// if the kernel is generate, 
 	if (flush) {
-		int round_angel = round(angel);
+		int round_ori_distance = round(ori_dis);
+		int round_angle = round(angle);
 		int round_distance = round(true_dis);
-		std::string kernel_path = "../SimulResult/data/gen_flux_dst/onepoint_angle_";
-		kernel_path += std::to_string(round_angel) + "_distance_"
-			+ std::to_string(round_distance) + ".txt";
+		std::string kernel_path = "../SimulResult/data/gen_flux_dst/" + std::to_string(round_ori_distance) + "/distance_";
+		kernel_path += std::to_string(round_distance) + "_angle_"
+			+ std::to_string(round_angle) + ".txt";
+		//std::cout << kernel_path << std::endl;
 		std::ifstream fin(kernel_path);
 		if (fin) {
-			std::cout << kernel_path <<" file  exist " << std::endl;
+			std::cout << kernel_path << " file  exist " << std::endl;
 			return;
 		}
 	}
@@ -35,7 +37,7 @@ void gen_kernel(
 	std::string command = "cd ../Script/solarEnergy & python interface.py ";
 	command += std::to_string(true_dis);
 	command += " --ori_dis " + std::to_string(ori_dis);
-	command += " --angel " + std::to_string(angel);
+	command += " --angle " + std::to_string(angle);
 	command += " --step_r " + std::to_string(step_r);
 	command += " --grid_len " + std::to_string(grid_len);
 	command += " --distance " + std::to_string(distance_threshold);

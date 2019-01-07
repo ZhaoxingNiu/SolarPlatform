@@ -1,5 +1,6 @@
 #include "./FocusHeliosSplits.h"
-
+#include <cstdlib>
+#include <random>
 
 void FocusHeliosSplit::init(SolarScene* solar_scene) {
 	solar_scene_ = solar_scene;
@@ -78,7 +79,13 @@ void FocusHeliosSplit::rotate() {
 	for (int helio_index = 0; helio_index < helio_num; helio_index++) {
 		auto helios = solar_scene_->heliostats[helio_index];
 		float3 pos = helios->pos_;
-		float3 reflect_dir = rectrece->focus_center_ - pos;
+		float3 focus_center = make_float3(0.0f, 102.5f,0.0f);
+		float rand_rate = ((float)rand() / (RAND_MAX));
+		rand_rate = (rand_rate - 0.5f) * 2;
+		float3 x_axis = make_float3(1.0f, 0.0f, 0.0f);
+		focus_center += x_axis*rand_rate * 5;
+		
+		float3 reflect_dir = focus_center - pos;
 		reflect_dir = normalize(reflect_dir);
 		float3 dir = reflect_dir - solarenergy::sun_dir;
 		float3 helio_normal = normalize(dir);
@@ -142,8 +149,8 @@ void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_n
 bool test_focus_helios_split() {
 	//just init 
 	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece.scn";
-	std::string res_path = "../SceneData/paper/ps10/ps10_flat_rece_split_1.scn";
-	std::string res_norm_path = "../SceneData/paper/ps10/ps10_flat_rece_split_1_norm.scn";
+	std::string res_path = "../SceneData/paper/ps10/ps10_real_rece_s1.scn";
+	std::string res_norm_path = "../SceneData/paper/ps10/ps10_real_rece_s1_norm.scn";
 	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
 

@@ -60,8 +60,8 @@ float getRand(void)
 }
 
 void showDataConvolution(float* data, int H, int W) {
-	for (int i = 0; i < H; ++i) {
-		for (int j = 0; j < W; ++j) {
+	for (int i = 0; i < H; i+=20) {
+		for (int j = 0; j < W; j+=20) {
 			std::cout << data[i*W + j] << " ";
 		}
 		std::cout << std::endl;

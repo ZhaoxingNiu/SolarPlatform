@@ -40,13 +40,14 @@ int main() {
 
 	// if (!test_scene_format_transfer()) { nFailures++; }
 	// if (!test_scene_format_transfer_ps10()) { nFailures++; }
-	// if (!test_focus_helios_split()) { nFailures++; }
+    // if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }
     //if (!test_dda_rasterization()) { nFailures++; }
-	if (!test_raytracing_onepoint()) { nFailures++; }
+	
 	// modify the one point
-
+	//if (!test_raytracing_onepoint()) { nFailures++; }
+	//if (!test_gen_kernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
 
 
 	//***************华丽丽的分割线*****************************
@@ -60,10 +61,13 @@ int main() {
 	//test ps 10
 	//if (!test_raytracing_scene_ps10()) { nFailures++; }
 	//子平面镜分开计算的版本
-	//if (!test_conv_model_scene_ps10_tmp()) { nFailures++; }
+    //if (!test_conv_model_scene_ps10_tmp()) { nFailures++; }
 	//if (!test_conv_model_scene_ps10()) { nFailures++; }
 	//if (!test_unizar_model_ps10()) { nFailures++; }
 	//if (!test_hflcal_model_ps10()) { nFailures++; }
+
+	//ps 10 real
+	if (!test_conv_model_scene_ps10_real()) { nFailures++; }
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

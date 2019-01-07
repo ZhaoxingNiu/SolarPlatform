@@ -17,7 +17,8 @@ float solarenergy::disturb_std = 0.001f;
 
 //conv related
 int2 solarenergy::image_plane_size = {200, 200};
-float solarenergy::image_plane_offset = -5.0;
+float solarenergy::image_plane_offset = -5.0f;
+float solarenergy::kernel_ori_dis = 500.0f;
 float solarenergy::total_time = 0.0f;
 int solarenergy::total_times = 0;
 

@@ -32,12 +32,23 @@ void ImageSaver::savetxt_conv(const string filename, int x, int y, float *h_data
 		for (int c = 0; c < y; ++c)
 		{
 			address = r * y + c;
-			if (c) {
-				out << " " << h_data[address];
+			if (h_data[address] > 1e-4) {
+				if (c) {
+					out << " " << h_data[address];
+				}
+				else {
+					out << h_data[address];
+				}
 			}
 			else {
-				out << h_data[address];
+				if (c) {
+					out << " 0.0";
+				}
+				else {
+					out << "0.0";
+				}
 			}
+
 		}
 		out << endl;
 	}

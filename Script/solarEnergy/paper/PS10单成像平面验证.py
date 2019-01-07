@@ -110,7 +110,7 @@ def plot3fig(rt_res, hflcal_res, unizar_res ,conv_res):
                cmap = cm.jet, vmin=0,vmax = max_val)
     
 def init():
-    for index in range(10):
+    for index in range(624):
         process_sub_file(index,'raytracing/2048',',')
         #process_sub_file(index,'model_sub_tmp',' ')
 
@@ -160,11 +160,12 @@ def process_the_image_plane(index,delim=','):
 if __name__ == "__main__":
     #init()
    
-    helios_index = 9
+    helios_index = 400
     rt_res = getHeliosTotal(helios_index,'raytracing/2048')
     hflcal_res = getHeliosTotal(helios_index,'hflcal',' ')
     unizar_res = getHeliosTotal(helios_index,'unizar',' ')
-    conv_res = getHeliosTotal(helios_index,'model_sub_tmp2',' ')
+    conv_res = getHeliosTotal(helios_index,'model',' ')
+    #conv_res = getHeliosTotal(helios_index,'model_sub',' ')
     
     
     hflcal_res = np.rot90(hflcal_res,1,(1,0))

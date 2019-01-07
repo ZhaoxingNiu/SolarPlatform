@@ -102,7 +102,7 @@ bool test_conv_model_scene_ps10_tmp() {
 	solarenergy::total_times = 5;
 	double first_times = 0;
 	//for (int helio_index = 4 * 28; helio_index < solarenergy::total_times * 28; ++helio_index) {
-	for (int helio_index = 4*28+1; helio_index < 4*28+2; ++helio_index) {
+	for (int helio_index =0; helio_index < 1; ++helio_index) {
 		// clean the receiver
 		solar_scene->receivers[rece_index]->Cclean_image_content();
 
@@ -111,7 +111,7 @@ bool test_conv_model_scene_ps10_tmp() {
 		conv_method_kernel(solar_scene, model_scene, rece_index, helio_index, 0, make_float3(0.0f, 0.0f, 0.0f), kernelType::T_LOADED_CONV, 0.0f);
 
 		// *********修改******* /
-		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model_sub_tmp/equinox_12_#"
+		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model_sub/equinox_12_#"
 			+ std::to_string(helio_index / 28) + "_" + std::to_string(helio_index % 28) + ".txt";
 		solar_scene->receivers[rece_index]->save_result_conv(file_outputname);
 		if (helio_index == 0) {
@@ -135,6 +135,7 @@ bool test_conv_model_scene_ps10() {
 	solarenergy::helio_pixel_length = 0.01f;
 	solarenergy::receiver_pixel_length = 0.05f;
 	solarenergy::total_time = 0.0f;
+	//solarenergy::kernel_ori_dis = 800.0f;
 	/******修改*****/
 	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece_split_1.scn";
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
@@ -163,7 +164,7 @@ bool test_conv_model_scene_ps10() {
 
 	int rece_index = 0;
 	solarenergy::total_time = 0.0f;
-	int helio_index_range = 10;
+	int helio_index_range = 624;
 	double first_times = 0;
 	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
 		// clean the receiver
@@ -174,7 +175,7 @@ bool test_conv_model_scene_ps10() {
 		conv_method_kernel_focus(solar_scene, model_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
 
 		// *********修改******* /
-		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model_sub_tmp2/equinox_12_#"
+		string file_outputname = "../SimulResult/paper/scene_ps10_flat/model2/equinox_12_#"
 			+ std::to_string(helio_index ) + ".txt";
 		solar_scene->receivers[rece_index]->save_result_conv(file_outputname);
 		if (helio_index == 0) {
@@ -183,5 +184,74 @@ bool test_conv_model_scene_ps10() {
 	}
 
 	std::cout << "程序平均耗时：" << (solarenergy::total_time - first_times) / (helio_index_range -1+0.0001) << " ms" << endl;
+	return true;
+}
+
+
+bool test_conv_model_scene_ps10_real() {
+	// 初始化配置信息
+	solarenergy::num_sunshape_lights_per_group = 1024;
+	solarenergy::num_sunshape_lights_loop = 1;
+	int ray_num = int(solarenergy::num_sunshape_lights_per_group*solarenergy::num_sunshape_lights_loop);
+	solarenergy::csr = 0.1f;
+	solarenergy::disturb_std = 0.001f;
+	solarenergy::helio_pixel_length = 0.01f;
+	solarenergy::receiver_pixel_length = 0.05f;
+	solarenergy::total_time = 0.0f;
+	//solarenergy::kernel_ori_dis = 800.0f;
+	solarenergy::image_plane_size = { 400, 400 };
+    solarenergy::image_plane_offset = -10.0f;
+	/******修改*****/
+	//solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_real_rece_split_2_0.scn";
+	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_real_rece_s1.scn";
+	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
+	//load the norm
+	//std::string normal_filepath = "../SceneData/paper/ps10/ps10_real_rece_split_2_0_norm.scn";
+	std::string normal_filepath = "../SceneData/paper/ps10/ps10_real_rece_s1_norm.scn";
+	std::cout << "filepath: " << normal_filepath << std::endl;
+	std::vector<float3> norm_vec;
+	SceneFileProc::SceneNormalRead(normal_filepath, norm_vec);
+
+
+	// Step 1: 加载场景文件，初始化
+	SolarScene *solar_scene;
+	solar_scene = SolarScene::GetInstance();
+	// set the normal
+	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
+	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
+	// Step 2: Initialize the content in the scene
+	// 有两种方式，后续调整，也可以直接进行调整
+	solar_scene->InitContent();
+	solar_scene->ResetHelioNorm(norm_vec);
+
+	//  初始化AnalyticModelScene
+	AnalyticModelScene *model_scene;
+	model_scene = AnalyticModelScene::GetInstance();
+	model_scene->InitContent(solar_scene);
+
+	//int rece_index = 0;
+	solarenergy::total_time = 0.0f;
+	int helio_index_range = 624;
+	double first_times = 0;
+	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
+		for (int rece_index = 0; rece_index < 4; rece_index++) {
+			// clean the receiver
+			solar_scene->receivers[rece_index]->Cclean_image_content();
+
+			int grid_index = 0;
+			// run the model 
+			conv_method_kernel_focus(solar_scene, model_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
+
+			// *********修改******* /
+			string file_outputname = "../SimulResult/paper/scene_ps10_real/model/s1/receiver_" + std::to_string(rece_index) + "_equinox_12_#"
+				+ std::to_string(helio_index) + ".txt";
+			solar_scene->receivers[rece_index]->save_result_conv(file_outputname);
+			if (helio_index == 0) {
+				first_times = solarenergy::total_time;
+			}
+		}
+	}
+
+	std::cout << "程序平均耗时：" << (solarenergy::total_time - first_times) / (helio_index_range - 1 + 0.0001) << " ms" << endl;
 	return true;
 }

@@ -152,7 +152,7 @@ bool test_unizar_model_ps10() {
 
 	int rece_index = 0;
 	solarenergy::total_time = 0.0f;
-	int helio_index_range = 10;
+	int helio_index_range = 624;
 	solarenergy::total_times = 0;
 	// *********ÐÞ¸Ä******* /
 	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {

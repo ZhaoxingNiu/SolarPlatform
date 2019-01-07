@@ -1,12 +1,19 @@
 #include "./gen_kernel_test.h"
 #include "../../Common/utils.h"
 
-bool test_gen_kernel(float ori_dis, float true_dis, float angel) {
+bool test_gen_kernel(float ori_dis, float true_dis, float angle) {
 	bool ret = false;
 	gen_kernel(
 		ori_dis, 
 		true_dis,
-		angel
+		angle,
+		true,
+		0.05f,
+		0.05f,
+		0.1f,
+		20.05f,
+		20.05f,
+		14.0f
 	);
 	ret = true;
 	return ret;

@@ -80,7 +80,7 @@ bool fftConvolutionGPU(float *h_Data, float *h_Kernel, float *h_Result,
 		kernelY,
 		kernelX
 	);
-#ifdef CONV_DEBUG
+#ifdef _DEBUG
 	float *h_PaddedKernel = (float *)malloc(fftH    * fftW * sizeof(float));
 	checkCudaErrors(cudaMemcpy(h_PaddedKernel, d_PaddedKernel, fftH    * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 	std::cout << "h_Kernel" << std::endl;
@@ -99,7 +99,7 @@ bool fftConvolutionGPU(float *h_Data, float *h_Kernel, float *h_Result,
 		kernelY,
 		kernelX
 	);
-#ifdef CONV_DEBUG
+#ifdef _DEBUG
 	float *h_PaddedData = (float *)malloc(fftH    * fftW * sizeof(float));
 	checkCudaErrors(cudaMemcpy(h_PaddedData, d_PaddedData, fftH    * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 	std::cout << "h_PaddedData" << std::endl;
@@ -164,13 +164,13 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	StopWatchInterface *hTimer = NULL;
 	sdkCreateTimer(&hTimer);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	printf("built-in R2C / C2R FFT-based convolution\n");
 #endif
 	const int    fftH = snapTransformSize(dataH + kernelH - 1);
 	const int    fftW = snapTransformSize(dataW + kernelW - 1);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	printf("...allocating memory\n");
 #endif
 	float *h_Result = (float *)malloc(dataH * dataW * sizeof(float));
@@ -183,12 +183,12 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 	sdkResetTimer(&hTimer);
 	sdkStartTimer(&hTimer);
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	printf("...creating R2C & C2R FFT plans for %i x %i\n", fftH, fftW);
 #endif
 	checkCudaErrors(cufftPlan2d(&fftPlanFwd, fftH, fftW, CUFFT_R2C));
 	checkCudaErrors(cufftPlan2d(&fftPlanInv, fftH, fftW, CUFFT_C2R));
-#ifdef DEBUG
+#ifdef _DEBUG
 	printf("...uploading to GPU and padding convolution kernel and input data\n");
 #endif
 	checkCudaErrors(cudaMemset(d_PaddedKernel, 0, fftH * fftW * sizeof(float)));
@@ -204,7 +204,7 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 		kernelY,
 		kernelX
 	);
-#ifdef CONV_DEBUG
+#ifdef _DEBUG
 	float *h_PaddedKernel = (float *)malloc(fftH    * fftW * sizeof(float));
 	checkCudaErrors(cudaMemcpy(h_PaddedKernel, d_PaddedKernel, fftH    * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 	std::cout << "h_Kernel" << std::endl;
@@ -223,7 +223,7 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 		kernelY,
 		kernelX
 	);
-#ifdef CONV_DEBUG
+#ifdef _DEBUG
 	float *h_PaddedData = (float *)malloc(fftH    * fftW * sizeof(float));
 	checkCudaErrors(cudaMemcpy(h_PaddedData, d_PaddedData, fftH    * fftW * sizeof(float), cudaMemcpyDeviceToHost));
 	std::cout << "h_PaddedData" << std::endl;
@@ -269,7 +269,7 @@ bool fftConvolutionGPUDevice(float *d_Data, float *d_Kernel,
 		}
 	}
 
-#ifdef CONV_DEBUG
+#ifdef _DEBUG
 	std::cout << "h_Result in function" << std::endl;
 	showDataConvolution(h_Result, dataH, dataW);
 #endif

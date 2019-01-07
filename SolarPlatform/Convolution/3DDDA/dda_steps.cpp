@@ -95,9 +95,13 @@ bool conv_method_kernel(
 		break;
 	}
 	case T_LOADED_CONV: {
-		gen_kernel(true_dis, 500.0f, true_angel);
-		std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
-			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
+		int round_ori_dis = round(solarenergy::kernel_ori_dis);
+		gen_kernel(round_distance, solarenergy::kernel_ori_dis, round_angel, true,
+			0.05f, 0.05f, 0.1f, 20.05f, 20.05f, 14.0f);
+		//std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
+		//	std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
+		std::string fit_kernel_path = "../SimulResult/data/gen_flux_dst/" + std::to_string(round_ori_dis) + "/distance_"
+			+ std::to_string(round_distance) + "_angle_" + std::to_string(round_angel) + ".txt";
 		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, fit_kernel_path));
 		break;
 	}
@@ -223,7 +227,7 @@ bool conv_method_kernel_focus(
 			model_scene->grid_vertexs[grid_index]
 		);
 #ifdef _DEBUG
-		std::string image_path = "../SimulResult/imageplane/ps10_plane_#" + std::to_string(helio_index) +
+		std::string image_path = "../SimulResult/imageplane/ps10_real_plane_#" + std::to_string(helio_index) +
 			"_"+ std::to_string(i- helio_index*sub_num) + ".txt";
 		plane.save_data_text(image_path);
 #endif
@@ -249,9 +253,11 @@ bool conv_method_kernel_focus(
 		break;
 	}
 	case T_LOADED_CONV: {
-		gen_kernel(round_distance, 500.0f, round_angel);
-		std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
-			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
+		int round_ori_dis = round(solarenergy::kernel_ori_dis);
+		gen_kernel(round_distance,solarenergy::kernel_ori_dis, round_angel, true,
+			0.05f,0.05f,0.1f,20.05f,20.05f,14.0f);
+		std::string fit_kernel_path = "../SimulResult/data/gen_flux_dst/" + std::to_string(round_ori_dis) + "/distance_"
+			+ std::to_string(round_distance) +"_angle_"+ std::to_string(round_angel) + ".txt";
 		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, fit_kernel_path));
 		break;
 	}
@@ -273,7 +279,6 @@ bool conv_method_kernel_focus(
 	default:
 		break;
 	}
-
 	kernel->genKernel();
 
 	// Step 4: convolution calculation
