@@ -11,7 +11,7 @@ Created on Tue Dec 25 11:47:04 2018
 
 @author: nzx
 
-@description: 绘制结果图
+@description: 绘制结果图,绘制聚焦定日镜的结果图
 """
 
 import cv2 as cv
@@ -35,7 +35,7 @@ import globalVar
 plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
-lim_num = 5
+lim_num = 3
 xmin = -1*lim_num
 xmax = lim_num
 ymin = -1*lim_num
@@ -68,7 +68,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     #if len(seg_line) < 6:
     #    seg_line = np.linspace(0,peak_val,inter_num*2-1)
     
-    fig = plt.figure(figsize=(30,9))
+    fig = plt.figure(figsize=(20,6))
     
 
     plot3 = fig.add_subplot(131)
@@ -176,7 +176,7 @@ def mersure_res(rt_res,conv_res,unizar_res,hflcal_res):
 if __name__ == "__main__":
 
     scene_num = "_ps10_flat"
-    helios_num = 624
+    
     
     conv_rmse = 0
     conv_peak_rate = 0 
@@ -190,8 +190,11 @@ if __name__ == "__main__":
     unizar_peak_rate = 0 
     unizar_total_rate = 0
     
-    for helios_index in range(helios_num):
-        pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
+    result_list= []
+    helios_num = 624
+    #for helios_index in range(helios_num):
+    for helios_index in [11,40,83,222]:
+        pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res2/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
         
         rt_res = getHeliosTotal(helios_index,'raytracing/2048')
         hflcal_res = getHeliosTotal(helios_index,'hflcal',' ')
@@ -214,6 +217,7 @@ if __name__ == "__main__":
         get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
         
         result = mersure_res(rt_res,conv_res,unizar_res,hflcal_res)
+        result_list.append(result)
         
         conv_rmse += result["conv"][4]
         conv_peak_rate += abs(result["conv"][1]) 

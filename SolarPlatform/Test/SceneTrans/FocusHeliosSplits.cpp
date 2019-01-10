@@ -149,8 +149,8 @@ void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_n
 bool test_focus_helios_split() {
 	//just init 
 	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece.scn";
-	std::string res_path = "../SceneData/paper/ps10/ps10_real_rece_s1.scn";
-	std::string res_norm_path = "../SceneData/paper/ps10/ps10_real_rece_s1_norm.scn";
+	std::string res_path = "../SceneData/paper/ps10/ps10_real_rece_s2.scn";
+	std::string res_norm_path = "../SceneData/paper/ps10/ps10_real_rece_s2_norm.scn";
 	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
 

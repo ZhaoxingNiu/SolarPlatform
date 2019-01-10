@@ -74,8 +74,8 @@ def getReceiverTotal(rece_index, model_name ,delim=','):
 def plotReceFig(rece0, rece1, rece2, rece3):
     fig = plt.figure(figsize=(15,15))
     
-    max_val = max(rece0.max(), rece1.max(), rece2.max(), rece3.max())
-    #max_val = 950000
+    #max_val = max(rece0.max(), rece1.max(), rece2.max(), rece3.max())
+    max_val = 630
     
     plot1 = fig.add_subplot(141)
     plot1.imshow(rece0, interpolation='bilinear',origin='lower', \
@@ -94,30 +94,51 @@ def plotReceFig(rece0, rece1, rece2, rece3):
     plot3.axis('off')
     
     plot4 = fig.add_subplot(144)
-    plot4.imshow(rece3, interpolation='bilinear',origin='lower', \
+    img = plot4.imshow(rece3, interpolation='bilinear',origin='lower', \
                cmap = cm.jet, vmin=0,vmax = max_val)
     plot4.axis('off')
+    #cb = fig.colorbar(img)
+    #cb.ax.tick_params(labelsize='large')
 
 def init():
-    helios_index_range = 250
-    process_sub_file(0,helios_index_range, 'model/s1', ' ')
-    process_sub_file(1,helios_index_range, 'model/s1', ' ')
-    process_sub_file(2,helios_index_range, 'model/s1', ' ')
-    process_sub_file(3,helios_index_range, 'model/s1', ' ')
+    helios_index_range = 624
+    process_sub_file(0,helios_index_range, 'model/s2', ' ')
+    process_sub_file(1,helios_index_range, 'model/s2', ' ')
+    process_sub_file(2,helios_index_range, 'model/s2', ' ')
+    process_sub_file(3,helios_index_range, 'model/s2', ' ')
+    
     
 
+
 if __name__ == "__main__":
-    init()
+    rate = 0.98*0.85
+    #init()
     np.seterr(divide='ignore',invalid='ignore')
-    receiver0 = getReceiverTotal(0, 'model/s1', ' ')
-    receiver1 = getReceiverTotal(1, 'model/s1', ' ')
-    receiver2 = getReceiverTotal(2, 'model/s1', ' ')
-    receiver3 = getReceiverTotal(3, 'model/s1', ' ')
+    receiver0 = getReceiverTotal(0, 'model/s2', ' ')/1000*rate*1.4
+    receiver1 = getReceiverTotal(1, 'model/s2', ' ')/1000*rate
+    receiver2 = getReceiverTotal(2, 'model/s2', ' ')/1000*rate
+    receiver3 = getReceiverTotal(3, 'model/s2', ' ')/1000*rate*1.36
+    
     
     receiver0 = np.rot90(receiver0,1,(0,1))
     receiver1 = np.rot90(receiver1,1,(0,1))
     receiver2 = np.rot90(receiver2,1,(0,1))
     receiver3 = np.rot90(receiver3,1,(0,1))
+    
+    receiver1_t =  receiver1*0.55 + np.fliplr(receiver2)*0.45
+    receiver2_t =  receiver2*0.55 + np.fliplr(receiver1)*0.45
+    receiver1 = receiver1_t
+    receiver2 = receiver2_t
+    
+    receiver0 = np.flipud(receiver0)
+    receiver1 = np.flipud(receiver1)
+    receiver2 = np.flipud(receiver2)
+    receiver3 = np.flipud(receiver3)
+    
+    
+    receiver0 = np.r_[receiver0[0:5],receiver0[0:235]]
+    receiver3 = np.r_[receiver3[0:5],receiver3[0:235]]
+    
     
     sum_val = (receiver0.sum() + receiver1.sum() + receiver2.sum() + receiver3.sum())/400/1000
     peak_val = max(receiver0.max(),receiver1.max(),receiver2.max(),receiver3.max())/1000

@@ -53,10 +53,11 @@ int main() {
 	//***************华丽丽的分割线*****************************
 	//just for paper
 	//if (!test_raytracing_scene1()) { nFailures++; }
-	//if (!test_conv_model_scene1()) { nFailures++; }
+	if (!test_conv_model_scene1()) { nFailures++; }
     //if (!test_unizar_model_scene1()) { nFailures++; }
 	//if (!test_hflcal_model_scene1()) { nFailures++; }
 
+	//if (!test_conv_model_scene_shadow()) { nFailures++; }
 
 	//test ps 10
 	//if (!test_raytracing_scene_ps10()) { nFailures++; }
@@ -67,7 +68,7 @@ int main() {
 	//if (!test_hflcal_model_ps10()) { nFailures++; }
 
 	//ps 10 real
-	if (!test_conv_model_scene_ps10_real()) { nFailures++; }
+	// if (!test_conv_model_scene_ps10_real()) { nFailures++; }
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

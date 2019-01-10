@@ -102,6 +102,10 @@ bool test_unizar_model_scene1() {
 		int grid_index = helio_index;
 		// unizar model
 		unizar_model(solar_scene, model_scene, rece_index, helio_index, grid_index, ideal_peak, res_path);
+		if (helio_index==0) {
+			solarenergy::total_times = 0;
+			solarenergy::total_time = 0;
+		}
 	}
 
 	std::cout << "运行次数：" <<  solarenergy::total_times  << std::endl;
@@ -161,7 +165,7 @@ bool test_unizar_model_ps10() {
 		// *********修改******* /
 		string raytracing_path = "../SimulResult/paper/scene_ps10_flat/raytracing/2048/equinox_12_#"
 			+ std::to_string(helio_index)  + ".txt";
-		string res_path = "../SimulResult/paper/scene_ps10_flat/unizar/equinox_12_#"
+		string res_path = "../SimulResult/paper/scene_ps10_flat/unizar2/equinox_12_#"
 			+ std::to_string(helio_index) + ".txt";
 		float ideal_peak = get_file_peak(raytracing_path);
 		int grid_index = 0;

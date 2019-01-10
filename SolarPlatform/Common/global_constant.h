@@ -7,7 +7,7 @@
 #define		Epsilon					1e-4
 #define		MATH_PI					3.141592654f
 
-//#define MOD_PROJECTION_AREA
+#define MOD_PROJECTION_AREA
 //PS10 场景仿真时需要关闭这一项
 
 #endif

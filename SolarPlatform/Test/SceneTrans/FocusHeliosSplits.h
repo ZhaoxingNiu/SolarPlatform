@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 
-#define FOCUS_LENGTH_RATE 1.0
+#define FOCUS_LENGTH_RATE 1.5
 
 class FocusHeliosSplit {
 public:

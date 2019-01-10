@@ -90,46 +90,8 @@ void calc_intersection_3DDDA(
 		// step 2 - intersection
 		int3 grid_index = pos;
 		int grid_address = global_func::unroll_index(grid_index, rectgrid.grid_num_);
-		
 
-//		//遍历所有的grid，看是否为grid问题
-//		//遍历所有gird也不可以
-//		int grid_num = rectgrid.grid_num_.x*rectgrid.grid_num_.y*rectgrid.grid_num_.z;
-//		for (int grid_for_index = 0; grid_for_index < grid_num; ++grid_for_index) {
-//			int block_num = intersect_helio(
-//				d_orig,
-//				d_dir,
-//				grid_for_index,
-//				h_heliotat_vertex,
-//				h_grid_heliostat_match,
-//				h_grid_heliostat_index,
-//				relative_helio_label);
-//
-//#ifdef _DEBUG
-//			if (block_num) {
-//				std::cout << "the block number is: " << block_num << std::endl;
-//			}
-//#endif
-//		}
-
-////遍历所有定日镜，是否可行
-//for (unsigned int i_tmp_helio = 0;i_tmp_helio < 17472; ++i_tmp_helio) {
-//	unsigned int heliostat_index = 3 * h_grid_heliostat_match[i_tmp_helio];
-//	float u, v, t;
-//	bool intersect = global_func::rayParallelogramIntersect(
-//		d_orig, d_dir,
-//		h_heliotat_vertex[heliostat_index + 0],
-//		h_heliotat_vertex[heliostat_index + 1],
-//		h_heliotat_vertex[heliostat_index + 2],
-//		t, u, v
-//	);
-//	if (intersect) {
-//		relative_helio_label.insert(h_grid_heliostat_match[i_tmp_helio]);
-//	}
-//}
-
-		//while (true) {
-		while (false) {
+		while (true) {
 			// add the grid 
 			int block_num = intersect_helio(
 				d_orig,

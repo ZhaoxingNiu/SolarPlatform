@@ -35,6 +35,7 @@ ymin = -1*lim_num
 ymax = lim_num
 
 globalVar.FONTSIZE = 24
+tick_font_size = 24
 
 def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     step = 0.05
@@ -59,7 +60,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     #if len(seg_line) < 6:
     #    seg_line = np.linspace(0,peak_val,inter_num*2-1)
     
-    fig = plt.figure(figsize=(30,9.5))
+    fig = plt.figure(figsize=(20,6))
     
     plot2 = fig.add_subplot(132)
     
@@ -77,7 +78,8 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plot2.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)  
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
-    
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     plot3 = fig.add_subplot(131)
     
@@ -95,6 +97,8 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plot3.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     plot1 = fig.add_subplot(133)
     
@@ -111,6 +115,8 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plot1.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     #fig.show()
     fig.savefig(pic_path, dpi= 400)
@@ -186,7 +192,7 @@ if __name__ == "__main__":
         #hflcal_res = np.fliplr(hflcal_res)
         
         
-        a_res_memeda= get_analysis(rt_res,conv_res,unizar_res,hflcal_res)
-        #get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
+        #a_res_memeda= get_analysis(rt_res,conv_res,unizar_res,hflcal_res)
+        get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
     
     

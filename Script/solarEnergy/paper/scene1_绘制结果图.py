@@ -35,6 +35,7 @@ ymin = -1*lim_num
 ymax = lim_num
 
 globalVar.FONTSIZE = 24
+tick_font_size = 24
 
 def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     step = 0.05
@@ -43,6 +44,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     X,Y = np.meshgrid(x,y)
     
     # 使用均值滤波对结果进行处理
+    #kernel = np.ones((5,5),np.float32)/25
     kernel = np.ones((3,3),np.float32)/9
     rt_res = cv.filter2D(rt_res,-1,kernel)
     conv_res = cv.filter2D(conv_res,-1,kernel)
@@ -59,7 +61,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     #if len(seg_line) < 6:
     #    seg_line = np.linspace(0,peak_val,inter_num*2-1)
     
-    fig = plt.figure(figsize=(30,9.5))
+    fig = plt.figure(figsize=(20,6))
     
     plot2 = fig.add_subplot(132)
     
@@ -69,7 +71,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     
     contour2 = plt.contour(X, Y, unizar_res, seg_line, colors='b')
     # the second countour do not 
-    plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
+    #plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
     
     # set the legend and the tick
     black_line = mlines.Line2D([], [], color='black', linewidth = 3,linestyle = '--', label='光线跟踪')
@@ -77,7 +79,8 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plot2.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)  
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
-    
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     plot3 = fig.add_subplot(131)
     
@@ -87,7 +90,7 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     
     contour2 = plt.contour(X, Y, hflcal_res, seg_line, colors='b')
     # the second countour do not 
-    plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
+    #plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
     
     # set the legend and the tick
     black_line = mlines.Line2D([], [], color='black', linewidth = 3,linestyle = '--', label='光线跟踪')
@@ -95,6 +98,8 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     plot3.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     plot1 = fig.add_subplot(133)
     
@@ -104,16 +109,18 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     
     contour2 = plt.contour(X, Y, conv_res, seg_line, colors='b')
     # the second countour do not 
-    plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
+    #plt.clabel(contour2,fontsize = globalVar.FONTSIZE,colors=('b'),fmt='%.1f')
     # set the legend and the tick
     black_line = mlines.Line2D([], [], color='black', linewidth = 3,linestyle = '--', label='光线跟踪')
     blue_line = mlines.Line2D([], [], color='blue', label='数值卷积(本文)')
     plot1.legend(handles=[black_line,blue_line],fontsize= globalVar.FONTSIZE)    
     plt.xlim(xmin,xmax)
     plt.ylim(ymin,ymax)
+    plt.xticks(fontsize = tick_font_size )
+    plt.yticks(fontsize = tick_font_size)
     
     #fig.show()
-    #fig.savefig(pic_path, dpi= 400)
+    fig.savefig(pic_path, dpi= 400)
     #plt.close()
     
 if __name__ == "__main__":
@@ -121,7 +128,7 @@ if __name__ == "__main__":
     scene_num = 1
     ray_num = 102400
     
-    for helios_index in range(34,35):
+    for helios_index in [0,4,30,34]:
         pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res2/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
         raytracing_path = globalVar.DATA_PATH + "../paper/scene{}/raytracing/{}/equinox_12_#{}.txt".format(scene_num,ray_num,helios_index)
         #model   unizar  hflcal 分别切换指标
