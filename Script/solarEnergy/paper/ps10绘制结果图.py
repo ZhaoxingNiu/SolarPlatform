@@ -192,8 +192,8 @@ if __name__ == "__main__":
     
     result_list= []
     helios_num = 624
-    #for helios_index in range(helios_num):
-    for helios_index in [11,40,83,222]:
+    for helios_index in range(helios_num):
+    #for helios_index in [11,40,83,222]:
         pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res2/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
         
         rt_res = getHeliosTotal(helios_index,'raytracing/2048')
@@ -214,7 +214,7 @@ if __name__ == "__main__":
         unizar_res = np.rot90(unizar_res,1,(1,0))
         hflcal_res = np.rot90(hflcal_res,1,(1,0))
         
-        get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
+        #get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path)
         
         result = mersure_res(rt_res,conv_res,unizar_res,hflcal_res)
         result_list.append(result)

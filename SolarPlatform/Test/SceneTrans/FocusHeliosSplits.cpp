@@ -79,12 +79,83 @@ void FocusHeliosSplit::rotate() {
 	for (int helio_index = 0; helio_index < helio_num; helio_index++) {
 		auto helios = solar_scene_->heliostats[helio_index];
 		float3 pos = helios->pos_;
-		float3 focus_center = make_float3(0.0f, 102.5f,0.0f);
+		//²»Çå³þ¾Û½¹·½Ê½ Ëæ±ã³¢ÊÔ°É
+
+		float3 focus_center = make_float3(0.0f, 101.0f,0.0f);
 		float rand_rate = ((float)rand() / (RAND_MAX));
-		rand_rate = (rand_rate - 0.5f) * 2;
-		float3 x_axis = make_float3(1.0f, 0.0f, 0.0f);
-		focus_center += x_axis*rand_rate * 5;
-		
+		if (rand_rate < 0.10) {
+			focus_center = make_float3(2.5f, 101.0f, 0.0f);
+		}
+		else if(rand_rate < 0.20) {
+			focus_center = make_float3(-2.5f, 101.0f, 0.0f);
+		}
+		else if (rand_rate < 0.261) {
+			focus_center = make_float3(7.5f, 101.0f, 0.0f);
+		}
+		else if (rand_rate < 0.322) {
+			focus_center = make_float3(-7.5f, 101.0f, 0.0f);
+		}
+		else if (rand_rate < 0.92) {
+			rand_rate = ((float)rand() / (RAND_MAX));
+			if (rand_rate < 0.5f) {
+				focus_center = make_float3(0.0f, 104.0f, 0.0f);
+			}
+			else {
+				focus_center = make_float3(0.0f, 98.0f, 0.0f);
+			}
+
+			rand_rate = ((float)rand() / (RAND_MAX));
+			rand_rate = (rand_rate - 0.5f) * 2;
+			float3 x_axis = make_float3(1.0f, 0.0f, 0.0f);
+			focus_center += x_axis*rand_rate * 10;
+
+			float3 y_axis = make_float3(0.0f, 1.0f, 0.0f);
+
+			float weitiao = (1 - abs(rand_rate))*0.7;
+			if (focus_center.y > 101.0f) {
+				focus_center += y_axis*weitiao;
+			}
+			else {
+				focus_center -= y_axis*weitiao;
+			}
+			
+			rand_rate = ((float)rand() / (RAND_MAX));
+			rand_rate = (rand_rate - 0.5f) * 2;
+			focus_center += y_axis*rand_rate * 3;
+
+		}
+		else  if (rand_rate < 0.93) {
+			rand_rate = ((float)rand() / (RAND_MAX));
+			if (rand_rate < 0.5f) {
+				focus_center = make_float3(0.0f, 103.0f, 0.0f);
+			}
+			else {
+				focus_center = make_float3(0.0f, 99.0f, 0.0f);
+			}
+		}
+		else {
+			rand_rate = ((float)rand() / (RAND_MAX));
+			rand_rate = (rand_rate - 0.5f) * 2;
+			float3 x_axis = make_float3(1.0f, 0.0f, 0.0f);
+			
+			focus_center += x_axis*rand_rate * 11;
+
+			float3 y_axis = make_float3(0.0f, 1.0f, 0.0f);
+			rand_rate = ((float)rand() / (RAND_MAX));
+
+			if (rand_rate < 0.5f) {
+				rand_rate = ((float)rand() / (RAND_MAX));
+				rand_rate = (rand_rate - 0.5f) * 2;
+				focus_center += y_axis*rand_rate * 3;
+
+			}else {
+				rand_rate = ((float)rand() / (RAND_MAX));
+				rand_rate = (rand_rate - 0.5f) * 2;
+				focus_center += y_axis*rand_rate * 5;
+
+			}
+		}
+
 		float3 reflect_dir = focus_center - pos;
 		reflect_dir = normalize(reflect_dir);
 		float3 dir = reflect_dir - solarenergy::sun_dir;
@@ -122,12 +193,12 @@ void FocusHeliosSplit::split() {
 }
 
 void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_norm) {
-	fstream outFile(file_out_pos, ios::out | ios::app);
+	fstream outFile(file_out_pos, ios::out);
 	if (outFile.fail()) {
 		cerr << "Can't write to this file!" << endl;
 	}
 
-	fstream outFileNorm(file_out_norm, ios::out | ios::app);
+	fstream outFileNorm(file_out_norm, ios::out);
 	if (outFileNorm.fail()) {
 		cerr << "Can't write to this file!" << endl;
 	}
@@ -148,10 +219,10 @@ void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_n
 
 bool test_focus_helios_split() {
 	//just init 
-	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece.scn";
-	std::string res_path = "../SceneData/paper/ps10/ps10_real_rece_s2.scn";
-	std::string res_norm_path = "../SceneData/paper/ps10/ps10_real_rece_s2_norm.scn";
-	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
+	solarenergy::scene_filepath = "../SceneData/paper/ps10/real/ps10_flat_rece.scn";
+	std::string res_path = "../SceneData/paper/ps10/real/ps10_tmp18.scn";
+	std::string res_norm_path = "../SceneData/paper/ps10/real/ps10_tmp18_norm.scn";
+	solarenergy::sun_dir = make_float3(0.0f, -0.790155f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
 
 	SolarScene *solar_scene;

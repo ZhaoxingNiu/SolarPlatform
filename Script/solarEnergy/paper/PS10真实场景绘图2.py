@@ -1,17 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jan  5 21:20:06 2019
+Created on Sat Jan 12 12:27:40 2019
 
 @author: nzx
 """
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan  1 15:15:11 2019
-
-@author: nzx
-"""
-
 
 import cv2 as cv
 import math
@@ -45,7 +37,7 @@ globalVar.FONTSIZE = 24
 tick_font_size = 18
 
 def process_sub_file(rece_index,index_range, model_name ,delim=','):
-    flux_spot = np.zeros((106,240))
+    flux_spot = np.zeros((400,240))
     res_path = globalVar.DATA_PATH + "../paper/scene_ps10_real/{}/receiver_{}_equinox_12.txt".format(model_name,rece_index)
     for helios_index in range(index_range):
         path = globalVar.DATA_PATH + "../paper/scene_ps10_real/{}/receiver_{}_equinox_12_#{}.txt".format(model_name,rece_index,helios_index)
@@ -54,7 +46,7 @@ def process_sub_file(rece_index,index_range, model_name ,delim=','):
     np.savetxt(res_path,flux_spot,fmt='%0.4f',delimiter=delim)    
     
 def getReceiverSub(rece_index,index_range, model_name ,delim=','):
-    flux_spot = np.zeros((106,240))
+    flux_spot = np.zeros((400,240))
     for helios_index in range(index_range):
         path = globalVar.DATA_PATH + "../paper/scene_ps10_real/{}/receiver_{}_equinox_12_#{}.txt".format(model_name,rece_index,helios_index)
         helios_flux = np.genfromtxt(path,delimiter=delim)
@@ -62,7 +54,7 @@ def getReceiverSub(rece_index,index_range, model_name ,delim=','):
     return flux_spot
 
 def getReceiverTotal(rece_index, model_name ,delim=','):
-    flux_spot = np.zeros((106,240))
+    flux_spot = np.zeros((400,240))
     path = globalVar.DATA_PATH + "../paper/scene_ps10_real/{}/receiver_{}_equinox_12.txt".format(model_name,rece_index)
     helios_flux = np.genfromtxt(path,delimiter=delim)
     flux_spot += helios_flux
@@ -74,8 +66,8 @@ def getReceiverTotal(rece_index, model_name ,delim=','):
 def plotReceFig(rece0, rece1, rece2, rece3):
     fig = plt.figure(figsize=(15,15))
     
-    max_val = max(rece0.max(), rece1.max(), rece2.max(), rece3.max())
-    #max_val = 630
+    max_val = max(rece0.max(), rece1.max(), rece2.max(), rece3.max())*0.95
+    #max_val = 650
     
     plot1 = fig.add_subplot(141)
     plot1.imshow(rece0, interpolation='bilinear',origin='lower', \
@@ -102,11 +94,7 @@ def plotReceFig(rece0, rece1, rece2, rece3):
 
 def init():
     helios_index_range = 624
-    process_sub_file(0,helios_index_range, 'model/tmp11', ' ')
-    process_sub_file(1,helios_index_range, 'model/tmp11', ' ')
-    process_sub_file(2,helios_index_range, 'model/tmp11', ' ')
-    process_sub_file(3,helios_index_range, 'model/tmp11', ' ')
-    
+    process_sub_file(0,helios_index_range, 'model/tmp18', ' ')
     
 
 
@@ -114,32 +102,26 @@ if __name__ == "__main__":
     rate = 1
     #init()
     np.seterr(divide='ignore',invalid='ignore')
-    receiver0 = getReceiverTotal(0, 'model/tmp11', ' ')/1000*rate#*1.5
-    receiver1 = getReceiverTotal(1, 'model/tmp11', ' ')/1000*rate
-    receiver2 = getReceiverTotal(2, 'model/tmp11', ' ')/1000*rate
-    receiver3 = getReceiverTotal(3, 'model/tmp11', ' ')/1000*rate#*1.5
+    receiver_total = getReceiverTotal(0, 'model/tmp17', ' ')/1000*rate
     
-    receiver0 = np.rot90(receiver0,1,(0,1))
-    receiver1 = np.rot90(receiver1,1,(0,1))
-    receiver2 = np.rot90(receiver2,1,(0,1))
-    receiver3 = np.rot90(receiver3,1,(0,1))
-    receiver0 = np.flipud(receiver0)
-    receiver1 = np.flipud(receiver1)
-    receiver2 = np.flipud(receiver2)
-    receiver3 = np.flipud(receiver3)
+    receiver_total = np.rot90(receiver_total,1,(0,1))
+    receiver_total = np.flipud(receiver_total)*0.70 + receiver_total*0.30
+
     
+    receiver0 = receiver_total[:,0:100]
+    receiver1 = receiver_total[:,100:200]
+    receiver2 = receiver_total[:,200:300]
+    receiver3 = receiver_total[:,300:400]
     
-    receiver0_t =  receiver0*0.50 + np.fliplr(receiver3)*0.50
-    receiver3_t =  receiver3*0.50 + np.fliplr(receiver0)*0.50
+    receiver0_t =  receiver0*0.65 + np.fliplr(receiver3)*0.35
+    receiver3_t =  receiver3*0.65 + np.fliplr(receiver0)*0.35
     receiver0 = receiver0_t
     receiver3 = receiver3_t
     
-    receiver1_t =  receiver1*0.50 + np.fliplr(receiver2)*0.50
-    receiver2_t =  receiver2*0.50 + np.fliplr(receiver1)*0.50
+    receiver1_t =  receiver1*0.65 + np.fliplr(receiver2)*0.35
+    receiver2_t =  receiver2*0.65 + np.fliplr(receiver1)*0.35
     receiver1 = receiver1_t
     receiver2 = receiver2_t
-    
-
     
     
 #    receiver0 = np.r_[receiver0[0:10],receiver0[0:230]]

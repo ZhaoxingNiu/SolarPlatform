@@ -255,11 +255,12 @@ bool test_conv_model_scene_ps10_real() {
     solarenergy::image_plane_offset = -10.0f;
 	/******修改*****/
 	//solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_real_rece_split_2_0.scn";
-	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_real_rece_s2.scn";
+	//solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_real_rece_s2.scn";
+	solarenergy::scene_filepath = "../SceneData/paper/ps10/real/ps10_tmp11.scn";
 	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
 	//load the norm
 	//std::string normal_filepath = "../SceneData/paper/ps10/ps10_real_rece_split_2_0_norm.scn";
-	std::string normal_filepath = "../SceneData/paper/ps10/ps10_real_rece_s2_norm.scn";
+	std::string normal_filepath = "../SceneData/paper/ps10/real/ps10_tmp11_norm.scn";
 	std::cout << "filepath: " << normal_filepath << std::endl;
 	std::vector<float3> norm_vec;
 	SceneFileProc::SceneNormalRead(normal_filepath, norm_vec);
@@ -269,7 +270,8 @@ bool test_conv_model_scene_ps10_real() {
 	SolarScene *solar_scene;
 	solar_scene = SolarScene::GetInstance();
 	// set the normal
-	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
+	// 根据技术报告进行调整
+	solarenergy::sun_dir = make_float3(0.0f, -0.790155f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
 	// Step 2: Initialize the content in the scene
 	// 有两种方式，后续调整，也可以直接进行调整
@@ -295,12 +297,79 @@ bool test_conv_model_scene_ps10_real() {
 			conv_method_kernel_focus(solar_scene, model_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
 
 			// *********修改******* /
-			string file_outputname = "../SimulResult/paper/scene_ps10_real/model/s2/receiver_" + std::to_string(rece_index) + "_equinox_12_#"
+			string file_outputname = "../SimulResult/paper/scene_ps10_real/model/tmp11/receiver_" + std::to_string(rece_index) + "_equinox_12_#"
 				+ std::to_string(helio_index) + ".txt";
 			solar_scene->receivers[rece_index]->save_result_conv(file_outputname);
 			if (helio_index == 0) {
 				first_times = solarenergy::total_time;
 			}
+		}
+	}
+
+	std::cout << "程序平均耗时：" << (solarenergy::total_time - first_times) / (helio_index_range - 1 + 0.0001) << " ms" << endl;
+	return true;
+}
+
+
+bool test_conv_model_scene_ps10_real_new() {
+	// 初始化配置信息
+	solarenergy::num_sunshape_lights_per_group = 1024;
+	solarenergy::num_sunshape_lights_loop = 1;
+	int ray_num = int(solarenergy::num_sunshape_lights_per_group*solarenergy::num_sunshape_lights_loop);
+	solarenergy::csr = 0.1f;
+	solarenergy::disturb_std = 0.001f;
+	solarenergy::helio_pixel_length = 0.01f;
+	solarenergy::receiver_pixel_length = 0.05f;
+	solarenergy::total_time = 0.0f;
+	//solarenergy::kernel_ori_dis = 800.0f;
+	solarenergy::image_plane_size = { 600, 600 };
+	solarenergy::image_plane_offset = -15.0f;
+	/******修改*****/
+	solarenergy::scene_filepath = "../SceneData/paper/ps10/real/ps10_tmp18.scn";
+	std::cout << "filepath: " << solarenergy::scene_filepath << std::endl;
+	//load the norm
+	std::string normal_filepath = "../SceneData/paper/ps10/real/ps10_tmp18_norm.scn";
+	std::cout << "filepath: " << normal_filepath << std::endl;
+	std::vector<float3> norm_vec;
+	SceneFileProc::SceneNormalRead(normal_filepath, norm_vec);
+
+
+	// Step 1: 加载场景文件，初始化
+	SolarScene *solar_scene;
+	solar_scene = SolarScene::GetInstance();
+	// set the normal
+	// 根据技术报告进行调整
+	solarenergy::sun_dir = make_float3(0.0f, -0.790155f, -1.0f);
+	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
+	// Step 2: Initialize the content in the scene
+	// 有两种方式，后续调整，也可以直接进行调整
+	solar_scene->InitContent();
+	solar_scene->ResetHelioNorm(norm_vec);
+
+	//  初始化AnalyticModelScene
+	AnalyticModelScene *model_scene;
+	model_scene = AnalyticModelScene::GetInstance();
+	model_scene->InitContent(solar_scene);
+
+	//int rece_index = 0;
+	solarenergy::total_time = 0.0f;
+	int helio_index_range = 624;
+	double first_times = 0;
+	for (int helio_index = 0; helio_index < helio_index_range; ++helio_index) {
+		int rece_index = 0;
+		// clean the receiver
+		solar_scene->receivers[rece_index]->Cclean_image_content();
+
+		int grid_index = 0;
+		// run the model 
+		conv_method_kernel_focus(solar_scene, model_scene, rece_index, helio_index, 28, 0, kernelType::T_LOADED_CONV, 0.0f);
+
+		// *********修改******* /
+		string file_outputname = "../SimulResult/paper/scene_ps10_real/model/tmp18/receiver_" + std::to_string(rece_index) + "_equinox_12_#"
+			+ std::to_string(helio_index) + ".txt";
+		solar_scene->receivers[rece_index]->save_result_conv(file_outputname);
+		if (helio_index == 0) {
+			first_times = solarenergy::total_time;
 		}
 	}
 

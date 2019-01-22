@@ -73,3 +73,139 @@ pos:  -5.975 101 -2.475
 size: 12.0  5.3 0.01
 norm:  -0.92  0.0 0.38
 
+
+
+******************倾斜12.5度 得到的结果***************
+# Ground Boundary
+ground 1024 1024
+ngrid 1
+
+# Receiver attributes
+Recv 0
+pos 5.975 101  -2.475
+size 5.3  12.0 0.0
+norm 0.902003  -0.216440 -0.373557
+face 2
+end
+
+Recv 0
+pos 2.475  101  -5.975
+size 5.3  12.0 0.0
+norm 0.373557  -0.216440  -0.902003
+face 2
+end
+
+Recv 0
+pos  -2.475 101 -5.975
+size 5.3  12.0 0.0
+norm -0.373557  -0.216440  -0.902003
+face 2
+end
+
+Recv 0
+pos -5.975 101 -2.475
+size 5.3  12.0 0.0
+norm -0.902003  -0.216440  -0.373557
+face 2
+end
+
+# Grid1 attributes
+Grid 0
+pos -396.483 0 -781.184
+size 792.966 15 750.088
+inter 15 15 15
+n 17472
+type 0
+end
+
+
+
+
+******************不倾斜结果 ************************
+# Ground Boundary
+ground 1024 1024
+ngrid 1
+
+# Receiver attributes
+Recv 0
+pos 5.975 101  -2.475
+size 5.3  12.0 0.0
+norm 0.923903  0.000000 -0.382627
+face 2
+end
+
+Recv 0
+pos 2.475  101  -5.975
+size 5.3  12.0 0.0
+norm 0.382627  0.000000  -0.923903
+face 2
+end
+
+Recv 0
+pos  -2.475 101 -5.975
+size 5.3  12.0 0.0
+norm -0.382627  0.000000  -0.923903
+face 2
+end
+
+Recv 0
+pos -5.975 101 -2.475
+size 5.3  12.0 0.0
+norm -0.923903  0.000000  -0.382627
+face 2
+end
+
+# Grid1 attributes
+Grid 0
+pos -396.483 0 -781.184
+size 792.966 15 750.088
+inter 15 15 15
+n 17472
+type 0
+end
+
+
+****************** 两边向上倾斜结果 ********************
+
+# Ground Boundary
+ground 1024 1024
+ngrid 1
+
+# Receiver attributes
+Recv 0
+pos 5.975 101  -2.475
+size 5.3  12.0 0.0
+norm 0.902003  0.216440 -0.373557
+face 2
+end
+
+Recv 0
+pos 2.475  101  -5.975
+size 5.3  12.0 0.0
+norm 0.382627  0.000000  -0.923903
+face 2
+end
+
+Recv 0
+pos  -2.475 101 -5.975
+size 5.3  12.0 0.0
+norm -0.382627  0.000000  -0.923903
+face 2
+end
+
+Recv 0
+pos -5.975 101 -2.475
+size 5.3  12.0 0.0
+norm -0.902003  0.216440  -0.373557
+face 2
+end
+
+# Grid1 attributes
+Grid 0
+pos -396.483 0 -781.184
+size 792.966 15 750.088
+inter 15 15 15
+n 17472
+type 0
+end
+

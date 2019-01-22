@@ -364,3 +364,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /Script/ShowAndAnalysis/image_debug2.txt
+/SceneData/paper/ps10/real
