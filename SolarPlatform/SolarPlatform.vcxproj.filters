@@ -101,6 +101,9 @@
     <ClCompile Include="Convolution\Struct\analyticModelScene.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\GenKernel\csaps.cpp">
+      <Filter>Convolution\GenKernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -165,6 +168,9 @@
     </Filter>
     <Filter Include="Test\SceneTrans">
       <UniqueIdentifier>{b083b813-922d-4e75-824b-01f103d729c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Convolution\GenKernel">
+      <UniqueIdentifier>{3780a9af-7146-422e-b641-53ee915d597c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +358,12 @@
     </ClInclude>
     <ClInclude Include="Convolution\Struct\analyticModelScene.h">
       <Filter>Convolution\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\GenKernel\csaps.h">
+      <Filter>Convolution\GenKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\GenKernel\spline.h">
+      <Filter>Convolution\GenKernel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

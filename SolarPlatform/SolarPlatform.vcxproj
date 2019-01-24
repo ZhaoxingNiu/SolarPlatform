@@ -188,6 +188,7 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_gold.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
+    <ClCompile Include="Convolution\GenKernel\csaps.cpp" />
     <ClCompile Include="Convolution\HFLCAL\hflcal_model.cpp" />
     <ClCompile Include="Convolution\model\conv_model.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
@@ -242,6 +243,8 @@
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_common.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h" />
+    <ClInclude Include="Convolution\GenKernel\csaps.h" />
+    <ClInclude Include="Convolution\GenKernel\spline.h" />
     <ClInclude Include="Convolution\HFLCAL\hflcal_model.h" />
     <ClInclude Include="Convolution\model\conv_model.h" />
     <ClInclude Include="Convolution\Rasterization\gen_gau_kernel_gpu.cuh" />
