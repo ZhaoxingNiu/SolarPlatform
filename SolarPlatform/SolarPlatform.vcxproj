@@ -79,6 +79,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../bin/win64/$(Configuration)/</OutDir>
     <IntDir>$(Platform)/$(Configuration)/</IntDir>
+    <IncludePath>D:\lib\eigen3;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -89,6 +90,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../bin/win64/$(Configuration)/</OutDir>
     <IntDir>$(Platform)/$(Configuration)/</IntDir>
+    <IncludePath>D:\lib\eigen3;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -189,6 +191,7 @@
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_interface.cpp" />
     <ClCompile Include="Convolution\Cufft\convolutionFFT2D_test.cpp" />
     <ClCompile Include="Convolution\GenKernel\csaps.cpp" />
+    <ClCompile Include="Convolution\GenKernel\KernelManager.cpp" />
     <ClCompile Include="Convolution\HFLCAL\hflcal_model.cpp" />
     <ClCompile Include="Convolution\model\conv_model.cpp" />
     <ClCompile Include="Convolution\Rasterization\rasterization_test.cpp" />
@@ -244,6 +247,7 @@
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_interface.h" />
     <ClInclude Include="Convolution\Cufft\convolutionFFT2D_test.h" />
     <ClInclude Include="Convolution\GenKernel\csaps.h" />
+    <ClInclude Include="Convolution\GenKernel\KernelManager.h" />
     <ClInclude Include="Convolution\GenKernel\spline.h" />
     <ClInclude Include="Convolution\HFLCAL\hflcal_model.h" />
     <ClInclude Include="Convolution\model\conv_model.h" />

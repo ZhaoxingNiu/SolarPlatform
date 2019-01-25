@@ -46,3 +46,22 @@ bool test_load_kernel() {
 
 	return true;
 }
+
+
+bool test_kernel_manager() {
+	//KernelManager
+	std::string base_path = "../SimulResult/data/gen_flux_ori/dis_500_csr_100_distrib_1";
+	float ori_dis = 500.0f;
+
+	KernelManager km(base_path, ori_dis);
+
+	float *kernel = new float[solarenergy::kennel_rows* solarenergy::kernel_cols];
+	km.GetKernel(500.0f, 0.0f, kernel);
+	for (int i = 0; i < 10; i++) {
+		std::cout << kernel[i] << std::endl;
+	}
+
+
+	delete []kernel;
+	return true;
+}

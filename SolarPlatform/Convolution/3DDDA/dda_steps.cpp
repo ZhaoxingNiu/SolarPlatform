@@ -105,12 +105,6 @@ bool conv_method_kernel(
 		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, fit_kernel_path));
 		break;
 	}
-	case T_GAUSSIAN_CONV_MATLAB: {
-		std::string gaussian_kernel_path = "../SimulResult/data/gen_flux_gau/onepoint_angle_" +
-			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
-		kernel = std::make_shared<LoadedConvKernel>(LoadedConvKernel(201, 201, gaussian_kernel_path));
-		break;
-	}
 	case T_GAUSSIAN_CONV: {
 		float A;
 		gen_gau_kernel_param(true_dis, A);

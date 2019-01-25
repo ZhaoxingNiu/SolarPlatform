@@ -3,6 +3,7 @@
 
 #include "../../Convolution/Script/gen_kernel.h"
 #include "../../Convolution/Struct/convKernel.h"
+#include "../../Convolution/GenKernel/KernelManager.h"
 
 bool test_gen_kernel(float ori_dis, float true_dis, float angel);
 
@@ -10,6 +11,9 @@ bool test_gen_kernel(float ori_dis, float true_dis, float angel);
 bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel);
 
 bool test_load_kernel();
+
+// test the KernelManager
+bool test_kernel_manager();
 
 #endif // !GEN_KERNEL_TEST_H
 

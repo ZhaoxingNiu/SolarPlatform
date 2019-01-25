@@ -4,6 +4,10 @@
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
 #include "./vector_arithmetic.cuh"
 #include "./global_constant.h"
 #include "./utils.h"
@@ -312,6 +316,14 @@ namespace global_func
 			return 0.99331f - 0.0001176f*d + 1.97f*(1e-8f) * d*d;
 		else
 			return expf(-0.0001106f*d);
+	}
+
+	inline float stringToFloat(const std::string& str)
+	{
+		std::istringstream iss(str);
+		float num;
+		iss >> num;
+		return num;
 	}
 
 }// global_func

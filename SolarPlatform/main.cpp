@@ -70,7 +70,11 @@ int main() {
 	//ps 10 real
 	//if (!test_conv_model_scene_ps10_real()) { nFailures++; }
     //if (!test_focus_helios_split()) { nFailures++; }
-	if (!test_conv_model_scene_ps10_real_new()) { nFailures++; }
+	//if (!test_conv_model_scene_ps10_real_new()) { nFailures++; }
+
+
+	//test the kernel CPP version
+	test_kernel_manager();
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

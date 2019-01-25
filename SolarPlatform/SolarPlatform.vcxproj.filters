@@ -104,6 +104,9 @@
     <ClCompile Include="Convolution\GenKernel\csaps.cpp">
       <Filter>Convolution\GenKernel</Filter>
     </ClCompile>
+    <ClCompile Include="Convolution\GenKernel\KernelManager.cpp">
+      <Filter>Convolution\GenKernel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test">
@@ -363,6 +366,9 @@
       <Filter>Convolution\GenKernel</Filter>
     </ClInclude>
     <ClInclude Include="Convolution\GenKernel\spline.h">
+      <Filter>Convolution\GenKernel</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\GenKernel\KernelManager.h">
       <Filter>Convolution\GenKernel</Filter>
     </ClInclude>
   </ItemGroup>
