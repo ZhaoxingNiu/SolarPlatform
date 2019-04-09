@@ -202,6 +202,8 @@ bool test_conv_model_scene_ps10() {
 	SolarScene *solar_scene;
 	solar_scene = SolarScene::GetInstance();
 	// set the normal
+
+	// 0.0f, -0.79785f, -0.608f
 	solarenergy::sun_dir = make_float3(0.0f, -0.79785f, -1.0f);
 	solarenergy::sun_dir = normalize(solarenergy::sun_dir);
 	// Step 2: Initialize the content in the scene

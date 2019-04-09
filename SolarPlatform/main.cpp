@@ -52,7 +52,7 @@ int main() {
 
 	//***************华丽丽的分割线*****************************
 	//just for paper
-	//if (!test_raytracing_scene1()) { nFailures++; }
+	if (!test_raytracing_scene1()) { nFailures++; }
 	//if (!test_conv_model_scene1()) { nFailures++; }
     //if (!test_unizar_model_scene1()) { nFailures++; }
 	//if (!test_hflcal_model_scene1()) { nFailures++; }
@@ -67,14 +67,17 @@ int main() {
 	//if (!test_unizar_model_ps10()) { nFailures++; }
 	//if (!test_hflcal_model_ps10()) { nFailures++; }
 
+
+
+
+
 	//ps 10 real
 	//if (!test_conv_model_scene_ps10_real()) { nFailures++; }
     //if (!test_focus_helios_split()) { nFailures++; }
 	//if (!test_conv_model_scene_ps10_real_new()) { nFailures++; }
 
-
 	//test the kernel CPP version
-	test_kernel_manager();
+	//test_kernel_manager();
 
  	std::cout << "nFailures number: " << nFailures << std::endl;
 	system("pause");

@@ -28,7 +28,7 @@ import globalVar
 plt.rcParams['font.sans-serif']=['SimHei']#显示中文
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
-lim_num = 3
+lim_num = 4
 xmin = -1*lim_num
 xmax = lim_num
 ymin = -1*lim_num
@@ -122,13 +122,30 @@ def get_countout_map(rt_res,conv_res,unizar_res,hflcal_res,pic_path):
     #fig.show()
     fig.savefig(pic_path, dpi= 400)
     #plt.close()
+
+def tmp_process():
+    raytracing_path = globalVar.DATA_PATH + "../paper/scene1/raytracing/1024000/equinox_12_#9_1.txt"
+    res1 = np.genfromtxt(raytracing_path,delimiter=',')  
+    
+    raytracing_path = globalVar.DATA_PATH + "../paper/scene1/raytracing/1024000/equinox_12_#9_2.txt"
+    res2 = np.genfromtxt(raytracing_path,delimiter=',')  
+    
+    raytracing_path = globalVar.DATA_PATH + "../paper/scene1/raytracing/1024000/equinox_12_#9_3.txt"
+    res3 = np.genfromtxt(raytracing_path,delimiter=',')  
+    
+    raytracing_path = globalVar.DATA_PATH + "../paper/scene1/raytracing/1024000/equinox_12_#9_4.txt"
+    res4 = np.genfromtxt(raytracing_path,delimiter=',')  
+    
+    return  (res1+res2+res3+res4)/4
     
 if __name__ == "__main__":
 
     scene_num = 1
-    ray_num = 102400
+    ray_num = 1024000
     
-    for helios_index in [0,4,30,34]:
+    tmp_process()
+    
+    for helios_index in [9]:
         pic_path =  globalVar.DATA_PATH + "../paper/scene{}/contour_res2/contour_equinox_12_#{}.pdf".format(scene_num,helios_index)
         raytracing_path = globalVar.DATA_PATH + "../paper/scene{}/raytracing/{}/equinox_12_#{}.txt".format(scene_num,ray_num,helios_index)
         #model   unizar  hflcal 分别切换指标
@@ -136,7 +153,8 @@ if __name__ == "__main__":
         unizar_model_path = globalVar.DATA_PATH + "../paper/scene{}/unizar/equinox_12_#{}.txt".format(scene_num,helios_index)
         hflcal_model_path = globalVar.DATA_PATH + "../paper/scene{}/hflcal/equinox_12_#{}.txt".format(scene_num,helios_index)
         
-        rt_res = np.genfromtxt(raytracing_path,delimiter=',')        
+        rt_res = np.genfromtxt(raytracing_path,delimiter=',')  
+        #rt_res = process()
         conv_res = np.genfromtxt(conv_model_path,delimiter=' ')        
         unizar_res = np.genfromtxt(unizar_model_path,delimiter=' ')
         hflcal_res = np.genfromtxt(hflcal_model_path,delimiter=' ')

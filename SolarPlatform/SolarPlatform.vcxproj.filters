@@ -175,6 +175,9 @@
     <Filter Include="Convolution\GenKernel">
       <UniqueIdentifier>{3780a9af-7146-422e-b641-53ee915d597c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Convolution\Evaluate">
+      <UniqueIdentifier>{2869d83a-2bc0-4e00-93cb-6e39108eac64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu">

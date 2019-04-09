@@ -69,15 +69,13 @@ bool test_raytracing_onepoint()
 }
 
 
-
-
 bool test_raytracing_scene1()
 {
 	// 单点与卷积需要修改的位置
 	// num_sunshape_lights_per_group
 	// helio_pixel_length
-	solarenergy::num_sunshape_lights_per_group = 1024;
-	solarenergy::num_sunshape_lights_loop = 1000;
+	solarenergy::num_sunshape_lights_per_group = 20480;
+	solarenergy::num_sunshape_lights_loop = 50;
 	solarenergy::csr = 0.1f;
 	solarenergy::disturb_std = 0.001f;
 	solarenergy::helio_pixel_length = 0.01f;
@@ -99,7 +97,9 @@ bool test_raytracing_scene1()
 
 	//double total_time = 0.0;
 	// *********修改******* /
-	for (int helio_index = 0; helio_index < 40; ++helio_index) {
+	vector<int> helio_vec = { 9 };
+	//for (int helio_index = 0; helio_index < 40; ++helio_index) {
+	for (int helio_index:helio_vec) {
 		// Step 3: 
 		// *********修改******* /
 		string file_outputname = "../SimulResult/paper/scene1/raytracing/"
