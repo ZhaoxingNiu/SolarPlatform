@@ -71,9 +71,6 @@
     <ClCompile Include="Convolution\Struct\convKernel.cpp">
       <Filter>Convolution\Struct</Filter>
     </ClCompile>
-    <ClCompile Include="Convolution\Script\gen_kernel.cpp">
-      <Filter>Convolution\Script</Filter>
-    </ClCompile>
     <ClCompile Include="Test\GenKernel\gen_kernel_test.cpp">
       <Filter>Test\GenKernel</Filter>
     </ClCompile>
@@ -103,6 +100,9 @@
     </ClCompile>
     <ClCompile Include="Test\Util\rapidjson_test.cpp">
       <Filter>Test\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Convolution\Script\gen_fitted_kernel.cpp">
+      <Filter>Convolution\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,9 +338,6 @@
     <ClInclude Include="Convolution\Struct\convKernel.h">
       <Filter>Convolution\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="Convolution\Script\gen_kernel.h">
-      <Filter>Convolution\Script</Filter>
-    </ClInclude>
     <ClInclude Include="Test\GenKernel\gen_kernel_test.h">
       <Filter>Test\GenKernel</Filter>
     </ClInclude>
@@ -484,6 +481,9 @@
     </ClInclude>
     <ClInclude Include="Test\Util\rapidjson_test.h">
       <Filter>Test\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Convolution\Script\gen_fitted_kernel.h">
+      <Filter>Convolution\Script</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

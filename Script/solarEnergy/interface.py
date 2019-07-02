@@ -66,7 +66,7 @@ if __name__ == '__main__':
     # load the onepoint flux map
     print('load the Data  angle{}  and distance {}...'.format(process_angel,process_distance))
     onepoint_path = globalVar.DATA_PATH + "gen_flux_ori/{}/angle_{}.txt".format(process_distance, process_angel)
-    #print(onepoint_path)
+    print(onepoint_path)
     onepoint_flux = np.genfromtxt(onepoint_path,delimiter=',')
     onepoint_flux = myUtils.smoothData(onepoint_flux)
     # becasue the incident angel,the onepoint_flux should mod

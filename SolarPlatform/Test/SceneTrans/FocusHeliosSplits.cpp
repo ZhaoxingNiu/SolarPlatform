@@ -17,7 +17,7 @@ void FocusHeliosSplit::init(SolarScene* solar_scene) {
 	
 }
 
-void FocusHeliosSplit::local_coor() {
+void FocusHeliosSplit::localCoor() {
 	// 生成初始位置以及size
 	for (int helio_index = 0; helio_index < helio_num; ++helio_index) {
 		//生成 局部坐标,保存
@@ -42,7 +42,7 @@ void FocusHeliosSplit::local_coor() {
 	}
 }
 
-void FocusHeliosSplit::set_surface() {
+void FocusHeliosSplit::setSurface() {
 	RectangleReceiver *rectrece = dynamic_cast<RectangleReceiver *>(solar_scene_->receivers[0]);
 	for (int helio_index = 0; helio_index < helio_num; helio_index++) {
 		auto helios0 = solar_scene_->heliostats[helio_index];
@@ -54,7 +54,7 @@ void FocusHeliosSplit::set_surface() {
 	}
 }
 
-void FocusHeliosSplit::move_to_surface() {
+void FocusHeliosSplit::moveToSurface() {
 	// 移动到平面上，并且设置局部坐标中的法向
 	for (int helio_index = 0; helio_index < helio_num; helio_index++) {
 		float focus = focus_length[helio_index];
@@ -114,9 +114,9 @@ void FocusHeliosSplit::transform() {
 }
 
 void FocusHeliosSplit::split() {
-	local_coor();
-	set_surface();
-	move_to_surface();
+	localCoor();
+	setSurface();
+	moveToSurface();
 	rotate();
 	transform();
 }

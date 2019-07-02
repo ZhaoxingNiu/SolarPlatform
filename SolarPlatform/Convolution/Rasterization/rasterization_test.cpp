@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 
-bool test_rasterization(void) {
+bool testRasterizationShadowBlock(void) {
 	int rows = 100;
 	int cols = 100;
 	float pixel_length = 0.1;

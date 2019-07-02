@@ -96,7 +96,7 @@ bool conv_method_kernel(
 	}
 	case T_LOADED_CONV: {
 		int round_ori_dis = round(solarenergy::kernel_ori_dis);
-		gen_kernel(round_distance, solarenergy::kernel_ori_dis, round_angel, true,
+		genFittedKernel(round_distance, solarenergy::kernel_ori_dis, round_angel, true,
 			0.05f, 0.05f, 0.1f, 20.05f, 20.05f, 14.0f);
 		//std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
 		//	std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
@@ -113,7 +113,7 @@ bool conv_method_kernel(
 	}
 	case T_GAUSSIAN_CONV: {
 		float A;
-		gen_gau_kernel_param(true_dis, A);
+		genGauKernelParam(true_dis, A);
 		std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
 			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
 		kernel = std::make_shared<GaussianConvKernel>(GaussianConvKernel(201, 201, A, sigma_2,
@@ -254,7 +254,7 @@ bool conv_method_kernel_focus(
 	}
 	case T_LOADED_CONV: {
 		int round_ori_dis = round(solarenergy::kernel_ori_dis);
-		gen_kernel(round_distance,solarenergy::kernel_ori_dis, round_angel, true,
+		genFittedKernel(round_distance,solarenergy::kernel_ori_dis, round_angel, true,
 			0.05f,0.05f,0.1f,20.05f,20.05f,14.0f);
 		std::string fit_kernel_path = "../SimulResult/data/gen_flux_dst/" + std::to_string(round_ori_dis) + "/distance_"
 			+ std::to_string(round_distance) +"_angle_"+ std::to_string(round_angel) + ".txt";
@@ -269,7 +269,7 @@ bool conv_method_kernel_focus(
 	}
 	case T_GAUSSIAN_CONV: {
 		float A;
-		gen_gau_kernel_param(round_distance, A);
+		genGauKernelParam(round_distance, A);
 		std::string fit_kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_" +
 			std::to_string(round_angel) + "_distance_" + std::to_string(round_distance) + ".txt";
 		kernel = std::make_shared<GaussianConvKernel>(GaussianConvKernel(201, 201, A, sigma_2,

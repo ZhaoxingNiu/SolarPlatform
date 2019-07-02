@@ -9,7 +9,7 @@
 #include "../Struct/convKernel.h"
 #include "../Struct/analyticModelScene.h"
 
-#include "../Script/gen_kernel.h"
+#include "../Script/gen_fitted_kernel.h"
 #include "../Cufft/convolutionFFT2D_interface.h"
 
 // Helper functions for CUDA

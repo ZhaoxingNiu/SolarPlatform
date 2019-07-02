@@ -3,7 +3,7 @@
 
 bool testGenFittedKernel(float ori_dis, float true_dis, float angle) {
 	bool ret = false;
-	gen_kernel(
+	genFittedKernel(
 		ori_dis, 
 		true_dis,
 		angle,

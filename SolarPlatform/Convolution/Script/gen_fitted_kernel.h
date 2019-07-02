@@ -4,11 +4,11 @@
 #include "../../Common/global_function.cuh"
 #include "../../Common/common_var.h"
 
-void gen_kernel(
+void genFittedKernel(
 	float true_dis,
 	float ori_dis = 500.0f,
 	float angel = 0.0f,
-	bool flush = true,
+	bool flush = true,  // 决定是否更新已存在的文件
 	float step_r = 0.05f,
 	float grid_len = 0.05f,
 	float distance_threshold = 0.1f,
@@ -17,7 +17,7 @@ void gen_kernel(
 	float rece_max_r = 7.0f
 );
 
-void gen_kernel_gaussian(
+void genKernelGaussian(
 	float true_dis,
 	float ori_dis = 500.0f,
 	float angel = 0.0f,
@@ -31,7 +31,7 @@ void gen_kernel_gaussian(
 );
 
 // calculate the kernel's total energy
-void gen_gau_kernel_param(
+void genGauKernelParam(
 	float true_distance,
 	float &A
 );

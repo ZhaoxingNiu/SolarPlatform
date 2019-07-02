@@ -1,11 +1,11 @@
-#include "./gen_kernel.h"
+#include "./gen_fitted_kernel.h"
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <cmath>
 
 
-void gen_kernel(
+void genFittedKernel(
 	float true_dis,
 	float ori_dis,
 	float angle,
@@ -51,7 +51,7 @@ void gen_kernel(
 
 
 
-void gen_kernel_gaussian(
+void genKernelGaussian(
 	float true_dis,
 	float ori_dis,
 	float angel,
@@ -88,7 +88,7 @@ void gen_kernel_gaussian(
 }
 
 
-void gen_gau_kernel_param(
+void genGauKernelParam(
 	float true_distance,
 	float &A
 ) {

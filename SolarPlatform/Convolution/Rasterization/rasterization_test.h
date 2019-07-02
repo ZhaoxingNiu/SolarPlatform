@@ -4,6 +4,6 @@
 #include "../Struct/projectionPlane.h"
 
 // test rasterization
-bool test_rasterization(void);
+bool testRasterizationShadowBlock(void);
 
 #endif // !RASTERIZATION_TEST_H

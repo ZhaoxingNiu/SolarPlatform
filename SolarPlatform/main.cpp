@@ -32,21 +32,21 @@ int main() {
 	if (!common_test::testResultPath(kernel_path)) { nFailures++; }
 	if (!common_test::testFileIsExist(kernel_path)) { nFailures++; }
 
-	*/
+	// configuration
 	std::string configure_file_path = "../Conf/example_configuration.json";
 	if (testRapidjsonReadConf(configure_file_path)) { nFailures++; }
 
 	// test sub function
-	//if (!testGenFittedKernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
-
+	// if (!testGenFittedKernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
 	// if (!testFastConvolution()){  nFailures++; }
-	// if (!test_rasterization()) { nFailures++;  }
-	// if (!test_load_kernel()) { nFailures++;}
-	// if (!test_reduce()) { nFailures++; }
+	// if (!testRasterizationShadowBlock()) { nFailures++;  }
+	// if (!testGpuReduce()) { nFailures++; }
 
-	// if (!test_scene_format_transfer()) { nFailures++; }
-	// if (!test_scene_format_transfer_ps10()) { nFailures++; }
-    // if (!test_focus_helios_split()) { nFailures++; }
+	*/
+
+	if (!test_scene_format_transfer()) { nFailures++; }
+	if (!test_scene_format_transfer_ps10()) { nFailures++; }
+    if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }
     //if (!test_dda_rasterization()) { nFailures++; }

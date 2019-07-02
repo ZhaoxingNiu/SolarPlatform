@@ -23,16 +23,20 @@ The project is a simulation platform code. The propose of this project is to cre
    - 存放结果的目录，git未跟踪 
 # 配置遇到的问题
 
-CUDA 版本不对应，导致程序无法打开
+CUDA 版本不对应，导致项目无法打开
   - 打开 SolarPlatform 文件夹下的 SolarPlatform 中的SolarPlatform.vcxproj 文件
    - CUDA_PATH_V9_1 修改为对应的版本
    - CUDA 9.1.props 改为对应的版本
 
-编译失败 打不开helper_cuda.h
+编译失败 打不开helper_cuda.h & 编译错误
   - 检查CUDA_SDK_PATH 是否有配置，是否配置正确
   - 默认目录C:\ProgramData\NVIDIA Corporation\CUDA Samples\\`version`
   - 检查CUDA版本和显卡版本
   - 根据显卡对应的配置，修改项目配置中的compute和sm值
+
+`python` 不是内部或者外部命令，也不是可运行的程序
+   - 安装anaconda
+   - 在系统环境变量的PATH里面添加对应的python文件
 
 # Reference
 
