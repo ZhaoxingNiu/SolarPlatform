@@ -53,7 +53,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.props" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 9.1.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -79,6 +79,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../bin/win64/$(Configuration)/</OutDir>
     <IntDir>$(Platform)/$(Configuration)/</IntDir>
+    <IncludePath>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -89,6 +90,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../bin/win64/$(Configuration)/</OutDir>
     <IntDir>$(Platform)/$(Configuration)/</IntDir>
+    <IncludePath>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +99,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V9_1)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +107,7 @@
       <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
-      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+      <Include>.\;$(CUDA_PATH_V9_1)\include</Include>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,7 +117,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -125,7 +128,7 @@
     </Link>
     <CudaCompile>
       <Include>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</Include>
-      <CodeGeneration>compute_61,sm_61</CodeGeneration>
+      <CodeGeneration>compute_30,sm_30</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -138,7 +141,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V8_0)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;$(CUDA_PATH_V9_1)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,7 +151,7 @@
       <AdditionalDependencies>cufft.lib;curand.lib;cudart_static.lib;cudart.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
-      <Include>.\;$(CUDA_PATH_V8_0)\include</Include>
+      <Include>.\;$(CUDA_PATH_V9_1)\include</Include>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,7 +163,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819;</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -172,7 +176,7 @@
     </Link>
     <CudaCompile>
       <Include>$(CUDA_SDK_PATH)\common\inc;$(CUDA_PATH)\include</Include>
-      <CodeGeneration>compute_61,sm_61</CodeGeneration>
+      <CodeGeneration>compute_30,sm_30</CodeGeneration>
       <TargetMachinePlatform>64</TargetMachinePlatform>
     </CudaCompile>
   </ItemDefinitionGroup>
@@ -281,6 +285,6 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 8.0.targets" />
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 9.1.targets" />
   </ImportGroup>
 </Project>

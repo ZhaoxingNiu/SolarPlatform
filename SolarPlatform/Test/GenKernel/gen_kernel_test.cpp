@@ -1,7 +1,7 @@
 #include "./gen_kernel_test.h"
 #include "../../Common/utils.h"
 
-bool test_gen_kernel(float ori_dis, float true_dis, float angle) {
+bool testGenFittedKernel(float ori_dis, float true_dis, float angle) {
 	bool ret = false;
 	gen_kernel(
 		ori_dis, 
@@ -19,18 +19,9 @@ bool test_gen_kernel(float ori_dis, float true_dis, float angle) {
 	return ret;
 }
 
-bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel) {
-	bool ret = false;
-	gen_kernel_gaussian(
-		ori_dis,
-		true_dis,
-		angel
-	);
-	ret = true;
-	return ret;
-}
 
-bool test_load_kernel() {
+
+bool testLoadKernel() {
 	// load the kernel
 	std::string kernel_path = "../SimulResult/data/gen_flux/onepoint_angle_0_distance_500.txt";
 	std::string check_path = "../SimulResult/data/check/onepoint_angle_0_distance_500.txt";

@@ -4,12 +4,10 @@
 #include "../../Convolution/Script/gen_kernel.h"
 #include "../../Convolution/Struct/convKernel.h"
 
-bool test_gen_kernel(float ori_dis, float true_dis, float angel);
+// 测试调用py生成对应文件
+bool testGenFittedKernel(float ori_dis, float true_dis, float angel);
 
-// 调用matlab的程序生成高斯核函数，depression 
-bool test_gen_kernel_gaussian(float ori_dis, float true_dis, float angel);
-
-bool test_load_kernel();
+bool testLoadKernel();
 
 #endif // !GEN_KERNEL_TEST_H
 

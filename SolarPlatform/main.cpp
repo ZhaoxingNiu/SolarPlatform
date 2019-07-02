@@ -1,16 +1,15 @@
 #include <iostream>
  
+// 测试头文件
 #include "./Test/Configure/common_test.h"
 #include "./Test/Configure/test_get_file_peak.h"
 #include "./Test/configure/cuda_config_test.cuh"  // check cuda configure
 #include "./Test/Configure/reduce_test.cuh"
 
-
 #include "./Test/Raytracing/raytracing_test.cuh"
 #include "./Test/GenKernel/gen_kernel_test.h"
 #include "./Test/SceneTrans/FormatTransfer.h"
 #include "./Test/SceneTrans/FocusHeliosSplits.h"
-
 
 #include "./Convolution/Cufft/convolutionFFT2D_test.h"
 #include "./Convolution/Rasterization/rasterization_test.h"
@@ -25,13 +24,15 @@ int main() {
 	
 	int nFailures = 0;
 	// test basic configure
-	// test_cuda_conf();
-	// if (!common_test::test_file_path()) { nFailures++; }
-	// if (!common_test::test_file_exist()) { nFailures++; }
+	/*
+	queryDeviceInfo();
+	std::string kernel_path= "../SimulResult/test.txt";
+	if (!common_test::testResultPath(kernel_path)) { nFailures++; }
+	if (!common_test::testFileIsExist(kernel_path)) { nFailures++; }
+	*/
 
 	// test sub function
-	// if (!test_gen_kernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
-	// if (!test_gen_kernel_gaussian(500.0f, 500.0f, 135.0f)) { nFailures++; }
+	if (!testGenFittedKernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
 
 	// if (!testFastConvolution()){  nFailures++; }
 	// if (!test_rasterization()) { nFailures++;  }
@@ -53,7 +54,7 @@ int main() {
 	//***************华丽丽的分割线*****************************
 	//just for paper
 	//if (!test_raytracing_scene1()) { nFailures++; }
-	if (!test_conv_model_scene1()) { nFailures++; }
+	//if (!test_conv_model_scene1()) { nFailures++; }
     //if (!test_unizar_model_scene1()) { nFailures++; }
 	//if (!test_hflcal_model_scene1()) { nFailures++; }
 

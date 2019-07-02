@@ -1,12 +1,13 @@
 #ifndef COMMON_TEST_H
 #define COMMON_TEST_H
 
+#include <string>
+
 namespace common_test {
 
-	// test the relative file path
-	bool test_file_path();
-
-	bool test_file_exist();
+	// test the file process api
+	bool testResultPath(std::string kernel_path);
+	bool testFileIsExist(std::string kernel_path);
 
 }
 

@@ -35,7 +35,7 @@ inline void getCudaAttribute(T *attribute, CUdevice_attribute device_attribute, 
 ////////////////////////////////////////////////////////////////////////////////
 // Program main
 ////////////////////////////////////////////////////////////////////////////////
-int test_cuda_conf()
+int queryDeviceInfo()
 {
 	printf(" CUDA Device Query (Runtime API) version (CUDART static linking)\n\n");
 
@@ -264,7 +264,5 @@ int test_cuda_conf()
 
 	printf("Result = PASS\n");
 
-	// finish
-	system("pause");
 	return 0;
 }
