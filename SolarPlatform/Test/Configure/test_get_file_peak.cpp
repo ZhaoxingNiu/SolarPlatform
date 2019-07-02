@@ -10,7 +10,7 @@ float test_stringToFloat (const std::string& str)
 	return num;
 }
 
-float test_get_file_peak(std::string path) {
+float testGetFilePeak(std::string path) {
 
 	float peak = -1;
 	std::string str_line;

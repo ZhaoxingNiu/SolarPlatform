@@ -6,6 +6,8 @@
 #include "./Test/configure/cuda_config_test.cuh"  // check cuda configure
 #include "./Test/Configure/reduce_test.cuh"
 
+#include "./Test/Util/rapidjson_test.h"
+
 #include "./Test/Raytracing/raytracing_test.cuh"
 #include "./Test/GenKernel/gen_kernel_test.h"
 #include "./Test/SceneTrans/FormatTransfer.h"
@@ -29,10 +31,13 @@ int main() {
 	std::string kernel_path= "../SimulResult/test.txt";
 	if (!common_test::testResultPath(kernel_path)) { nFailures++; }
 	if (!common_test::testFileIsExist(kernel_path)) { nFailures++; }
+
 	*/
+	std::string configure_file_path = "../Conf/example_configuration.json";
+	if (testRapidjsonReadConf(configure_file_path)) { nFailures++; }
 
 	// test sub function
-	if (!testGenFittedKernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
+	//if (!testGenFittedKernel(500.0f, 500.0f, 135.0f)) { nFailures++; }
 
 	// if (!testFastConvolution()){  nFailures++; }
 	// if (!test_rasterization()) { nFailures++;  }

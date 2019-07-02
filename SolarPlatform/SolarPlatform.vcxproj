@@ -215,6 +215,7 @@
     <ClCompile Include="Test\Raytracing\raytracing_test.cpp" />
     <ClCompile Include="Test\SceneTrans\FocusHeliosSplits.cpp" />
     <ClCompile Include="Test\SceneTrans\FormatTransfer.cpp" />
+    <ClCompile Include="Test\Util\rapidjson_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="Common\random_generator.cu" />
@@ -275,6 +276,43 @@
     <ClInclude Include="Test\Configure\cuda_config_test.cuh" />
     <ClInclude Include="Test\SceneTrans\FocusHeliosSplits.h" />
     <ClInclude Include="Test\SceneTrans\FormatTransfer.h" />
+    <ClInclude Include="Test\Util\rapidjson_test.h" />
+    <ClInclude Include="Util\rapidjson\allocators.h" />
+    <ClInclude Include="Util\rapidjson\cursorstreamwrapper.h" />
+    <ClInclude Include="Util\rapidjson\document.h" />
+    <ClInclude Include="Util\rapidjson\encodedstream.h" />
+    <ClInclude Include="Util\rapidjson\encodings.h" />
+    <ClInclude Include="Util\rapidjson\error\en.h" />
+    <ClInclude Include="Util\rapidjson\error\error.h" />
+    <ClInclude Include="Util\rapidjson\filereadstream.h" />
+    <ClInclude Include="Util\rapidjson\filewritestream.h" />
+    <ClInclude Include="Util\rapidjson\fwd.h" />
+    <ClInclude Include="Util\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="Util\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="Util\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="Util\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="Util\rapidjson\internal\itoa.h" />
+    <ClInclude Include="Util\rapidjson\internal\meta.h" />
+    <ClInclude Include="Util\rapidjson\internal\pow10.h" />
+    <ClInclude Include="Util\rapidjson\internal\regex.h" />
+    <ClInclude Include="Util\rapidjson\internal\stack.h" />
+    <ClInclude Include="Util\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="Util\rapidjson\internal\strtod.h" />
+    <ClInclude Include="Util\rapidjson\internal\swap.h" />
+    <ClInclude Include="Util\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="Util\rapidjson\memorybuffer.h" />
+    <ClInclude Include="Util\rapidjson\memorystream.h" />
+    <ClInclude Include="Util\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="Util\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="Util\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="Util\rapidjson\pointer.h" />
+    <ClInclude Include="Util\rapidjson\prettywriter.h" />
+    <ClInclude Include="Util\rapidjson\rapidjson.h" />
+    <ClInclude Include="Util\rapidjson\reader.h" />
+    <ClInclude Include="Util\rapidjson\schema.h" />
+    <ClInclude Include="Util\rapidjson\stream.h" />
+    <ClInclude Include="Util\rapidjson\stringbuffer.h" />
+    <ClInclude Include="Util\rapidjson\writer.h" />
     <CudaCompile Include="Test\Configure\reduce_test.cu">
       <FileType>CppHeader</FileType>
     </CudaCompile>

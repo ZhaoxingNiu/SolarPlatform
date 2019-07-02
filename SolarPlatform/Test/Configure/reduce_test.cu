@@ -36,7 +36,7 @@ __global__ void ReductionSum1(float *d_a, float *d_partial_sum)
 		d_partial_sum[blockIdx.x] = partialSum[0];
 }
 
-int test_reduce()
+int testGpuReduce()
 {
 	//申请host端内存及初始化
 	float   *h_a, *h_partial_sum;

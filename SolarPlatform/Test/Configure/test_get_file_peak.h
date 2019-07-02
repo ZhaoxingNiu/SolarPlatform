@@ -6,6 +6,6 @@
 #include <fstream>
 #include <sstream>
 
-float test_get_file_peak(std::string path);
+float testGetFilePeak(std::string path);
 
 #endif
