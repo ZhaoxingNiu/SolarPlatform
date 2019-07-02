@@ -242,7 +242,7 @@ void FormatTransfer::saveFile(SolarScene * solar_scene, std::string res_path)
 }
 
 
-bool test_scene_format_transfer() {
+bool testSceneFormatTransfer() {
 	std::string file_in = "../SceneData/paper/ps10/PS10_field_data.scn";
 	std::string file_out = "../SceneData/paper/ps10/test.scn";
 
@@ -264,7 +264,7 @@ bool test_scene_format_transfer() {
 	return true;
 }
 
-bool test_scene_format_transfer_ps10() {
+bool testSceneFormatTransferPs10() {
 
 
 	//just init 

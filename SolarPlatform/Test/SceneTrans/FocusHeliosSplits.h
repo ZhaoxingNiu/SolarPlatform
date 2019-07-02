@@ -21,20 +21,20 @@ public:
 	void saveFile(std::string file_out_pos, std::string file_out_norm);
 
 	SolarScene* solar_scene_;
-	int helio_num;
-	int sub_num;
+	int helio_num_;
+	int sub_num_;
 
-	int2 row_col;
-	float2 gap_length;
-	float3 helio_size;
-	float3 helio_sub_size;
+	int2 row_col_;
+	float2 gap_length_;
+	float3 helio_size_;
+	float3 helio_sub_size_;
 
-	std::vector<float3> sub_pos;
-	std::vector<float3> sub_size;
-	std::vector<float3> sub_normal;
-	std::vector<float3> sub_vertex;
+	std::vector<float3> sub_pos_;
+	std::vector<float3> sub_size_;
+	std::vector<float3> sub_normal_;
+	std::vector<float3> sub_vertex_;
 	
-	std::vector<float> focus_length;
+	std::vector<float> focus_length_;
 
 private:
 	void localCoor();     // 确定局部坐标

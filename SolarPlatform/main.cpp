@@ -44,8 +44,8 @@ int main() {
 
 	*/
 
-	if (!test_scene_format_transfer()) { nFailures++; }
-	if (!test_scene_format_transfer_ps10()) { nFailures++; }
+	if (!testSceneFormatTransfer()) { nFailures++; }
+	if (!testSceneFormatTransferPs10()) { nFailures++; }
     if (!test_focus_helios_split()) { nFailures++; }
 
 	//if (!test_raytracing()) { nFailures++; }

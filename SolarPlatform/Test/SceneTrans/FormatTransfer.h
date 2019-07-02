@@ -10,6 +10,8 @@
 #include <sstream>
 using namespace std;
 
+// 用于何师兄文件数据与新场景格式文件的转换
+
 class FormatTransfer
 {
 public:
@@ -20,8 +22,8 @@ private:
 
 };
 
-bool test_scene_format_transfer();
-bool test_scene_format_transfer_ps10();
+bool testSceneFormatTransfer();
+bool testSceneFormatTransferPs10();
 
 
 #endif
