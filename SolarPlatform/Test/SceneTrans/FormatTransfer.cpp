@@ -14,7 +14,7 @@ void FormatTransfer::LoadFile(SolarScene * solar_scene,std::string src_path)
 		cerr << "Can't open the file!" << endl;
 	}
 
-	int grid_type = 0,	helio_type = 0;				//defalut type for grid and helio
+	int grid_type = 0,	helio_type = 0;		//defalut type for grid and helio
 	int grid_num = 1, helio_num = 0;
 	int start_helio_pos = 0;
 	int2 matrix;

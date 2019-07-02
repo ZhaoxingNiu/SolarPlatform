@@ -47,7 +47,7 @@ private:
 };
 
 
-bool test_focus_helios_split();
+bool testFocusHeliosSplit();
 
 
 #endif

@@ -146,7 +146,7 @@ void FocusHeliosSplit::saveFile(std::string file_out_pos, std::string file_out_n
 }
 
 
-bool test_focus_helios_split() {
+bool testFocusHeliosSplit() {
 	//just init 
 	solarenergy::scene_filepath = "../SceneData/paper/ps10/ps10_flat_rece.scn";
 	std::string res_path = "../SceneData/paper/ps10/ps10_real_rece_s2.scn";

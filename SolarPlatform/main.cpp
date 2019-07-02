@@ -42,11 +42,11 @@ int main() {
 	// if (!testRasterizationShadowBlock()) { nFailures++;  }
 	// if (!testGpuReduce()) { nFailures++; }
 
-	*/
-
+	// scene transformer
 	if (!testSceneFormatTransfer()) { nFailures++; }
 	if (!testSceneFormatTransferPs10()) { nFailures++; }
-    if (!test_focus_helios_split()) { nFailures++; }
+	if (!testFocusHeliosSplit()) { nFailures++; }
+	*/
 
 	//if (!test_raytracing()) { nFailures++; }
     //if (!test_dda_rasterization()) { nFailures++; }
